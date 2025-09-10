@@ -1,0 +1,178 @@
+#!/bin/bash
+set -euo pipefail
+
+# 捕获错误，输出错误信息和所在行号
+trap 'echo "[ERROR] An error occurred at line ${LINENO}. Exiting." >&2' ERR
+
+# 帮助信息
+show_help() {
+    echo "MITgcm Automation Script"
+    echo "Usage: $0 [experiment_dir] [options]"
+    echo "Options:"
+    echo "  -h, --help      Show this help message"
+    echo "  -rootdir <path> Specify MITgcm root directory"
+    echo "  -mods <path>    Code modifications directory (default: ./code)"
+    echo "  -of <file>      Build options file (default: linux_amd64_gfortran)"
+    echo "  -mpi <n>        Enable MPI with n processes (no MPI if omitted)"
+    echo "  -omp <n>        Enable OpenMP with n threads (required for OpenMP)"
+    echo "  -nb, -nobuild     Skip the build process and proceed to run"
+    exit 0
+}
+
+# 日志打印函数
+log_info() {
+    echo "[INFO] $1"
+}
+
+log_error() {
+    echo "[ERROR] $1" >&2
+}
+
+# 初始化参数
+EXP_DIR="."
+MODS_DIR="code"
+MPI_PROCS=0
+OMP_THREADS=0
+ROOTDIR=""
+BUILD_OPTS_FILE="linux_amd64_gfortran"
+GENMAKE_ARGS=()
+SKIP_BUILD=false  # 新增变量
+
+# 参数解析
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            show_help ;;
+        -rootdir)
+            [ -z "${2:-}" ] && { log_error "-rootdir requires a path"; exit 1; }
+            ROOTDIR="$2"; shift 2 ;;
+        -mods)
+            [ -z "${2:-}" ] && { log_error "-mods requires a path"; exit 1; }
+            MODS_DIR="$2"; shift 2 ;;
+        -of)
+            [ -z "${2:-}" ] && { log_error "-of requires a filename"; exit 1; }
+            BUILD_OPTS_FILE="$2"; shift 2 ;;
+        -mpi)
+            [[ "${2:-}" =~ ^[0-9]+$ ]] || { log_error "-mpi requires a number"; exit 1; }
+            MPI_PROCS="$2"
+            GENMAKE_ARGS+=("-mpi"); shift 2 ;;
+        -omp)
+            [[ "${2:-}" =~ ^[0-9]+$ ]] || { log_error "-omp requires a number"; exit 1; }
+            OMP_THREADS="$2"
+            GENMAKE_ARGS+=("-omp"); shift 2 ;;
+        -nb|-nobuild)
+            SKIP_BUILD=true; shift ;;
+        -*)
+            GENMAKE_ARGS+=("$1"); shift ;;
+        *)
+            [ -d "$1" ] || { log_error "Directory not found: $1"; exit 1; }
+            EXP_DIR="$1"; shift ;;
+    esac
+done
+
+# 验证 ROOTDIR
+if [ -z "$ROOTDIR" ]; then
+    if [ -n "${MITgcm_HOME:-}" ]; then
+        ROOTDIR="$MITgcm_HOME"
+    else
+        log_error "Must specify MITgcm rootdir via -rootdir or MITgcm_HOME"
+        exit 1
+    fi
+fi
+
+# 绝对路径处理
+ROOTDIR=$(realpath "$ROOTDIR")
+EXP_DIR=$(realpath "$EXP_DIR")
+MODS_DIR=$(realpath "$EXP_DIR/$MODS_DIR")
+LOG_DIR="$EXP_DIR/log"
+BUILD_LOG="$LOG_DIR/build.log"
+RUN_LOG="$LOG_DIR/run.log"
+
+# 创建日志目录
+mkdir -p "$LOG_DIR"
+
+# 打印配置信息
+log_info "Runtime Configuration:"
+log_info "MITgcm root:    $ROOTDIR"
+log_info "Experiment dir: $EXP_DIR"
+log_info "Code mods dir:  $MODS_DIR"
+log_info "Log dir:      $LOG_DIR"
+[ "$OMP_THREADS" -gt 0 ] && log_info "OpenMP enabled (threads: $OMP_THREADS)"
+[ "$MPI_PROCS" -gt 0 ] && log_info "MPI enabled (processes: $MPI_PROCS)"
+
+# 如果不跳过构建，则执行构建过程
+if [ "$SKIP_BUILD" = false ]; then
+    # 准备构建
+    cd "$EXP_DIR"
+    mkdir -p build && rm -rf build/*
+    cd build
+
+    # 开始构建
+    log_info "Starting MITgcm build..."
+    {
+        echo "=== Build started at $(date) ==="
+        
+        "$ROOTDIR"/tools/genmake2 \
+            -rootdir "$ROOTDIR" \
+            -of "$ROOTDIR/tools/build_options/$BUILD_OPTS_FILE" \
+            -mods "$MODS_DIR" \
+            ${GENMAKE_ARGS[@]+"${GENMAKE_ARGS[@]}"}
+        
+        make depend
+        make -j "$(nproc)"
+        
+        echo "=== Build completed at $(date) ==="
+    } > "$BUILD_LOG" 2>&1
+fi
+
+# 准备运行
+cd "$EXP_DIR"
+mkdir -p run && rm -rf run/*
+cd run
+if [ ! -f ../build/mitgcmuv ]; then
+    log_error "Build output 'mitgcmuv' not found. Check the build log for errors."
+    exit 1
+fi
+cp ../build/mitgcmuv .
+if [ -d ../input ]; then
+    ln -s ../input/* .
+else
+    log_error "Input directory not found. Expected directory: $(realpath input)"
+    exit 1
+fi
+
+# 开始运行
+[ "$OMP_THREADS" -gt 0 ] && export OMP_NUM_THREADS="$OMP_THREADS"
+log_info "Starting run with ${MPI_PROCS:-0} MPI processes and ${OMP_THREADS:-0} OpenMP threads..."
+echo "=== Run started at $(date) ===" > "$RUN_LOG"
+start_time=$(date +%s)
+
+# 启动后台进程
+if [ "$MPI_PROCS" -gt 0 ]; then
+    (  
+        if [[ $(hostname) =~ ^(login|batch|compute|node)[0-9]+ ]]; then
+            bsub -n "$MPI_PROCS" mpirun -np "$MPI_PROCS" ./mitgcmuv >> "$RUN_LOG" 2>&1
+        else
+        
+            mpirun -np "$MPI_PROCS" ./mitgcmuv >> "$RUN_LOG" 2>&1
+            end_time=$(date +%s)
+            run_time=$((end_time - start_time))
+            printf "=== Run ended at $(date) ===\n" >> "$RUN_LOG"
+            printf "=== Total runtime: %02d:%02d:%02d ===\n" \
+                   $((run_time/3600)) $(( (run_time%3600)/60 )) $((run_time%60)) >> "$RUN_LOG"
+        fi
+    ) &
+    pid=$!  
+else
+    (
+        ./mitgcmuv >> "$RUN_LOG" 2>&1
+        end_time=$(date +%s)
+        run_time=$((end_time - start_time))
+        printf "=== Run ended at $(date) ===\n" >> "$RUN_LOG"
+        printf "=== Total runtime: %02d:%02d:%02d ===\n" \
+               $((run_time/3600)) $(( (run_time%3600)/60 )) $((run_time%60)) >> "$RUN_LOG"
+    ) &
+    pid=$!
+fi
+
+log_info "Process started successfully (PID: $pid)"

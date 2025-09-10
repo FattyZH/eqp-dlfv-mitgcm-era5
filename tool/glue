@@ -1,0 +1,7 @@
+#!/bin/bash
+gluemncbig -o run/grid.nc run/mnc_test_*/grid.t*.nc
+gluemncbig -o run/state.nc run/mnc_test_*/state*.t*.nc
+gluemncbig -o run/dynDiag.nc run/mnc_test_*/dynDiag*.t*.nc
+gluemncbig -o run/surfDiag.nc run/mnc_test_*/surfDiag*.t*.nc
+gluemncbig -o run/phiHyd.nc run/mnc_test_*/phiHyd*.t*.nc
+gluemncbig -o run/phiHydLow.nc run/mnc_test_*/phiHydLow*.t*.nc

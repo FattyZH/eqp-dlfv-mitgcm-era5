@@ -1,0 +1,59 @@
+# Model parameters
+# Continuous equation parameters
+ &PARM01
+ viscAh=5000.,
+ viscA4=0.,
+ viscAr=1.E-2,
+ no_slip_sides=.TRUE.,
+ no_slip_bottom=.TRUE.,
+#  diffKhT=1000.,
+#  diffKrT=1.E-5,
+#  diffKhS=1000.,
+#  diffKrS=1.E-5,
+ ivdc_kappa=1.,
+ implicitDiffusion=.TRUE.,
+ eosType='JMD95Z',
+ gravity=9.81,
+ rigidLid=.TRUE.,
+#  implicitFreeSurface=.TRUE.,
+#  exactConserv=.TRUE.,
+# globalFiles=.TRUE.,
+ &
+
+# Elliptic solver parameters
+ &PARM02
+ cg2dTargetResidual=1.E-7,
+ cg2dMaxIters=150,
+ &
+
+# Time stepping parameters
+ &PARM03
+ startTime=0.,
+ endTime = 31104000.,
+ deltaT=4800.,
+ dumpFreq=2592000.,
+ diagFreq=0.,
+ pChkptFreq=311040000.,
+ chkptFreq=155520000.,
+ monitorFreq=2592000.,
+ monitorSelect=3,
+ &
+
+# Gridding parameters
+ &PARM04
+ usingSphericalPolarGrid=.TRUE.,
+ delX=168*1.,
+ delY=30*1.,
+ xgOrigin=120.5,
+ ygOrigin=-15.5,
+ delR=5.71,8.86,17.14,39.58,98.29,244.38,562.91,1100.27,1713.03,2167.02,
+ &
+
+ &PARM05
+ bathyFile='bath.bin',
+#  uVelInitFile='U.bin',
+#  vVelInitFile='V.bin',
+#  pSurfInitFile='Eta.bin',
+#  hydrogThetaFile='T.bin',
+#  hydrogSaltFile='S.bin',
+ &
