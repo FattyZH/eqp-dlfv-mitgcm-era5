@@ -30,7 +30,7 @@
  &PARM03
  startTime=0.,
 #  endTime = 31104000.,
- endTime = 86400.,
+ endTime = 864000.,
  deltaT=4800.,
  dumpFreq=2592000.,
  diagFreq=0.,
