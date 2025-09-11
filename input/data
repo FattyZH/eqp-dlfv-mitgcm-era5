@@ -29,7 +29,8 @@
 # Time stepping parameters
  &PARM03
  startTime=0.,
- endTime = 31104000.,
+#  endTime = 31104000.,
+ endTime = 86400.,
  deltaT=4800.,
  dumpFreq=2592000.,
  diagFreq=0.,
@@ -50,10 +51,11 @@
  &
 
  &PARM05
- bathyFile='bath.bin',
+ bathyFile='bathy.bin',
+ hydrogThetaFile='T.bin',
+ hydrogSaltFile='S.bin',
 #  uVelInitFile='U.bin',
 #  vVelInitFile='V.bin',
 #  pSurfInitFile='Eta.bin',
-#  hydrogThetaFile='T.bin',
-#  hydrogSaltFile='S.bin',
+
  &

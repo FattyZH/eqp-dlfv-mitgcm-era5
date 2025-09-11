@@ -2,20 +2,20 @@
  &OBCS_PARM01
  OB_singleJnorth = -1,
  OB_singleJsouth =  1,
- useOBCSprescribe=.FALSE.,
  useOrlanskiNorth=.TRUE.,
  useOrlanskiSouth=.TRUE.,
+ useOBCSbalance=.TRUE.,
+# useOBCSprescribe=.FALSE.,
 # useStevensNorth=.TRUE.,
 # useStevensSouth=.TRUE.,
- useOBCSbalance=.TRUE.,
 # OBXyFile
 # X: N(orth), S(outh), E(ast), W(est)
 # y: t(emperature), s(salinity), eta (sea surface height), ...
 # u(-velocity), v(-velocity), w(-velocity)
- OBNtFile='',
- OBStFile='',
- OBNsFile='',
- OBSsFile='',
+#OBNtFile='',
+#OBStFile='',
+#OBNsFile='',
+#OBSsFile='',
  &
 
 # Orlanski parameters
@@ -26,17 +26,17 @@
 
 # Sponge layer parameters
  &OBCS_PARM03
- spongeThickness=0,
- Urelaxobcsinner=0.,
- Vrelaxobcsinner=0.,
- Urelaxobcsbound=0.,
- Vrelaxobcsbound=0.,
+#spongeThickness=0,
+#Urelaxobcsinner=0.,
+#Vrelaxobcsinner=0.,
+#Urelaxobcsbound=0.,
+#Vrelaxobcsbound=0.,
  &
 
 # Stevens parameters
  &OBCS_PARM04
- TrelaxStevens=0,
- SrelaxStevens=0,
- useStevensPhaseVel=.TRUE.,
- useStevensAdvection=.TRUE.,
+#TrelaxStevens=0,
+#SrelaxStevens=0,
+#useStevensPhaseVel=.TRUE.,
+#useStevensAdvection=.TRUE.,
  &

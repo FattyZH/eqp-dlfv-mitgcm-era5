@@ -2,8 +2,8 @@
 # External Forcing Data
 # *********************
  &EXF_NML_01
-#  exf_iprec         = 32,
-#  exf_debugLev      = 3,
+#exf_iprec         = 32,
+#exf_debugLev      = 3,
  readStressOnAgrid = .TRUE.,
 #readStressOnCgrid = .TRUE.,
 #exf_adjMonSelect  = 3,
@@ -11,32 +11,26 @@
  &
 
  &EXF_NML_02
-# windstress
- ustressstartdate1 = 20000101,
- vstressstartdate1 = 20000101,
+ ustressstartdate1 = 20000116,
+ vstressstartdate1 = 20000116,
  ustressstartdate2 = 000000,
  vstressstartdate2 = 000000,
- ustressperiod     = -1.,
- vstressperiod     = -1.,
+ ustressperiod     = -12.,
+ vstressperiod     = -12.,
  ustressfile  = 'taux.bin',
  vstressfile  = 'tauy.bin',
-#
-#climsststartdate1 = 19920101,
-#climsststartdate2 = 000000,
-#climsstperiod     = -12.,
-# 2 months restoring timescale for temperature
-#climsstTauRelax   = 5184000.,
-#
-#climsssstartdate1 = 19920101,
-#climsssstartdate2 = 000000,
-#climsssperiod     = -12.,
-# 6 months restoring timescale for salinity
-#climsssTauRelax   = 15552000.,
-#
+ 
+ climsststartdate1 = 20000116,
+ climsststartdate2 = 000000,
+ climsstperiod     = -12.,
+ climsstTauRelax   = 31104000.,
+ climsstfile  = 'sst_clim.bin',
 
-#climsstfile  = 'lev_sst.bin',
-#climsssfile  = 'lev_sss.bin',
-#
+ climsssstartdate1 = 20000116,
+ climsssstartdate2 = 000000,
+ climsssperiod     = -12.,
+ climsssTauRelax   = 31104000.,
+ climsssfile  = 'sss_clim.bin',
  &
 
 # 本 namelist 组用于定义 MITgcm 模型中第3组外部强迫变量的读取方式、缩放因子、常量值或线性校正参数，一般不需要启用
@@ -45,35 +39,4 @@
 
 # 本 namelist 组用于对强迫场进行空间插值
  &EXF_NML_04
-
-#  ustress_lon0    = 2.,
-#  ustress_lon_inc = 1.,
-#  ustress_lat0    = -78.,
-#  ustress_lat_inc = 1.,
-#  ustress_nlon    = 90,
-#  ustress_nlat    = 40,
-#
-#  vstress_lon0    = 2.,
-#  vstress_lon_inc = 1.,
-#  vstress_lat0    = -78.,
-#  vstress_lat_inc = 1.,
-#  vstress_nlon    = 90,
-#  vstress_nlat    = 40,
-#
-#climsst_interpMethod = 1,
-#climsst_lon0    = 2.,
-#climsst_lon_inc = 4.,
-#climsst_lat0    = -78.,
-#climsst_lat_inc = 39*4.,
-#climsst_nlon    = 90,
-#climsst_nlat    = 40,
-#
-#climsss_interpMethod = 1,
-#climsss_lon0    = 2.,
-#climsss_lon_inc = 4.,
-#climsss_lat0    = -78.,
-#climsss_lat_inc = 39*4.,
-#climsss_nlon    = 90,
-#climsss_nlat    = 40,
-#
  &
