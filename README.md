@@ -1,4 +1,4 @@
-# Simulation of Low-Frequency Variability in the Equatorial Pacific
+# Simulation of Deep Low-Frequency Variability in the Equatorial Pacific
 
 ## Overview
 
