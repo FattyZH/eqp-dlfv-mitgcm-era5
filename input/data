@@ -29,11 +29,11 @@
 # Time stepping parameters
  &PARM03
  startTime=0.,
-#  endTime = 31104000.,
- endTime = 864000.,
- deltaT=4800.,
+#endTime = 31104000.,
+ endTime = 86400.,
+ deltaT=3600.,
  dumpFreq=2592000.,
- diagFreq=0.,
+ dumpFreq=3600.,
  pChkptFreq=311040000.,
  chkptFreq=155520000.,
  monitorFreq=2592000.,
