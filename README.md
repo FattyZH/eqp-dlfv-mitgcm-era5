@@ -12,7 +12,7 @@ This experiment aims to simulate low-frequency variability in the deep equatoria
 
 ## Model Configuration
 
-- **Model**: MITgcm (checkpoint version: `checkpoint68r`)
+- **Model**: MITgcm (checkpoint version: `checkpoint69r`)
 - **Domain**: Equatorial Pacific (e.g., 20°S–20°N, 120°E–80°W)
 - **Resolution**: Horizontal: 1/4° (~25 km), Vertical: 50 levels (enhanced resolution near thermocline and equator)
 - **Forcing**: Surface wind stress from ERA5 (monthly or daily, 1979–present)
