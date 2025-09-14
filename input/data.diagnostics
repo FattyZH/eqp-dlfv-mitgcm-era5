@@ -19,14 +19,14 @@
 #--------------------
  &DIAGNOSTICS_LIST
   fields(1:3,1)  = 'ETAN', 'oceTAUX', 'oceTAUY'
-  fileName(1) = 'surfDiag',
+  fileName(1) = 'surf',
   frequency(1) = -3600.,
 # frequency(1) = -2592000.,
 
   fields(1:5,2)  = 'THETA   ','PHIHYD  ',
                    'UVEL    ','VVEL    ','WVEL    ',
 # did not specify levels => all levels are selected
-  fileName(2) = 'dynDiag',
+  fileName(2) = 'dync',
   frequency(2) = -3600.,
 # frequency(2) = -2592000.,
  &
@@ -49,7 +49,8 @@
 #                (see "available_diagnostics.log" file for the full list of diags)
 #--------------------
  &DIAG_STATIS_PARMS
-  stat_fields(1:4,1) = 'THETA', 'SALT', 'TRELAX', 'SRELAX'
-  stat_fName(1) = 'dynStDiag',
-  stat_freq(1) = 2592000.,
+  stat_fields(1:6,1) = 'ETAN', 'UVEL', 'VVEL','WVEL','THETA','SALT'
+  stat_fName(1) = 'stat',
+  stat_freq(1) = -3600.,
+# stat_freq(1) = 2592000.,
  &
