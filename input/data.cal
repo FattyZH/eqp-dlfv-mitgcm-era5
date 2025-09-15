@@ -5,6 +5,6 @@
  &CAL_NML
 # TheCalendar='gregorian',
  TheCalendar='model',
- startDate_1=20000116,
+ startDate_1=19400116,
  startDate_2=000000,
  &

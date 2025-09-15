@@ -14,9 +14,9 @@
  implicitDiffusion=.TRUE.,
  eosType='JMD95Z',
  gravity=9.81,
-# rigidLid=.TRUE.,
+#  rigidLid=.TRUE.,
  implicitFreeSurface=.TRUE.,
- exactConserv=.TRUE.,
+#  exactConserv=.TRUE.,
 # globalFiles=.TRUE.,
  &
 
@@ -31,9 +31,9 @@
  startTime=0.,
 #endTime = 31104000.,
  endTime = 864000.,
- deltaT=1200.,
+ deltaT=1800.,
  dumpFreq=2592000.,
- dumpFreq=3600.,
+ dumpFreq=1800.,
  pChkptFreq=311040000.,
  chkptFreq=155520000.,
  monitorFreq=2592000.,
@@ -47,8 +47,8 @@
  delY=30*1.,
  xgOrigin=120.5,
  ygOrigin=-15.5,
-# delR=5.71,8.86,17.14,39.58,98.29,244.38,562.91,1100.27,1713.03,2167.02,
- delR=50.,50.,50.,50.,100.,250.,550.,1100.,1700.,2100.,
+ delR=5.71,8.86,17.14,39.58,98.29,244.38,562.91,1100.27,1713.03,2167.02,
+# delR=50.,50.,50.,50.,100.,250.,550.,1100.,1700.,2100.,
  &
 
  &PARM05

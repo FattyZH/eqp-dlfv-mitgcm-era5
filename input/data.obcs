@@ -1,12 +1,12 @@
 # Open-boundaries
  &OBCS_PARM01
- OB_singleJnorth = -1,
+ OB_singleJnorth = -3,
  OB_singleJsouth =  1,
- OB_singleIeast  = -1, 
- OB_singleIwest  =  1,
+#OB_singleIeast  = -1, 
+#OB_singleIwest  =  1,
  useOrlanskiNorth=.TRUE.,
  useOrlanskiSouth=.TRUE.,
- useOBCSbalance=.FALSE.,
+# useOBCSbalance=.FALSE.,
 # useOBCSsponge=.TRUE.,
 # useOBCSprescribe=.FALSE.,
 # useStevensNorth=.TRUE.,
@@ -23,8 +23,8 @@
 
 # Orlanski parameters
  &OBCS_PARM02
- cvelTimeScale=10000.,
- CMAX=3.0,
+ cvelTimeScale=86400.,
+ CMAX=1.5,
  &
 
 # Sponge layer parameters
