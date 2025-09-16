@@ -16,7 +16,7 @@
  gravity=9.81,
 #  rigidLid=.TRUE.,
  implicitFreeSurface=.TRUE.,
-#  exactConserv=.TRUE.,
+ exactConserv=.TRUE.,
 # globalFiles=.TRUE.,
  &
 
