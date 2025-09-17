@@ -153,27 +153,29 @@ if [ "$MPI_PROCS" -gt 0 ]; then
     (  
         if [[ $(hostname) =~ ^(login|batch|compute|node)[0-9]+ ]]; then
             bsub -n "$MPI_PROCS" mpirun -np "$MPI_PROCS" ./mitgcmuv >> "$RUN_LOG" 2>&1
+            log_info "Model job submitted to LSF. Use 'bkill Id' to terminate."
         else
-        
-            mpirun -np "$MPI_PROCS" ./mitgcmuv >> "$RUN_LOG" 2>&1
+            mpirun -np "$MPI_PROCS" ./mitgcmuv >> "$RUN_LOG" 2>&1 &
+            pid=$!
+            log_info "Model is running locally. Use 'kill $pid' to terminate."
+            wait $pid
             end_time=$(date +%s)
             run_time=$((end_time - start_time))
             printf "=== Run ended at $(date) ===\n" >> "$RUN_LOG"
             printf "=== Total runtime: %02d:%02d:%02d ===\n" \
                    $((run_time/3600)) $(( (run_time%3600)/60 )) $((run_time%60)) >> "$RUN_LOG"
         fi
-    ) &
-    pid=$!  
+    ) & 
 else
     (
-        ./mitgcmuv >> "$RUN_LOG" 2>&1
+        ./mitgcmuv >> "$RUN_LOG" 2>&1 &
+        pid=$!
+        log_info "Model is running locally. Use 'kill $pid' to terminate."
+        wait $pid
         end_time=$(date +%s)
         run_time=$((end_time - start_time))
         printf "=== Run ended at $(date) ===\n" >> "$RUN_LOG"
         printf "=== Total runtime: %02d:%02d:%02d ===\n" \
                $((run_time/3600)) $(( (run_time%3600)/60 )) $((run_time%60)) >> "$RUN_LOG"
     ) &
-    pid=$!
 fi
-
-log_info "Process started successfully (PID: $pid)"

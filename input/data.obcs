@@ -6,7 +6,7 @@
  OB_singleIwest  =  1,
  useOrlanskiNorth=.TRUE.,
  useOrlanskiSouth=.TRUE.,
-# useOBCSbalance=.FALSE.,
+ useOBCSbalance=.TRUE.,
 # useOBCSsponge=.TRUE.,
 # useOBCSprescribe=.FALSE.,
 # useStevensNorth=.TRUE.,
@@ -24,7 +24,7 @@
 # Orlanski parameters
  &OBCS_PARM02
  cvelTimeScale=86400.,
- CMAX=1.5,
+ CMAX=0.5,
  &
 
 # Sponge layer parameters

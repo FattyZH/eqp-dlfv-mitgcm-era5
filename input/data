@@ -1,17 +1,19 @@
 # Model parameters
 # Continuous equation parameters
  &PARM01
- viscAh=5000.,
+ viscAh=5.E3,
  viscA4=0.,
- viscAr=1.E-2,
+ viscAr=1.E-3,
  no_slip_sides=.TRUE.,
- no_slip_bottom=.TRUE.,
+ no_slip_bottom=.FALSE.,
 #  diffKhT=1000.,
 #  diffKrT=1.E-5,
 #  diffKhS=1000.,
 #  diffKrS=1.E-5,
  ivdc_kappa=1.,
  implicitDiffusion=.TRUE.,
+ rhoConst=1030., 
+ rhoConstFresh=1000.,
  eosType='JMD95Z',
  gravity=9.81,
 #  rigidLid=.TRUE.,
@@ -22,20 +24,20 @@
 
 # Elliptic solver parameters
  &PARM02
- cg2dTargetResidual=1.E-7,
- cg2dMaxIters=150,
+ cg2dTargetResidual=1.E-13,
+ cg2dMaxIters=500,
  &
 
 # Time stepping parameters
  &PARM03
  startTime=0.,
-#endTime = 31104000.,
- endTime = 864000.,
+#  endTime = 31104000.,
+ endTime = 7776000.,
  deltaT=1800.,
  dumpFreq=2592000.,
  dumpFreq=1800.,
  pChkptFreq=311040000.,
- chkptFreq=155520000.,
+ chkptFreq =31104000.,
  monitorFreq=2592000.,
  monitorSelect=3,
  &
@@ -44,9 +46,9 @@
  &PARM04
  usingSphericalPolarGrid=.TRUE.,
  delX=168*1.,
- delY=30*1.,
- xgOrigin=120.5,
- ygOrigin=-15.5,
+ delY=36*1.,
+ xgOrigin=119.5,
+ ygOrigin=-18.5,
  delR=5.71,8.86,17.14,39.58,98.29,244.38,562.91,1100.27,1713.03,2167.02,
 # delR=50.,50.,50.,50.,100.,250.,550.,1100.,1700.,2100.,
  &
