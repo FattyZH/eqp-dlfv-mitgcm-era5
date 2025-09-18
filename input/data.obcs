@@ -4,13 +4,22 @@
  OB_singleJsouth =  1,
  OB_singleIeast  = -1, 
  OB_singleIwest  =  1,
- useOrlanskiNorth=.TRUE.,
- useOrlanskiSouth=.TRUE.,
- useOBCSbalance=.TRUE.,
+
+# useOrlanskiNorth=.TRUE.,
+# useOrlanskiSouth=.TRUE.,
+# useOrlanskiEast =.TRUE., 
+# useOrlanskiWest =.TRUE.,
+
+ useStevensNorth=.TRUE.,
+ useStevensSouth=.TRUE.,
+ useStevensEast =.TRUE.,
+ useStevensWest =.TRUE.,
+
 # useOBCSsponge=.TRUE.,
-# useOBCSprescribe=.FALSE.,
-# useStevensNorth=.TRUE.,
-# useStevensSouth=.TRUE.,
+ useOBCSprescribe=.FALSE.,
+ useOBCSbalance=.TRUE.,
+
+
 # OBXyFile
 # X: N(orth), S(outh), E(ast), W(est)
 # y: t(emperature), s(salinity), eta (sea surface height), ...
