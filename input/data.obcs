@@ -5,17 +5,17 @@
  OB_singleIeast  = -1, 
  OB_singleIwest  =  1,
 
-# useOrlanskiNorth=.TRUE.,
-# useOrlanskiSouth=.TRUE.,
-# useOrlanskiEast =.TRUE., 
-# useOrlanskiWest =.TRUE.,
+ useOrlanskiNorth=.TRUE.,
+ useOrlanskiSouth=.TRUE.,
+ useOrlanskiEast =.TRUE., 
+ useOrlanskiWest =.TRUE.,
 
- useStevensNorth=.TRUE.,
- useStevensSouth=.TRUE.,
- useStevensEast =.TRUE.,
- useStevensWest =.TRUE.,
+# useStevensNorth=.TRUE.,
+# useStevensSouth=.TRUE.,
+# useStevensEast =.TRUE.,
+# useStevensWest =.TRUE.,
 
-# useOBCSsponge=.TRUE.,
+ useOBCSsponge=.TRUE.,
  useOBCSprescribe=.FALSE.,
  useOBCSbalance=.TRUE.,
 

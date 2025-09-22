@@ -20,8 +20,8 @@
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
 # globalFiles=.TRUE.,
- tempStepping=.FALSE.,
- saltStepping=.FALSE.,
+ tempStepping=.TRUE.,
+ saltStepping=.TRUE.,
  &
 
 # Elliptic solver parameters
