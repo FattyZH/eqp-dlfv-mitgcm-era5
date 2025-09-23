@@ -5,10 +5,10 @@
  OB_singleIeast  = -1, 
  OB_singleIwest  =  1,
 
-# useOrlanskiNorth=.TRUE.,
-# useOrlanskiSouth=.TRUE.,
-# useOrlanskiEast =.TRUE., 
-# useOrlanskiWest =.TRUE.,
+ useOrlanskiNorth=.TRUE.,
+ useOrlanskiSouth=.TRUE.,
+ useOrlanskiEast =.TRUE., 
+ useOrlanskiWest =.TRUE.,
 
 # useStevensNorth=.TRUE.,
 # useStevensSouth=.TRUE.,
@@ -16,10 +16,10 @@
 # useStevensWest =.TRUE.,
 
  useOBCSsponge   =.TRUE.,
- OBCSsponge_UatNS=.FALSE.,
- OBCSsponge_UatEW=.FALSE.,
- OBCSsponge_VatNS=.FALSE.,
- OBCSsponge_VatEW=.FALSE.,
+# OBCSsponge_UatNS=.TRUE.,
+# OBCSsponge_UatEW=.TRUE.,
+# OBCSsponge_VatNS=.TRUE.,
+# OBCSsponge_VatEW=.TRUE.,
  OBCSsponge_Theta=.FALSE.,
  OBCSsponge_Salt =.FALSE.,
 
@@ -45,7 +45,7 @@
 
 # Sponge layer parameters
  &OBCS_PARM03
- spongeThickness=6,
+ spongeThickness=5,
  Urelaxobcsbound=86400.,
  Vrelaxobcsbound=86400.,
  Urelaxobcsinner=864000.,
