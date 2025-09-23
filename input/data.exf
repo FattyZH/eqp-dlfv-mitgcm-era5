@@ -34,6 +34,7 @@
 # 本 namelist 组用于对强迫场进行空间插值
  &EXF_NML_04
  &
-
+ 
+# 当开启OBCS开边界时设定开边界场的时间插值
  &EXF_NML_OBCS
  &
