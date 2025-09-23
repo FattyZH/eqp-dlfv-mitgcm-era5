@@ -37,7 +37,7 @@
  endTime = 7776000.,
  deltaT=1800.,
  dumpFreq=2592000.,
- dumpFreq=1800.,
+#  dumpFreq=1800.,
  pChkptFreq=311040000.,
  chkptFreq =31104000.,
  monitorFreq=2592000.,

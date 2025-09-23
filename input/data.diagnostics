@@ -19,15 +19,15 @@
 #--------------------
  &DIAGNOSTICS_LIST
   fileName(1) = 'dync',
-  frequency(1) = -2592000.,
+  frequency(1) = -1800.,
   levels(1:6,1) = 1.
   fields(1:6,1)  = 'UVEL    ','VVEL    ','WVEL    ',
                    'THETA   ','SALT    ','PHIHYD  '
 
-  fileName(2) = 'surf',
-  frequency(2) = -2592000.,
+#  fileName(2) = 'surf',
+#  frequency(2) = -1800.,
 #  frequency(2) = -2592000.,
-  fields(1:1,2)  = 'ETAN'
+#  fields(1:1,2)  = 'ETAN'
 
  &
 
