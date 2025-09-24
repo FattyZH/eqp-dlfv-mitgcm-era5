@@ -16,15 +16,15 @@
  ustressfile  = 'taux.bin',
  vstressfile  = 'tauy.bin',
  
- climsststartdate1 = 19400116,
- climsstperiod     = -12.,
- climsstTauRelax   = 31104000.,
- climsstfile  = 'sst_clim.bin',
-
- climsssstartdate1 = 19400116,
- climsssperiod     = -12.,
- climsssTauRelax   = 31104000.,
- climsssfile  = 'sss_clim.bin',
+# climsststartdate1 = 19400116,
+# climsstperiod     = -12.,
+# climsstTauRelax   = 31104000.,
+# climsstfile  = 'sst_clim.bin',
+#
+# climsssstartdate1 = 19400116,
+# climsssperiod     = -12.,
+# climsssTauRelax   = 31104000.,
+# climsssfile  = 'sss_clim.bin',
  &
 
 # 本 namelist 组用于定义 MITgcm 模型中第3组外部强迫变量的读取方式、缩放因子、常量值或线性校正参数，一般不需要启用
