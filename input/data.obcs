@@ -16,10 +16,10 @@
 # useStevensWest =.TRUE.,
 
  useOBCSsponge   =.TRUE.,
-# OBCSsponge_UatNS=.TRUE.,
-# OBCSsponge_UatEW=.TRUE.,
-# OBCSsponge_VatNS=.TRUE.,
-# OBCSsponge_VatEW=.TRUE.,
+ OBCSsponge_UatNS=.TRUE.,
+ OBCSsponge_UatEW=.TRUE.,
+ OBCSsponge_VatNS=.TRUE.,
+ OBCSsponge_VatEW=.TRUE.,
  OBCSsponge_Theta=.FALSE.,
  OBCSsponge_Salt =.FALSE.,
 
