@@ -52,7 +52,7 @@ diffK4S=1.E11,
  &PARM04
  usingCartesianGrid     =.FALSE.,
  usingSphericalPolarGrid=.TRUE.,
- delX=168*1.,
+ delX=174*1.,
  delY=36*1.,
  xgOrigin=119.5,
  ygOrigin=-18.5,
