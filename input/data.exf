@@ -37,4 +37,10 @@
  
 # 当开启OBCS开边界时设定开边界场的时间插值
  &EXF_NML_OBCS
+# useOBCSYearlyFields = .FALSE.,
+ obcsNstartdate1=19400116,   
+ obcsNperiod    =-12.,   
+
+ obcsSstartdate1=19400116,   
+ obcsSperiod    =-12.,  
  &

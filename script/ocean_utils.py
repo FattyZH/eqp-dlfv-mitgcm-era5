@@ -123,5 +123,5 @@ def fillna(arr):
         mask = np.isnan(arr)
         # 计算每个NaN位置最近非NaN值的位置索引
         idx = distance_transform_edt(mask, return_distances=False, return_indices=True)
-        filled[:, :] = arr[tuple(idx)]
+        filled[:] = arr[tuple(idx)]
     return filled
