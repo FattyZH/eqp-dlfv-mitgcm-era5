@@ -18,12 +18,12 @@
  
 # climsststartdate1 = 19400116,
 # climsstperiod     = -12.,
-# climsstTauRelax   = 31104000.,
+# climsstTauRelax   = 1728000.,
 # climsstfile  = 'sst_clim.bin',
 #
 # climsssstartdate1 = 19400116,
 # climsssperiod     = -12.,
-# climsssTauRelax   = 31104000.,
+# climsssTauRelax   = 1728000.,
 # climsssfile  = 'sss_clim.bin',
  &
 

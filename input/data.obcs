@@ -5,8 +5,8 @@
 # OB_singleIeast  =  0, 
 # OB_singleIwest  =  0,
 
-# useOrlanskiNorth=.TRUE.,
-# useOrlanskiSouth=.TRUE.,
+ useOrlanskiNorth=.TRUE.,
+ useOrlanskiSouth=.TRUE.,
 # useOrlanskiEast =.TRUE., 
 # useOrlanskiWest =.TRUE.,
 
@@ -23,7 +23,7 @@
 # OBCSsponge_Theta=.FALSE.,
 # OBCSsponge_Salt =.FALSE.,
 
- useOBCSbalance  =.FALSE.,
+ useOBCSbalance  =.TRUE.,
  useOBCSprescribe=.TRUE.,
 
 # OBXyFile
