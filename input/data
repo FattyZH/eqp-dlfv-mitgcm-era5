@@ -1,11 +1,13 @@
 # Model parameters
 # Continuous equation parameters
  &PARM01
+# 侧向粘性
  viscAh=1.E3,
  viscA4=1.E11,
+ no_slip_sides =.TRUE.,
+# 垂向粘性 
  viscAr=1.E-3,
- no_slip_sides =.FALSE.,
- no_slip_bottom=.TRUE.,
+ no_slip_bottom=.FALSE.,
 
 diffK4T=1.E11,
 diffK4S=1.E11,
@@ -30,21 +32,19 @@ diffK4S=1.E11,
 
 # Elliptic solver parameters
  &PARM02
- cg2dTargetResidual=1.E-13,
- cg2dMaxIters=500,
+ cg2dTargetResidual=1.E-11,
+ cg2dMaxIters=300,
  &
 
 # Time stepping parameters
  &PARM03
  startTime=0.,
-#  endTime = 31104000.,
- endTime = 7776000.,
- deltaT=1800.,
+ endTime = 31104000.,
+ deltaT=3600.,
  dumpFreq=2592000.,
-#  dumpFreq=1800.,
  pChkptFreq=311040000.,
  chkptFreq =31104000.,
- monitorFreq=2592000.,
+ monitorFreq=864000.,
  monitorSelect=3,
  &
 

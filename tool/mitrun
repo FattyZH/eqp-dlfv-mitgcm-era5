@@ -127,8 +127,8 @@ fi
 
 # 准备运行
 cd "$EXP_DIR"
-# mkdir -p run && find run -maxdepth 1 \( -type f -o -type l \) -exec rm -f {} +
-mkdir -p run && rm -rf run/*
+mkdir -p run && find run -maxdepth 1 \( -type f -o -type l \) -exec rm -f {} +
+# mkdir -p run && rm -rf run/*
 cd run
 if [ ! -f ../build/mitgcmuv ]; then
     log_error "Build output 'mitgcmuv' not found. Check the build log for errors."
