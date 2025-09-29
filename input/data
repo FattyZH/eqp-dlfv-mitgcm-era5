@@ -39,7 +39,8 @@ diffK4S=1.E11,
 # Time stepping parameters
  &PARM03
  startTime=0.,
- endTime = 31104000.,
+#  endTime = 31104000.,
+ endTime = 864000.,
  deltaT=3600.,
  dumpFreq=2592000.,
  pChkptFreq=311040000.,

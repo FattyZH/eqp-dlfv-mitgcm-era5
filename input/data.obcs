@@ -1,7 +1,7 @@
 # Open-boundaries
  &OBCS_PARM01
- OBCS_monitorFreq = 86400.,
- OBCS_monSelect = 2,
+# OBCS_monitorFreq = 86400.,
+# OBCS_monSelect = 2,
 # OBCSprintDiags = .TRUE.,
 
  OB_singleJnorth = -1,
@@ -9,8 +9,8 @@
 # OB_singleIeast  =  0, 
 # OB_singleIwest  =  0,
 
-# useOrlanskiNorth=.TRUE.,
-# useOrlanskiSouth=.TRUE.,
+ useOrlanskiNorth=.TRUE.,
+ useOrlanskiSouth=.TRUE.,
 # useOrlanskiEast =.TRUE., 
 # useOrlanskiWest =.TRUE.,
 
