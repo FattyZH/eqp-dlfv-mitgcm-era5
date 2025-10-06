@@ -40,7 +40,7 @@ diffK4S=1.E11,
  &PARM03
  startTime=0.,
  endTime = 31104000.,
- deltaT=3600.,
+ deltaT=600.,
  dumpFreq=2592000.,
  pChkptFreq=311040000.,
  chkptFreq =31104000.,
@@ -52,11 +52,11 @@ diffK4S=1.E11,
  &PARM04
  usingCartesianGrid     =.FALSE.,
  usingSphericalPolarGrid=.TRUE.,
- delX=174*1.,
- delY=36*1.,
- xgOrigin=119.5,
- ygOrigin=-18.5,
- delR=27.,33.,40.,69.,177.,352.,644.,1030.,1417.,1708.,
+ delX=696*1.,
+ delY=168*1.,
+ xgOrigin=117.75,
+ ygOrigin=-20.25,
+ delR=32.,40.,48.,50.,33.,40.,48.,57.,68.,80.,94.,111.,129.,149.,171.,195.,219.,245.,270.,296.,321.,344.,366.,386.,405.,421.,435.,448.,
  &
 
  &PARM05
