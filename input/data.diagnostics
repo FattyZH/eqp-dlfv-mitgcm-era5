@@ -50,5 +50,5 @@
  &DIAG_STATIS_PARMS
   stat_fields(1:4,1) = 'momKE','ETAN','RHOAnoma'
   stat_fName(1) = 'stat',
-  stat_freq(1) = -86400.,
+  stat_freq(1) = -1600.,
  &
