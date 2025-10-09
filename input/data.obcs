@@ -4,10 +4,10 @@
 # OBCS_monSelect = 2,
 # OBCSprintDiags = .TRUE.,
 
- OB_singleJnorth = -1,
  OB_singleJsouth =  1,
+ OB_singleJnorth = -1,
+ OB_singleIwest  =  0,
 # OB_singleIeast  =  0, 
-# OB_singleIwest  =  0,
 
 # useOrlanskiNorth=.TRUE.,
 # useOrlanskiSouth=.TRUE.,
@@ -42,6 +42,10 @@
  OBSvFile='OB_S_V.bin',
  OBStFile='OB_S_T.bin',
  OBSsFile='OB_S_S.bin',
+ OBWuFile='OB_W_U.bin',
+ OBWvFile='OB_W_V.bin',
+ OBWtFile='OB_W_T.bin',
+ OBWsFile='OB_W_S.bin',
  &
 
 # Orlanski parameters

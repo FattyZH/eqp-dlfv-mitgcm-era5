@@ -42,8 +42,8 @@ CEOP
       INTEGER Ny
       INTEGER Nr
       PARAMETER (
-     &           sNx =  174,
-     &           sNy =  42*4,
+     &           sNx =  15*3*4,
+     &           sNy =  14*3*4,
      &           OLx =   3,
      &           OLy =   3,
      &           nSx =   1,
@@ -52,7 +52,7 @@ CEOP
      &           nPy =   1,
      &           Nx  = sNx*nSx*nPx,
      &           Ny  = sNy*nSy*nPy,
-     &           Nr  =   28)
+     &           Nr  =   29)
 
 C     MAX_OLX :: Set to the maximum overlap region size of any array
 C     MAX_OLY    that will be exchanged. Controls the sizing of exch
