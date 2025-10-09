@@ -40,23 +40,26 @@ diffK4S=1.E11,
  &PARM03
  startTime=0.,
  endTime = 31104000.,
- deltaT=3600.,
+ endTime = 864000.,
+# 600, 640, 675, 720, 800, 864, 900, 960, 1080, 1152, 1200, 1350, 1440, 1600, 1728, 1800, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
+ deltaT=1600.,
+#  deltaTtracer=1600.,
+ monitorFreq=86400.,
+ monitorSelect=3,
  dumpFreq=2592000.,
  pChkptFreq=311040000.,
  chkptFreq =31104000.,
- monitorFreq=864000.,
- monitorSelect=3,
  &
 
 # Gridding parameters
  &PARM04
- usingCartesianGrid     =.FALSE.,
+# usingCartesianGrid=.TRUE.,
  usingSphericalPolarGrid=.TRUE.,
- delX=174*1.,
- delY=36*1.,
- xgOrigin=119.5,
- ygOrigin=-18.5,
- delR=27.,33.,40.,69.,177.,352.,644.,1030.,1417.,1708.,
+ delX=696*0.25,
+ delY=168*0.25,
+ xgOrigin=117.75,
+ ygOrigin=-20.25,
+ delR=32.,40.,48.,50.,33.,40.,48.,57.,68.,80.,94.,111.,129.,149.,171.,195.,219.,245.,270.,296.,321.,344.,366.,386.,405.,421.,435.,448.,
  &
 
  &PARM05
