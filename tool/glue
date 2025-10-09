@@ -1,7 +1,7 @@
 #!/bin/bash
 gluemncbig -o ./run/grid.nc ./run/mnc_exp_*/grid.t*.nc
 gluemncbig -o ./run/state.nc ./run/mnc_exp_*/state*.t*.nc
-gluemncbig -o ./run/dynDiag.nc ./run/mnc_exp_*/dynDiag*.t*.nc
-gluemncbig -o ./run/surfDiag.nc ./run/mnc_exp_*/surfDiag*.t*.nc
+gluemncbig -o ./run/dync.nc ./run/mnc_exp_*/dync*.t*.nc
+gluemncbig -o ./run/surf.nc ./run/mnc_exp_*/surf*.t*.nc
 gluemncbig -o ./run/phiHyd.nc ./run/mnc_exp_*/phiHyd*.t*.nc
 gluemncbig -o ./run/phiHydLow.nc ./run/mnc_exp_*/phiHydLow*.t*.nc
