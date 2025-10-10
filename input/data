@@ -39,14 +39,14 @@ diffK4S=1.E11,
 # Time stepping parameters
  &PARM03
  startTime=0.,
- endTime = 31104000.,
- endTime = 2592000.,
+ endTime = 622080000.,
+#  endTime = 2592000.,
 # 600, 640, 675, 720, 800, 864, 900, 960, 1080, 1152, 1200, 1350, 1440, 1600, 1728, 1800, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
  deltaT=1440.,
 #  deltaTtracer=1600.,
  monitorFreq=86400.,
  monitorSelect=3,
- dumpFreq=864000.,
+ dumpFreq=1296000.,
 # dumpFreq=86400.,
  pChkptFreq=311040000.,
  chkptFreq =31104000.,

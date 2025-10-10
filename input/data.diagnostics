@@ -19,13 +19,13 @@
 #--------------------
  &DIAGNOSTICS_LIST
   fileName(1) = 'dync',
-  frequency(1) = -1296000.,
+  frequency(1) = 2592000.,
 #  levels(1:6,1) = 1.
   fields(1:6,1)  = 'UVEL    ','VVEL    ','WVEL    ',
                    'THETA   ','SALT    ','PHIHYD  '
 
   fileName(2) = 'surf',
-  frequency(2) = -1296000.,
+  frequency(2) = 2592000.,
   fields(1:1,2)  = 'ETAN'
 
  &
@@ -50,5 +50,5 @@
  &DIAG_STATIS_PARMS
   stat_fields(1:4,1) = 'momKE','ETAN','RHOAnoma'
   stat_fName(1) = 'stat',
-  stat_freq(1) = -43200.,
+  stat_freq(1) = -86400.,
  &
