@@ -7,7 +7,8 @@ key = ['momKE_ave','ETAN_std']
 # key.append('RHOAnoma_lv_std')
 isbreak = False
 with xr.open_mfdataset(paths) as a:
-    print(f"目前迭代步数为{a['iter'][-1].values}, 时间为{a['T'][-1].values}")
+    niter, ntime = a['iter'][-1].values, a['T'][-1].values
+    print(f"目前迭代步数为{niter}, 时间为{ntime}")
     for k in key:
         if k not in a:
             raise ValueError(f"变量{k}不在数据集中,可用变量有{list(a.data_vars)}")
@@ -22,6 +23,6 @@ else:
 plt.gca().set_yscale('log')
 plt.legend()
 plt.ylabel('')
-plt.title(f"nIter:{a['T'].size}")
+plt.title(f"nIter:{niter}")
 plt.savefig('监控.jpg', dpi=300)
 print("图片已保存为:监控.jpg")
