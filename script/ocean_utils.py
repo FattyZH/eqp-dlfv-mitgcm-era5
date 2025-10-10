@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import heapq
 from scipy.ndimage import label, gaussian_filter, distance_transform_edt
@@ -125,3 +126,36 @@ def fillna(arr):
         idx = distance_transform_edt(mask, return_distances=False, return_indices=True)
         filled[:] = arr[tuple(idx)]
     return filled
+
+def find_mon_file(dir_pre='mnc_exp_', base_path='../run/', file_pre='stat'):
+    """
+    查找符合条件的文件路径。
+
+    参数:
+        base_path (str): 主目录路径。
+        dir_pre (str): 子目录名称前缀，例如 'mnc_exp_'。
+        file_pre (str): 文件名称前缀，例如 'stat'。
+
+    返回:
+        list: 符合条件的文件路径列表（找到第一个符合条件的文件夹后立即退出）。
+    """
+    matching_files = []
+    dirs = []
+    for entry in os.listdir(base_path):
+        full_path = os.path.join(base_path, entry)
+        # 必须是目录，且名称符合 dir_pre + 纯数字
+        if os.path.isdir(full_path) and entry.startswith(dir_pre):
+            suffix = entry[len(dir_pre):]
+            if suffix.isdigit():
+                dirs.append(entry)
+    dirs.sort(reverse=True)
+    # 遍历排序后的目录，找第一个包含目标文件的
+    for d in dirs:
+        dir_path = os.path.join(base_path, d)
+        # 列出子目录中的所有文件，检查是否以指定前缀开头并且紧接着是 '.'
+        matching_files = [os.path.join(dir_path,f) for f in os.listdir(dir_path) if f.split('.')[0] == file_pre]
+        if matching_files:
+            break  # 找到就退出
+
+    return matching_files
+

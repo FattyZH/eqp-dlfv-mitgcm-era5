@@ -2,4 +2,6 @@ build
 input/*.bin
 log
 run
+**/*.png
+**/*.jpg
 **/__pycache__/
