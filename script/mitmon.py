@@ -7,7 +7,7 @@ key = ['momKE_ave','ETAN_std']
 # key.append('RHOAnoma_lv_std')
 isbreak = False
 with xr.open_mfdataset(paths) as a:
-    print(f"目前迭代步数为{a['T'].size}, 时间为{a['T'].values[-1]}")
+    print(f"目前迭代步数为{a['iter'][-1].values}, 时间为{a['T'][-1].values}")
     for k in key:
         if k not in a:
             raise ValueError(f"变量{k}不在数据集中,可用变量有{list(a.data_vars)}")
