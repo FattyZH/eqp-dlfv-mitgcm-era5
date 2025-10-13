@@ -38,6 +38,8 @@ diffK4S=1.E11,
 
 # Time stepping parameters
  &PARM03
+ rwSuffixType=2,
+# pickupSuff='ckptB',
  startTime=0.,
  endTime = 933120000.,
 #  endTime = 2592000.,
