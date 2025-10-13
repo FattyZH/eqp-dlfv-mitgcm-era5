@@ -39,9 +39,9 @@ diffK4S=1.E11,
 # Time stepping parameters
  &PARM03
  rwSuffixType=2,
-# pickupSuff='ckptB',
- startTime=0.,
- endTime = 933120000.,
+ pickupSuff='0000432000',
+#  startTime=0.,
+ endTime = 1555200000.,
 #  endTime = 2592000.,
 # 600, 640, 675, 720, 800, 864, 900, 960, 1080, 1152, 1200, 1350, 1440, 1600, 1728, 1800, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
  deltaT=1440.,
