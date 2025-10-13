@@ -127,7 +127,7 @@ def fillna(arr):
         filled[:] = arr[tuple(idx)]
     return filled
 
-def find_mon_file(dir_pre='mnc_exp_', base_path='../run/', file_pre='stat'):
+def find_mon_file(dir_pre='mnc_exp_', base_path='../run/', file_pre='stat',print_path=False):
     """
     查找符合条件的文件路径。
 
@@ -155,6 +155,8 @@ def find_mon_file(dir_pre='mnc_exp_', base_path='../run/', file_pre='stat'):
         # 列出子目录中的所有文件，检查是否以指定前缀开头并且紧接着是 '.'
         matching_files = [os.path.join(dir_path,f) for f in os.listdir(dir_path) if f.split('.')[0] == file_pre]
         if matching_files:
+            if print_path:
+                print(f"Found in directory: {dir_path}")
             break  # 找到就退出
 
     return matching_files
