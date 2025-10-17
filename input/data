@@ -2,9 +2,9 @@
 # Continuous equation parameters
  &PARM01
 # 侧向粘性
- viscAh=1.E3,
- viscA4=1.E11,
- no_slip_sides =.TRUE.,
+ viscAh=5.E2,
+ viscA4=5.E10,
+ no_slip_sides =.FALSE.,
 # 垂向粘性 
  viscAr=1.E-3,
  no_slip_bottom=.FALSE.,
@@ -39,16 +39,16 @@ diffK4S=1.E11,
 # Time stepping parameters
  &PARM03
  rwSuffixType=2,
- pickupSuff='0000432000',
-#  startTime=0.,
- endTime = 1555200000.,
+# pickupSuff='0000432000',
+# startTime=0.,
+ endTime = 933120000.,
 #  endTime = 2592000.,
 # 600, 640, 675, 720, 800, 864, 900, 960, 1080, 1152, 1200, 1350, 1440, 1600, 1728, 1800, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
  deltaT=1440.,
-#  deltaTtracer=1600.,
- monitorFreq=1296000.,
+# deltaTtracer=1600.,
+ monitorFreq=2592000.,
  monitorSelect=3,
- dumpFreq=1296000.,
+ dumpFreq=2592000.,
 # dumpFreq=86400.,
  pChkptFreq=311040000.,
  chkptFreq =31104000.,
@@ -59,9 +59,9 @@ diffK4S=1.E11,
 # usingCartesianGrid=.TRUE.,
  usingSphericalPolarGrid=.TRUE.,
  delX=720*0.25,
- delY=168*0.25,
+ delY=192*0.25,
  xgOrigin=111.875,
- ygOrigin=-20.125,
+ ygOrigin=-23.125,
  delR=27.,33.,40.,42.,27.,33.,40.,48.,57.,68.,80.,94.,111.,129.,149.,171.,195.,219.,245.,270.,296.,321.,344.,366.,386.,405.,421.,435.,448.,
  &
 

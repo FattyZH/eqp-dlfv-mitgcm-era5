@@ -57,10 +57,10 @@
 # Sponge layer parameters
  &OBCS_PARM03
  spongeThickness=24,
- Urelaxobcsbound=2592000.,
- Urelaxobcsinner=7776000.,
- Vrelaxobcsbound=2592000.,
- Vrelaxobcsinner=7776000.,
+ Urelaxobcsbound=1296000.,
+ Urelaxobcsinner=5184000.,
+ Vrelaxobcsbound=1296000.,
+ Vrelaxobcsinner=5184000.,
  &
 
 # Stevens parameters

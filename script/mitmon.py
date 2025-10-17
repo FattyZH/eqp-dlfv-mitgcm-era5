@@ -2,7 +2,7 @@ import xarray as xr
 from ocean_utils import find_mon_file
 import matplotlib.pyplot as plt
 ts = slice(None, None)
-paths = find_mon_file()
+paths = find_mon_file(print_path=True)
 key = []
 key.append('momKE_ave')
 key.append('ETAN_std')
