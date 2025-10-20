@@ -1,3 +1,4 @@
-cd ./script
+#!/bin/bash
+cd $(dirname "$0")/../script
+echo $(pwd)
 python mitmon.py
-cd ..
