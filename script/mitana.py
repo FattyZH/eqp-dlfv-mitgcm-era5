@@ -2,7 +2,8 @@ import MITgcmutils as mutils
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-a = xr.open_dataset('../run/dync.nc')
+path = '../output/251106/'
+a = xr.open_dataset(path + 'dync.nc')
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 id = -1
@@ -15,4 +16,4 @@ plt.subplot(4,1,3)
 a['THETA'][id,0].plot(cmap='RdBu_r',vmin=15, vmax=35)
 plt.subplot(4,1,4)
 a['SALT'][id,0].plot(cmap='RdBu_r',vmin=30, vmax=38)
-plt.savefig('dync.png',dpi=300)
+plt.savefig(path+'dync.png',dpi=300)
