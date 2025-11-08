@@ -2,11 +2,11 @@
 # Continuous equation parameters
  &PARM01
 # 水平粘性 (动量)
- viscAh=100.,
- viscA4=1.E11,
+ viscAh=5.E2,
+ viscA4=5.E10,
  no_slip_sides =.FALSE.,
 # 垂直粘性 (动量)
- viscAr=1.E-3,
+ viscAr=1.E-4,
  no_slip_bottom=.FALSE.,
 # 水平粘性 (温盐)
  diffKhT=100.,
