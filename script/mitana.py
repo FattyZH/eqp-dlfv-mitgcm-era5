@@ -3,17 +3,17 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 path = '../output/251110/'
-a = xr.open_dataset(path + 'dync.nc')
+a = xr.open_dataset(path + 'state.nc')
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 id = -1
 plt.figure(figsize=(18,14))
 plt.subplot(4,1,1)
-a['UVEL'][id,0].plot(cmap='RdBu_r',vmin=-1.5, vmax=1.5)
+a['U'][id,0].plot(cmap='RdBu_r',vmin=-1.5, vmax=1.5)
 plt.subplot(4,1,2)
-a['VVEL'][id,0].plot(cmap='RdBu_r',vmin=-1.5, vmax=1.5)
+a['V'][id,0].plot(cmap='RdBu_r',vmin=-1.5, vmax=1.5)
 plt.subplot(4,1,3)
-a['THETA'][id,0].plot(cmap='RdBu_r',vmin=15, vmax=35)
+a['Temp'][id,0].plot(cmap='RdBu_r',vmin=15, vmax=35)
 plt.subplot(4,1,4)
-a['SALT'][id,0].plot(cmap='RdBu_r',vmin=30, vmax=38)
-plt.savefig(path+'dync.png',dpi=300)
+a['S'][id,0].plot(cmap='RdBu_r',vmin=30, vmax=38)
+plt.savefig(path+'state.png',dpi=300)
