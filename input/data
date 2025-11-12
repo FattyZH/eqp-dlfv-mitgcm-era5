@@ -3,8 +3,8 @@
  &PARM01
 # 水平粘性 (动量)
  viscAh=0.,
- viscA4=1.E10,
- viscA4D=1.E11,
+ viscA4=2.E11,
+# viscA4D=1.E11,
  no_slip_sides =.FALSE.,
 # 垂直粘性 (动量)
  viscAr=1.E-4,
