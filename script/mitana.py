@@ -7,7 +7,7 @@ a = xr.open_dataset(path + 'state.nc')
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 id = -1
-lev = 10
+lev = 0
 plt.figure(figsize=(18,14))
 plt.subplot(4,1,1)
 a['U'][id,lev].plot(cmap='RdBu_r',vmin=-1.5, vmax=1.5)
