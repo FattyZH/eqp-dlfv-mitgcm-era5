@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.linalg import eig
 
-def dynmodes(pden, dz):
+def dymodes(pden, dz):
     """
     计算斜压模态函数和模态速度。
 
@@ -62,17 +62,19 @@ def dynmodes(pden, dz):
     # --- 筛选和排序 ---
     # 物理上，我们只关心正的特征值 (lambda > 0)，因为 c^2 = 1/lambda
     # 设置一个阈值过滤掉接近零或负的特征值（可能来自数值误差或非物理情况）
-    pos_mask = eigvals_real >= 1e-10
+    pos_mask = eigvals_real >= 0
     eigvals_pos = eigvals_real[pos_mask]
     eigvecs_pos = eigvecs_real[:, pos_mask]
-
     # 按特征值升序排序 (对应模态速度降序排序，一阶模态速度最快)
     sort_idx = np.argsort(eigvals_pos)
     eigvals_sorted = eigvals_pos[sort_idx]
     pmodes = eigvecs_pos[:, sort_idx] # pmodes 的列是按速度排序的模态函数
-    pmodes /= np.max(np.abs(pmodes), axis=0)  # 归一化模态函数，使最大值为1
+    # --- 归一化模态函数 ---
+    # eig函数返回的特征向量默认是归一化的，一般可注释掉以下归一化步骤
+    pmodes /= np.sqrt((pmodes**2*dz[:,None]).sum(0)/dz.sum())  # 归一化模态函数, 使得积分 ∫Phi_i^2 dz = z
     # --- 计算模态速度 ---
     # 特征值 lambda = 1 / c^2
     # 因此，模态速度 c = sqrt(1 / lambda)
     ce = 1.0 / np.sqrt(eigvals_sorted)
+    ce[0] = np.sqrt(9.81 * dz.sum())  # 修正第一模态速度为浅水波速度
     return pmodes, ce
