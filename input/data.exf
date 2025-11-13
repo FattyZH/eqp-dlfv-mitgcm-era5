@@ -15,6 +15,14 @@
  vstressperiod     = -12.,
  ustressfile  = 'taux.bin',
  vstressfile  = 'tauy.bin',
+
+# hfluxstartdate1 = 19400116,
+# hfluxperiod     = -12.,
+# hfluxfile  = 'hflux.bin',
+
+# sfluxstartdate1 = 19400116,
+# sfluxperiod     = -12.,
+# sfluxfile  = 'sflux.bin',
  
  climsststartdate1 = 19400116,
  climsstperiod     = -12.,
