@@ -2,7 +2,7 @@ import MITgcmutils as mutils
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-path = '../output/251111/'
+path = '../output/251113/'
 a = xr.open_dataset(path + 'state.nc')
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
