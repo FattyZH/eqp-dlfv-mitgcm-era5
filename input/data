@@ -14,8 +14,8 @@
  diffK4T=1.E11,
  diffK4S=1.E11,
 # 垂直粘性 (温盐)
- diffKrT=1.E-5.,
- diffKrS=1.E-5.,
+ diffKrT=1.E-5,
+ diffKrS=1.E-5,
 
  ivdc_kappa=1.,
  implicitDiffusion=.TRUE.,
