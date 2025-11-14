@@ -1,12 +1,14 @@
 import numpy as np
 from scipy.linalg import eig
+import seawater as sw
 
-def dymodes(pden, dz):
+def dymodes(salt,theta,z):
     """
     计算斜压模态函数和模态速度。
 
     参数:
-        pden: 一维密度剖面 (长度为 nz)，从上到下排列。
+        theta: 一维位温剖面 (长度为 nz)，从上到下排列。
+        salt: 一维盐度剖面 (长度为 nz)，从上到下排列。
         dz: 一维厚度数组 (长度为 nz)，对应每层的厚度。
 
     返回:
@@ -14,13 +16,20 @@ def dymodes(pden, dz):
             - pmodes (np.ndarray): 斜压模态函数 (nz, n_modes)，未归一化。
             - ce (np.ndarray): 对应的模态速度 (n_modes)。
     """
+
     # 将输入转换为 numpy 数组，确保数据类型为 float
-    pden = np.asarray(pden, dtype=float)
-    dz = np.asarray(dz, dtype=float)
-    nz = dz.size # nz 是水平速度 u,v 所在的层数
-    dzw = (dz[:-1] + dz[1:])/2.0 # 计算 w 点 (垂向速度点) 之间的厚度, 长度为 nz-1
-    rho0 = 1030.0  # 参考密度，单位 kg/m^3
-    N2 = 9.81 / rho0 * (pden[1:] - pden[:-1]) / dzw # 使用标准海洋学公式计算 N^2 = -g/rho0 * d(rho)/dz
+    theta = np.asarray(theta, dtype=float)
+    salt = np.asarray(salt, dtype=float)
+    z = np.asarray(z, dtype=float)
+
+    nz = z.size # nz 是水平速度 u,v 所在的层数
+    dzw = z[1:] - z[:-1]  # 计算 w 点 (垂向速度点) 之间的厚度, 长度为 nz-1
+    dz = np.zeros(z.shape)
+    lev = 0
+    for i in range(z.size):
+        dz[i] = 2*(z[i]-lev)
+        lev += dz[i]
+    N2 = sw.bfrq(salt, sw.temp(salt, theta, z), z)[0].squeeze()  # 使用 seawater 库计算 N^2
 
     # --- 构建广义特征值问题的矩阵 A 和 B ---
     # 目标是求解离散化的 Sturm-Liouville 本征方程:
@@ -29,7 +38,7 @@ def dymodes(pden, dz):
     # A 矩阵代表了左边的微分算子 d/dz(N^2 d/dz)
     # B 矩阵代表了右边的单位算子 I (乘以 Phi)，但在非均匀网格下，它变成了质量矩阵 M。
     A = np.zeros((nz, nz), dtype=float) # 初始化 A 矩阵 (nz x nz)
-    B = np.diag(dz.copy()) # B 是对角矩阵，对角线元素为 dz (积分权重)
+    B = np.diag(dz) # B 是对角矩阵，对角线元素为 dz (积分权重)
 
     # --- 离散化微分算子 d/dz(N^2 d/dz) ---
     # 循环遍历每一对相邻的 w 点 (对应 N2[i] 和 dzw[i])
@@ -62,19 +71,20 @@ def dymodes(pden, dz):
     # --- 筛选和排序 ---
     # 物理上，我们只关心正的特征值 (lambda > 0)，因为 c^2 = 1/lambda
     # 设置一个阈值过滤掉接近零或负的特征值（可能来自数值误差或非物理情况）
-    pos_mask = eigvals_real >= 0
+    pos_mask = eigvals_real > 1e-8
     eigvals_pos = eigvals_real[pos_mask]
     eigvecs_pos = eigvecs_real[:, pos_mask]
     # 按特征值升序排序 (对应模态速度降序排序，一阶模态速度最快)
     sort_idx = np.argsort(eigvals_pos)
     eigvals_sorted = eigvals_pos[sort_idx]
     pmodes = eigvecs_pos[:, sort_idx] # pmodes 的列是按速度排序的模态函数
+
     # --- 归一化模态函数 ---
     # eig函数返回的特征向量默认是归一化的，一般可注释掉以下归一化步骤
+    pmodes *= np.sign(pmodes[0, :])  # 统一模态函数符号，使得最上层为正
     pmodes /= np.sqrt((pmodes**2*dz[:,None]).sum(0)/dz.sum())  # 归一化模态函数, 使得积分 ∫Phi_i^2 dz = z
     # --- 计算模态速度 ---
     # 特征值 lambda = 1 / c^2
     # 因此，模态速度 c = sqrt(1 / lambda)
     ce = 1.0 / np.sqrt(eigvals_sorted)
-    ce[0] = np.sqrt(9.81 * dz.sum())  # 修正第一模态速度为浅水波速度
     return pmodes, ce
