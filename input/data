@@ -2,7 +2,7 @@
 # Continuous equation parameters
  &PARM01
 # 水平粘性 (动量)
- viscAh=100.,
+ viscAh=0.,
  viscA4=1.E11,
  no_slip_sides =.FALSE.,
 # 垂直粘性 (动量)
