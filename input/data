@@ -67,10 +67,9 @@
 
  &PARM05
  bathyFile='bathy.bin',
- hydrogThetaFile='T.bin',
- hydrogSaltFile='S.bin',
-#  uVelInitFile='U.bin',
-#  vVelInitFile='V.bin',
-#  pSurfInitFile='Eta.bin',
-
+ hydrogThetaFile='init_T.bin',
+ hydrogSaltFile='init_S.bin',
+ uVelInitFile='init_U.bin',
+ vVelInitFile='init_V.bin',
+ pSurfInitFile='init_P.bin',
  &
