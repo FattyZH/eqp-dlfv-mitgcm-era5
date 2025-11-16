@@ -1,0 +1,11 @@
+# GM-Redi package parameters:
+
+# GM_background_K:      GM  diffusion coefficient
+# GM_taper_scheme:      slope clipping or one of the tapering schemes
+
+ &GM_PARM01
+# 涡致垂向输运强度
+ GM_background_K    = 1000.,
+# 截断方案，避免地形强剪切区域不稳定
+ GM_taper_scheme    = 'dm95',
+ &
