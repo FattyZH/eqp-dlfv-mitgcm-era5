@@ -16,13 +16,17 @@
 # 垂直粘性 (温盐)
  diffKrT=1.E-5,
  diffKrS=1.E-5,
-
- ivdc_kappa=1.,
+# 垂直对流
  implicitDiffusion=.TRUE.,
+ implicitViscosity=.TRUE.,
+# 隐式对流扩散率：在出现对流不稳定时触发强扩散以模拟对流过程，与其他对流方案不兼容，使用KPP时应置0（默认）
+# ivdc_kappa=1.,
+# 密度参数
  rhoConst=1030., 
  rhoConstFresh=1000.,
  eosType='JMD95Z',
  gravity=9.81,
+# 自由表面与守恒性
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
 # globalFiles=.TRUE.,
@@ -44,10 +48,10 @@
  endTime = 946728000.,
 #  endTime = 2629800.,
 # 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
- deltaT=1200.,
+ deltaT=1350.,
 # deltaTtracer=1600.,
  monitorFreq=2629800.,
- monitorSelect=3,
+ monitorSelect=2,
  dumpFreq=2629800.,
  pChkptFreq=315576000.,
  chkptFreq =31557600.,

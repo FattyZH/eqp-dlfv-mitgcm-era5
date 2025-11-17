@@ -1,5 +1,10 @@
 # KPP parameters
  &KPP_PARM01
- KPPwriteState=.TRUE.,
- KPPuseDoubleDiff = .TRUE.,
+ KPPwriteState=.TRUE.
+# 1. 开启短波辐射在 KPP 中使用 3D 分布（若模型支持）
+# 赤道区光穿透较强，开启可能改善表层热结构。(默认值：.FALSE.)
+# KPPuseSWfrac3D = .FALSE.,
+# 2. 对 Ri 垂向平滑步数
+# 赤道区 shear 强烈，适当平滑可减少不连续跳变。(默认值：0)
+# num_v_smooth_Ri = 0,
  &
