@@ -39,19 +39,18 @@
 # Time stepping parameters
  &PARM03
  rwSuffixType=2,
-# pickupSuff='0933120000',
+# pickupSuff='',
 # startTime=0.,
- endTime = 933120000.,
-#  endTime = 2592000.,
-# 600, 640, 675, 720, 800, 864, 900, 960, 1080, 1152, 1200, 1350, 1440, 1600, 1728, 1800, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
+ endTime = 946728000.,
+#  endTime = 2629800.,
+# 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
  deltaT=1200.,
 # deltaTtracer=1600.,
- monitorFreq=2592000.,
+ monitorFreq=2629800.,
  monitorSelect=3,
- dumpFreq=2592000.,
-# dumpFreq=86400.,
- pChkptFreq=311040000.,
- chkptFreq =31104000.,
+ dumpFreq=2629800.,
+ pChkptFreq=315576000.,
+ chkptFreq =31557600.,
  &
 
 # Gridding parameters
