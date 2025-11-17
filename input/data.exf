@@ -15,13 +15,18 @@
  vstressperiod     = -12.,
  ustressfile  = 'exf_uflux.bin',
  vstressfile  = 'exf_vflux.bin',
-
+# 净热量通量
  hfluxstartdate1 = 19400116,
  hfluxperiod     = -12.,
  hfluxfile  = 'exf_tflux.bin',
+# 净淡水通量
  sfluxstartdate1 = 19400116,
  sfluxperiod     = -12.,
  sfluxfile  = 'exf_sflux.bin',
+# 净短波辐射通量（KPP必需）
+ swfluxstartdate1 = 19400116,
+ swfluxperiod     = -12.,
+ swfluxfile  = 'exf_swflux.bin',
  
 # climsststartdate1 = 19400116,
 # climsstperiod     = -12.,
