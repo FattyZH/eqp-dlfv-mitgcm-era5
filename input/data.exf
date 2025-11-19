@@ -18,7 +18,7 @@
 # 净热量通量
  hfluxstartdate1 = 19400116,
  hfluxperiod     = -12.,
- hfluxfile  = 'exf_tflux.bin',
+ hfluxfile  = 'exf_hflux.bin',
 # 净淡水通量
  sfluxstartdate1 = 19400116,
  sfluxperiod     = -12.,
