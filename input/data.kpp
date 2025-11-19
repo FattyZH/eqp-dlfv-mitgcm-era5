@@ -1,6 +1,6 @@
 # KPP parameters
  &KPP_PARM01
- KPPwriteState=.TRUE.
+# KPPwriteState=.FALSE.
 # 1. 开启短波辐射在 KPP 中使用 3D 分布（若模型支持）
 # 赤道区光穿透较强，开启可能改善表层热结构。(默认值：.FALSE.)
 # KPPuseSWfrac3D = .FALSE.,
