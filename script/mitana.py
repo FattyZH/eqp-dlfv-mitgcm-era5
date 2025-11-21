@@ -2,7 +2,7 @@ import MITgcmutils as mutils
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-path = '../output/'
+path = '../output/251121/'
 a = xr.open_dataset(path + 'state.nc')
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
@@ -18,7 +18,7 @@ plt.subplot(4,1,3)
 a['Temp'][id,lev].plot(cmap='RdBu_r',vmin=15, vmax=35)
 plt.subplot(4,1,4)
 a['S'][id,lev].plot(cmap='RdBu_r',vmin=30, vmax=38)
-plt.savefig(path+'state.png',dpi=300)
+plt.savefig(path+'state_last.png',dpi=300)
 
 id = slice(-12,None)
 lev = 0
@@ -31,4 +31,4 @@ plt.subplot(4,1,3)
 a['Temp'][id,lev].mean('T').plot(cmap='RdBu_r',vmin=15, vmax=35)
 plt.subplot(4,1,4)
 a['S'][id,lev].mean('T').plot(cmap='RdBu_r',vmin=30, vmax=38)
-plt.savefig(path+'mean.png',dpi=300)
+plt.savefig(path+'state_mean.png',dpi=300)
