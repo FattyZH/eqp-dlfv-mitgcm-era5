@@ -2,32 +2,73 @@
 # External Forcing Data
 # *********************
  &EXF_NML_01
- readStressOnAgrid = .TRUE.,
-#useExfYearlyFields = .FALSE.,
-#repeatPeriod      = 0.,
-#exf_debugLev      = 3,
+# readwindstress = .TRUE.,
+# readStressOnAgrid = .TRUE.,
+# repeatPeriod      = 0.,
+ useRelativeWind=.TRUE.,
+ exf_scal_BulkCdn=1.0,
+ exf_albedo=0.066,
  &
 
  &EXF_NML_02
- ustressstartdate1 = 19400116,
- vstressstartdate1 = 19400116,
- ustressperiod     = -12.,
- vstressperiod     = -12.,
- ustressfile  = 'exf_uflux.bin',
- vstressfile  = 'exf_vflux.bin',
-# 净热量通量
- hfluxstartdate1 = 19400116,
- hfluxperiod     = -12.,
- hfluxfile  = 'exf_hflux.bin',
-# 净淡水通量
- sfluxstartdate1 = 19400116,
- sfluxperiod     = -12.,
- sfluxfile  = 'exf_sflux.bin',
-# 净短波辐射通量（KPP必需）
- swfluxstartdate1 = 19400116,
- swfluxperiod     = -12.,
- swfluxfile  = 'exf_swflux.bin',
- 
+
+# 动量强迫
+## 风速强迫
+ uwindstartdate1 = 19400116,
+ vwindstartdate1 = 19400116,
+ uwindperiod     = -12.,
+ vwindperiod     = -12.,
+ uwindfile  = 'exf_uwind.bin',
+ vwindfile  = 'exf_vwind.bin',
+## 风应力强迫
+# ustressstartdate1 = 19400116,
+# vstressstartdate1 = 19400116,
+# ustressperiod     = -12.,
+# vstressperiod     = -12.,
+# ustressfile  = 'exf_ustress.bin',
+# vstressfile  = 'exf_vstress.bin',
+
+# 温盐强迫
+## 2m气温
+ atempstartdate1 = 19400116,
+ atempperiod     = -12.,
+ atempfile  = 'exf_atemp.bin',
+## 2m比湿
+ aqhstartdate1 = 19400116,
+ aqhperiod     = -12.,
+ aqhfile  = 'exf_aqh.bin',
+## 下行短波辐射
+ swdownstartdate1 = 19400116,
+ swdownperiod     = -12.,
+ swdownfile  = 'exf_swdown.bin',
+## 下行长波辐射
+ lwdownstartdate1 = 19400116,
+ lwdownperiod     = -12.,
+ lwdownfile  = 'exf_lwdown.bin',
+## 总降水
+ precipstartdate1 = 19400116,
+ precipperiod     = -12.,
+ precipfile  = 'exf_precip.bin',
+## 径流
+# runoffstartdate1=19400116,
+# runoffperiod=-12,
+# runofffile='',
+
+# 净通量形式
+## 净热量通量
+# hfluxstartdate1 = 19400116,
+# hfluxperiod     = -12.,
+# hfluxfile  = 'exf_hflux.bin',
+## 净淡水通量
+# sfluxstartdate1 = 19400116,
+# sfluxperiod     = -12.,
+# sfluxfile  = 'exf_sflux.bin',
+## 净短波辐射通量（KPP必需）
+# swfluxstartdate1 = 19400116,
+# swfluxperiod     = -12.,
+# swfluxfile  = 'exf_swflux.bin',
+
+## 温盐松弛
 # climsststartdate1 = 19400116,
 # climsstperiod     = -12.,
 # climsstTauRelax   = 1728000.,
