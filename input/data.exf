@@ -2,12 +2,15 @@
 # External Forcing Data
 # *********************
  &EXF_NML_01
-# readwindstress = .TRUE.,
+ useExfCheckRange  = .TRUE.,
+# 风应力强迫参数
 # readStressOnAgrid = .TRUE.,
-# repeatPeriod      = 0.,
- useRelativeWind=.TRUE.,
- exf_scal_BulkCdn=1.0,
- exf_albedo=0.066,
+# 风速强迫参数
+# useRelativeWind=.TRUE.,
+# 拖曳系数缩放（风应力强度调试）
+# exf_scal_BulkCdn=1.0,
+# 反射率
+# exf_albedo=0.066,
  &
 
  &EXF_NML_02
@@ -30,29 +33,25 @@
 
 # 温盐强迫
 ## 2m气温
- atempstartdate1 = 19400116,
- atempperiod     = -12.,
- atempfile  = 'exf_atemp.bin',
+ atempstartdate1  = 19400116,
+ atempperiod      = -12.,
+ atempfile        = 'exf_atemp.bin',
 ## 2m比湿
- aqhstartdate1 = 19400116,
- aqhperiod     = -12.,
- aqhfile  = 'exf_aqh.bin',
+ aqhstartdate1    = 19400116,
+ aqhperiod        = -12.,
+ aqhfile          = 'exf_aqh.bin',
 ## 下行短波辐射
  swdownstartdate1 = 19400116,
  swdownperiod     = -12.,
- swdownfile  = 'exf_swdown.bin',
+ swdownfile       = 'exf_swdown.bin',
 ## 下行长波辐射
  lwdownstartdate1 = 19400116,
  lwdownperiod     = -12.,
- lwdownfile  = 'exf_lwdown.bin',
+ lwdownfile       = 'exf_lwdown.bin',
 ## 总降水
  precipstartdate1 = 19400116,
  precipperiod     = -12.,
- precipfile  = 'exf_precip.bin',
-## 径流
-# runoffstartdate1=19400116,
-# runoffperiod=-12,
-# runofffile='',
+ precipfile       = 'exf_precip.bin',
 
 # 净通量形式
 ## 净热量通量
