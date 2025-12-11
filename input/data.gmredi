@@ -5,7 +5,7 @@
 
  &GM_PARM01
 # 涡致垂向输运强度
- GM_background_K    = 500.,
+ GM_background_K    = 300.,
 # 截断方案，避免地形强剪切区域不稳定
  GM_taper_scheme    = 'dm95',
  &
