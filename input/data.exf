@@ -2,15 +2,21 @@
 # External Forcing Data
 # *********************
  &EXF_NML_01
+# 启用输入变量范围检查
  useExfCheckRange  = .TRUE.,
-# 风应力强迫参数
+# 风应力可定义在A或C网格，风速仅支持A网格
+# 风应力模式下，需感热/潜热通量，将自动反演风速
+# 是否使用风速计算风应力/或直接使用风应力输入
+# useAtmWind = .TURE.,
 # readStressOnAgrid = .TRUE.,
-# 风速强迫参数
-# useRelativeWind=.TRUE.,
-# 拖曳系数缩放（风应力强度调试）
+# 使用相对风速（考虑海流反馈）
+ useRelativeWind=.TRUE.,
+# 拖曳系数缩放因子（用于调整风应力强度）
 # exf_scal_BulkCdn=1.0,
-# 反射率
-# exf_albedo=0.066,
+# 短波反照率（赤道区域典型值，低于默认0.1）
+ exf_albedo=0.05,
+# 天顶角修正反照率：0=关闭，1=查表（推荐），2=公式，3=日循环；赤道区域影响小，故关闭
+# select_ZenAlbedo = 0,
  &
 
  &EXF_NML_02

@@ -26,7 +26,7 @@
 
   fileName(2) = 'surf',
   frequency(2) = 2629800.,
-  fields(1:1,2)  = 'ETAN'
+  fields(1:6,2)  = 'ETAN','EXFevap','EXFtaux','EXFhs','EXFlwnet','EXFhl'
 
  &
 
