@@ -32,14 +32,14 @@
 # globalFiles=.TRUE.,
  tempStepping=.TRUE.,
  saltStepping=.TRUE.,
+# 单CPU读写
+ useSingleCpuIO =.TRUE.,
  &
 
 # Elliptic solver parameters
  &PARM02
- cg2dTargetResidual=1.E-5,
- cg2dMaxIters=100,
-# cg3dTargetResidual=1.E-8,
-# cg3dMaxIters=20,
+ cg2dTargetResidual=1.E-7,
+ cg2dMaxIters=150,
  &
 
 # Time stepping parameters
@@ -48,7 +48,7 @@
 # pickupSuff='',
 # startTime=0.,
  endTime = 946728000.,
- endTime = 94672800.,
+ endTime = 315576000.,
 # 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
  deltaT=1350.,
 # deltaTtracer=1600.,

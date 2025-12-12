@@ -2,13 +2,13 @@ import MITgcmutils as mutils
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-path = '../output/251211/'
+path = '../output/251210/'
 a = xr.open_dataset(path + 'state.nc')
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 
 id = -1
-lev = 25
+lev = 0
 plt.figure(figsize=(12,12))
 plt.subplot(4,1,1)
 a['U'][id,lev].plot(cmap='RdBu_r',vmin=-1, vmax=1)
