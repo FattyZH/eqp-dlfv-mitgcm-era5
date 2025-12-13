@@ -6,7 +6,7 @@
 
  OB_singleJsouth =  1,
  OB_singleJnorth = -1,
- OB_singleIwest  =  0,
+ OB_singleIwest  =  1,
 # OB_singleIeast  =  0, 
 
 # useOrlanskiNorth=.TRUE.,
@@ -56,7 +56,7 @@
 
 # Sponge layer parameters
  &OBCS_PARM03
- spongeThickness=20,
+ spongeThickness=21,
  Urelaxobcsbound=2592000.,
  Urelaxobcsinner=7776000.,
  Vrelaxobcsbound=2592000.,

@@ -31,6 +31,7 @@ log_error() {
 # 初始化参数
 EXP_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 MODS_DIR="code"
+OUT_DIR="output"
 MPI_PROCS=0
 OMP_THREADS=0
 ROOTDIR=""
@@ -127,20 +128,29 @@ fi
 
 # 准备运行
 cd "$EXP_DIR"
-# mkdir -p run && find run -maxdepth 1 \( -type f -o -type l \) -exec rm -f {} +
-mkdir -p run && rm -rf run/*
-cd run
-if [ ! -f ../build/mitgcmuv ]; then
+RUN_DIR="$OUT_DIR/$(date +"%y%m%d_%H%M%S")"
+mkdir "$RUN_DIR" && cd "$RUN_DIR"
+
+if [ ! -f ../../build/mitgcmuv ]; then
     log_error "Build output 'mitgcmuv' not found. Check the build log for errors."
     exit 1
 fi
-cp ../build/mitgcmuv .
-if [ -d ../input ]; then
-    ln -s ../input/* .
-else
+cp ../../build/mitgcmuv .
+
+if [ ! -d ../../input ]; then
     log_error "Input directory not found. Expected directory: $(realpath input)"
     exit 1
 fi
+# 遍历 ../../input 目录中的文件
+for file in ../../input/*; do
+    if [[ "$file" == *.bin ]]; then
+        # 对于 .bin 文件，创建符号链接
+        ln -s "$file" .
+    else
+        # 对于其他文件，直接复制
+        cp "$file" .
+    fi
+done
 
 # 开始运行
 [ "$OMP_THREADS" -gt 0 ] && export OMP_NUM_THREADS="$OMP_THREADS"

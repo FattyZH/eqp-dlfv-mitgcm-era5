@@ -25,14 +25,14 @@
  rhoConst=1030., 
  rhoConstFresh=1000.,
  eosType='JMD95Z',
- gravity=9.81,
 # 自由表面与守恒性
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
-# globalFiles=.TRUE.,
  tempStepping=.TRUE.,
  saltStepping=.TRUE.,
-# 单CPU读写
+# 输出到单一文件（并行写入，需要文件系统支持）
+# globalFiles=.TRUE.,
+# 单CPU读写（有额外通信开销，无其他限制）
  useSingleCpuIO =.TRUE.,
  &
 
