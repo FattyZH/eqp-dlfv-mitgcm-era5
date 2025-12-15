@@ -2,6 +2,26 @@ import re
 import argparse
 import json
 from typing import Dict, Any, List
+import xmitgcm
+from os.path import join
+
+def open_mds(path, **kwargs):
+    if 'ref_date' not in kwargs:
+        data = parse_file(join(path,'data.cal'))
+        c = data['CAL_NML']
+        d1, d2 = c['startDate_1'], c.get('startDate_2', 0)
+        s = f"{d1:08d}{d2:06d}"
+        kwargs['ref_date'] = f"{s[:4]}-{s[4:6]}-{s[6:8]} {s[8:10]}:{s[10:12]}:{s[12:14]}"
+    if 'grid_vars_to_coords' not in kwargs:
+        kwargs['grid_vars_to_coords']=False
+    ds = xmitgcm.open_mdsdataset(path, **kwargs)
+    fixed = {
+        k: v.astype(v.dtype.newbyteorder('<'))
+        if v.dtype.kind in 'fi' and v.dtype.byteorder == '>'
+        else v
+        for k, v in ds.coords.items()
+    }
+    return ds.assign_coords(fixed)
 
 # 运行逻辑概述：
 # 1) 程序从命令行接收一个输入文件路径（MITgcm 风格的参数文件），可选的 --json-out 指定输出 JSON 文件路径。
