@@ -25,40 +25,39 @@
 ## 风速强迫
  uwindstartdate1 = 19400116,
  vwindstartdate1 = 19400116,
- uwindperiod     = -12.,
- vwindperiod     = -12.,
+ uwindperiod     = -1.,
+ vwindperiod     = -1.,
  uwindfile  = 'exf_uwind.bin',
  vwindfile  = 'exf_vwind.bin',
-## 风应力强迫
+# 温盐强迫
+## 2m气温
+ atempstartdate1  = 19400116,
+ atempperiod      = -1.,
+ atempfile        = 'exf_atemp.bin',
+## 2m比湿
+ aqhstartdate1    = 19400116,
+ aqhperiod        = -1.,
+ aqhfile          = 'exf_aqh.bin',
+## 下行短波辐射
+ swdownstartdate1 = 19400116,
+ swdownperiod     = -1.,
+ swdownfile       = 'exf_swdown.bin',
+## 下行长波辐射
+ lwdownstartdate1 = 19400116,
+ lwdownperiod     = -1.,
+ lwdownfile       = 'exf_lwdown.bin',
+## 总降水
+ precipstartdate1 = 19400116,
+ precipperiod     = -1.,
+ precipfile       = 'exf_precip.bin',
+
+ ## 风应力强迫
 # ustressstartdate1 = 19400116,
 # vstressstartdate1 = 19400116,
 # ustressperiod     = -12.,
 # vstressperiod     = -12.,
 # ustressfile  = 'exf_ustress.bin',
 # vstressfile  = 'exf_vstress.bin',
-
-# 温盐强迫
-## 2m气温
- atempstartdate1  = 19400116,
- atempperiod      = -12.,
- atempfile        = 'exf_atemp.bin',
-## 2m比湿
- aqhstartdate1    = 19400116,
- aqhperiod        = -12.,
- aqhfile          = 'exf_aqh.bin',
-## 下行短波辐射
- swdownstartdate1 = 19400116,
- swdownperiod     = -12.,
- swdownfile       = 'exf_swdown.bin',
-## 下行长波辐射
- lwdownstartdate1 = 19400116,
- lwdownperiod     = -12.,
- lwdownfile       = 'exf_lwdown.bin',
-## 总降水
- precipstartdate1 = 19400116,
- precipperiod     = -12.,
- precipfile       = 'exf_precip.bin',
-
 # 净通量形式
 ## 净热量通量
 # hfluxstartdate1 = 19400116,

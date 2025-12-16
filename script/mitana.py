@@ -8,7 +8,6 @@ from pathlib import Path
 outdir = '../output/'
 dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
-print(dirs)
 path = dirs[-1]
 
 a = open_mds(path,prefix=['U','V','T','S'],ref_date='1940-01-16')
