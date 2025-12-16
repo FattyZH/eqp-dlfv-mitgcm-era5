@@ -51,7 +51,7 @@
  precipperiod     = -1.,
  precipfile       = 'exf_precip.bin',
 
- ## 风应力强迫
+## 风应力强迫
 # ustressstartdate1 = 19400116,
 # vstressstartdate1 = 19400116,
 # ustressperiod     = -12.,
