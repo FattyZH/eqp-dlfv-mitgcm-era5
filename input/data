@@ -44,7 +44,8 @@
 
 # Time stepping parameters
  &PARM03
- rwSuffixType=2,
+# 由于受到32位整型限制，用秒作为输出命名只能运行68年
+# rwSuffixType=2,
 # pickupSuff='',
 # startTime=0.,
  endTime = 2708683200.,
