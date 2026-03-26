@@ -48,7 +48,7 @@
 # rwSuffixType=2,
 # pickupSuff='',
 # startTime=0.,
- endTime = 2708683200.,
+ endTime = 946728000.,
 # endTime = 315576000.,
 # 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
  deltaT=1350.,
@@ -78,7 +78,7 @@
  bathyFile='bathy.bin',
  hydrogThetaFile='init_T.bin',
  hydrogSaltFile='init_S.bin',
- uVelInitFile='init_U.bin',
- vVelInitFile='init_V.bin',
- pSurfInitFile='init_P.bin',
+# uVelInitFile='init_U.bin',
+# vVelInitFile='init_V.bin',
+# pSurfInitFile='init_P.bin',
  &
