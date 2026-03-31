@@ -3,15 +3,23 @@ import argparse
 import json
 from typing import Dict, Any, List
 import xmitgcm
-from os.path import join
+from os.path import join,exists
 
 def open_mds(path, **kwargs):
-    if 'ref_date' not in kwargs:
-        data = parse_file(join(path,'data.cal'))
+    config_path = {
+        'data':join(path,'data'),
+        'cal':join(path,'data.cal'),
+    }
+    if exists(config_path['cal']) and 'ref_date' not in kwargs:
+        data = parse_file(config_path['cal'])
         c = data['CAL_NML']
         d1, d2 = c['startDate_1'], c.get('startDate_2', 0)
         s = f"{d1:08d}{d2:06d}"
         kwargs['ref_date'] = f"{s[:4]}-{s[4:6]}-{s[6:8]} {s[8:10]}:{s[10:12]}:{s[12:14]}"
+    
+    if exists(config_path['data']) and 'delta_t' not in kwargs:
+        data = parse_file(config_path['data'])
+        kwargs['delta_t'] = data['PARM03']['deltaT']
     if 'grid_vars_to_coords' not in kwargs:
         kwargs['grid_vars_to_coords']=False
     ds = xmitgcm.open_mdsdataset(path, **kwargs)
