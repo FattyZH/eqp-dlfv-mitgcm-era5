@@ -21,11 +21,15 @@ def hmnc(z, p):
     inc = np.angle(mf1*mf2)/2
     pha = inc-np.angle(mf1)
     return r, pha, major, minor, inc
-esdata = mit_utils.open_mds('../../output/251222_122739',prefix='dync')
+# exp = '260407_161702'
+exp = '260407_163243'
+esdata = mit_utils.open_mds('../../output/'+exp,prefix='dync')
+esdata = esdata.sel(time=slice('2014-01-01','2019-12-31'))
+print(esdata['time'][-1].values)
 lon1 = esdata['XG'].values
 lat1 = esdata['YC'].values
 dep1 = -esdata['Z'].values
-u1 = esdata['UVEL'][-180:, :, lat1 == 0, :].squeeze().values #取最后15年赤道断面数据
+u1 = esdata['UVEL'][-120:, :, lat1 == 0, :].squeeze().values #取最后15年赤道断面数据
 u1[:,np.all(u1 == 0, axis=0)] = np.nan
 r1, ph1,maj1 = hmnc(u1, 12)[:3]
 mph1 = (12/(2*np.pi)*ph1+.5) % 12+1
@@ -65,8 +69,9 @@ plt.contourf(lon1, dep1, maj1,np.arange(0, 0.21, 0.02),extend='max')
 plt.colorbar(**cbdt)
 plt.axvline(142, linestyle='--', color='w')
 plt.plot(tray['x'].T, tray['z'].T, 'r--')
-ax.invert_yaxis()
 plt.xlim(xl)
+plt.ylim(0,4400)
+ax.invert_yaxis()
 plt.title(r'(a) Explained Variance of $\sf{U}$ (%)', fontdict=btxdt)
 plt.gca().set_ylabel('Depth (m)',fontsize=16)
 
@@ -80,12 +85,14 @@ cb.set_ticks(np.arange(2.5, 12, 3))
 cb.set_ticklabels(label)
 plt.axvline(142, linestyle='--', color='w')
 plt.plot(tray['x'].T, tray['z'].T, 'r--')
-ax.invert_yaxis()
 plt.xlim(xl)
+plt.ylim(0,4400)
+ax.invert_yaxis()
+
 plt.title('(b) Phase of $\sf{U}$ (Month)', fontdict=btxdt)
 plt.gca().yaxis.set_ticks_position('right')
 plt.gca().yaxis.set_label_position('right')
 plt.gca().set_ylabel('Depth (m)',fontsize=16)
 #%%
-plt.savefig('年调和分析_251222.png', bbox_inches='tight')
+plt.savefig(f'年调和分析_{exp}.png', bbox_inches='tight')
 
