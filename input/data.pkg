@@ -6,6 +6,6 @@
  useCAL=.TRUE.,
  useOBCS=.TRUE.,
  useGMRedi=.TRUE.,
- usePP81=.TRUE.,
- useKPP=.FALSE.,
+ usePP81=.FALSE.,
+ useKPP=.TRUE.,
  &

@@ -22,10 +22,11 @@ def hmnc(z, p):
     pha = inc-np.angle(mf1)
     return r, pha, major, minor, inc
 # exp = '260407_161702'
-exp = '260407_163243'
+exp = '260408_151816'
 esdata = mit_utils.open_mds('../../output/'+exp,prefix='dync')
-esdata = esdata.sel(time=slice('2014-01-01','2019-12-31'))
 print(esdata['time'][-1].values)
+# esdata = esdata.sel(time=slice('2014-01-01','2019-12-31'))
+time = esdata['time'].values.astype('M8[D]')
 lon1 = esdata['XG'].values
 lat1 = esdata['YC'].values
 dep1 = -esdata['Z'].values
@@ -41,12 +42,7 @@ plt.rcdefaults()
 plt.rcParams.update(
     {
         'axes.facecolor': 'gray',
-        'font.family': 'STIXGeneral',
-        'mathtext.fontset': 'custom',
-        'mathtext.rm': 'STIXGeneral',
-        'mathtext.it': 'STIXGeneral:italic',
-        'mathtext.bf': 'STIXGeneral:bold',
-        'mathtext.sf': 'STIXGeneral:bold:italic',
+        # 'font.family': 'STIXGeneral',
         'image.cmap': 'RdYlBu_r',
         'contour.negative_linestyle': '-',
         'contour.linewidth': 0.8,
@@ -94,5 +90,8 @@ plt.gca().yaxis.set_ticks_position('right')
 plt.gca().yaxis.set_label_position('right')
 plt.gca().set_ylabel('Depth (m)',fontsize=16)
 #%%
-plt.savefig(f'年调和分析_{exp}.png', bbox_inches='tight')
+print(time.dtype)
+t1 = time[0].item().strftime('%y%m')
+t2 = time[-1].item().strftime('%y%m')
+plt.savefig(f'年调和分析_{exp}_{t1}-{t2}.png', bbox_inches='tight')
 
