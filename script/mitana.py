@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 from mit_utils import open_mds
 from pathlib import Path
 
-outdir = '../output/'
+outdir = 'output/'
 dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
-path = dirs[-1]
+path = dirs[-4]
 name = path.name
-a = open_mds(path,prefix=['dync'],ref_date='1940-01-16')
+a = open_mds(path,prefix=['dync'])
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 
