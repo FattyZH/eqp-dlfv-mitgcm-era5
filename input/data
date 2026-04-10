@@ -48,10 +48,11 @@
 # rwSuffixType=2,
 # pickupSuff='',
 # startTime=0.,
- endTime = 1130814000.,
+ endTime = 1128184200.,
 # endTime = 315576000.,
 # 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
- deltaT=1350.,
+# deltaT=1350.,
+ deltaT=1080.,
 # deltaTtracer=1600.,
  monitorFreq=2629800.,
  monitorSelect=2,
