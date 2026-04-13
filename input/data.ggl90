@@ -3,8 +3,8 @@
 # =====================================================================
  &GGL90_PARM01
  GGL90writeState=.TRUE.,
- mxlMaxFlag=2,
- GGL90TKEmin = 1.E-6,
+ mxlMaxFlag=1,
+ GGL90TKEmin=1.E-6,
 #GGL90ck=0.1,
 #GGL90ceps = 0.7,
 #GGL90m2 = 3.75,
