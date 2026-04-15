@@ -21,7 +21,7 @@ def hmnc(z, p):
     inc = np.angle(mf1*mf2)/2
     pha = inc-np.angle(mf1)
     return r, pha, major, minor, inc
-exp = '260410_164626'
+exp = '260413_171225'
 esdata = mit_utils.open_mds('../../output/'+exp,prefix='dync')
 print(esdata['time'][-1].values)
 esdata = esdata.sel(time=slice('2014-01-01','2019-12-31'))
@@ -36,7 +36,6 @@ mph1 = (12/(2*np.pi)*ph1+.5) % 12+1
 tray = sio.loadmat('rossbytray.mat', squeeze_me=True)
 tray['x'] = tray['x']-2
 # %%
-
 plt.rcdefaults()
 plt.rcParams.update(
     {

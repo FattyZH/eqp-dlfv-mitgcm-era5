@@ -7,16 +7,14 @@ import numpy as np
 from netCDF4 import Dataset
 import scipy.io as sio
 import xarray as xr
-latlim = slice(-5.5,5.5)
 import mit_utils
 
-exp = '260412_090002'
-# hbl = mit_utils.open_mds('../../output/'+exp,prefix='PPdiffKr').sel(YC=slice(-2,2))
-viscAz = mit_utils.open_mds('../../output/'+exp,prefix='PPviscAr').sel(YC=slice(-2,2))
+exp = '260413_171225'
+viscAz = mit_utils.open_mds('../../output/'+exp,prefix='GGL90viscArU').sel(YC=slice(-2,2))
 display(viscAz)
 #%%
 ind = slice(-130,-10)
-viscAzm = viscAz['PPviscAr'][ind,:].mean('YC')
+viscAzm = viscAz['GGL90viscArU'][ind,:].mean('YC')
 viscAzm.mean('time').plot(cmap='RdYlBu_r')
 #%%
 import matplotlib.colors as colors
@@ -29,7 +27,7 @@ plt.figure(figsize=(10,14))
 for i in range(0,12,3):
     cnt+=1
     plt.subplot(4,1,cnt)
-    plt.contourf(x,-z,np.log10(kzs[i,:,:]), levels=1.5+np.linspace(-5.5, -1.5, 4*4+1),extend='both', cmap='RdYlBu_r')
+    plt.contourf(x,-z,np.log10(kzs[i,:,:]), levels=np.linspace(-5.5, -1.5, 4*4+1),extend='both', cmap='RdYlBu_r')
     plt.gca().invert_yaxis()
     plt.colorbar()
     plt.ylim(400,0)
