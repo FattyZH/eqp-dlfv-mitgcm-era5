@@ -8,13 +8,13 @@ from pathlib import Path
 outdir = 'output/'
 dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
-path = dirs[-4]
+path = dirs[-1]
 name = path.name
 a = open_mds(path,prefix=['dync'])
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 
-id = -1
+id = -3
 lev = 0
 plt.figure(figsize=(12,12))
 plt.subplot(4,1,1)
