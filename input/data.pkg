@@ -5,7 +5,7 @@
  useEXF=.TRUE.,
  useCAL=.TRUE.,
  useOBCS=.TRUE.,
- useGMRedi=.TRUE.,
+ useGMRedi=.FALSE.,
  useKPP=.FALSE.,
  useGGL90=.TRUE.,
  &
