@@ -5,7 +5,7 @@
  viscAh=0.,
  viscA4=1.E11,
  no_slip_sides =.TRUE.,
- # 无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
+# 无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
  sideDragFactor = 0.5,
 # 垂直粘性 (动量)
  viscAr=1.E-5,
