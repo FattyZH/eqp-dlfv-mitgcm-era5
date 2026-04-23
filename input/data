@@ -4,9 +4,9 @@
 # 水平粘性 (动量)
  viscAh=0.,
  viscA4=1.E11,
- no_slip_sides =.False.,
+ no_slip_sides =.TRUE.,
 # 无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
- sideDragFactor = 0.5,
+ sideDragFactor = 1,
 # 垂直粘性 (动量)
  viscAr=1.E-5,
  no_slip_bottom=.FALSE.,

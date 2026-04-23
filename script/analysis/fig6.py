@@ -21,10 +21,10 @@ def hmnc(z, p):
     inc = np.angle(mf1*mf2)/2
     pha = inc-np.angle(mf1)
     return r, pha, major, minor, inc
-exp = '260413_171225'
+exp = '260422_111021'
 esdata = mit_utils.open_mds('../../output/'+exp,prefix='dync')
 print(esdata['time'][-1].values)
-esdata = esdata.sel(time=slice('2014-01-01','2019-12-31'))
+esdata = esdata.sel(time=slice('1997-01-01','2005-12-31'))
 time = esdata['time'].values.astype('M8[D]')
 lon1 = esdata['XG'].values
 lat1 = esdata['YC'].values
