@@ -4,6 +4,69 @@ import json
 from typing import Dict, Any, List
 import xmitgcm
 from os.path import join,exists
+import numpy as np
+
+def parse_diag(filename: str):
+    """解析文件"""
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+    
+    i = 0
+    for idx, line in enumerate(lines):
+        if '---' in line and 'end of header' in line:
+            i = idx + 1
+            break
+    
+    temp_data = {}
+    
+    while i < len(lines):
+        line = lines[i].strip()
+        
+        if line.startswith('field :'):
+            parts = line.split(';')
+            field_name = parts[0].split(':')[1].strip()
+            iter_num = int(parts[1].split('=')[1].strip())
+            
+            if field_name not in temp_data:
+                temp_data[field_name] = {}
+            
+            i += 2  # 跳过列标题
+            
+            values = []
+            while i < len(lines):
+                data_line = lines[i].strip()
+                if not data_line or data_line.startswith('field :') or data_line.startswith('#'):
+                    break
+                
+                parts = data_line.split()
+                if len(parts) >= 6:
+                    try:
+                        values.append([float(parts[1]), float(parts[2]), 
+                                        float(parts[3]), float(parts[4]), float(parts[5])])
+                    except ValueError:
+                        pass
+                i += 1
+            
+            temp_data[field_name][iter_num] = np.array(values)
+            continue
+        
+        i += 1
+    
+    # 转换为3D数组：(n_iter, n_level, n_stats)
+    data = {}
+    for field_name, iter_data in temp_data.items():
+        iters = sorted(iter_data.keys())
+        n_iter = len(iters)
+        n_level = iter_data[iters[0]].shape[0]
+        
+        matrix = np.zeros((n_iter, n_level, 5))
+        for i_iter, iter_num in enumerate(iters):
+            matrix[i_iter, :, :] = iter_data[iter_num]
+        
+        data[field_name] = matrix
+    data['iter'] = np.array(iters)  # 添加迭代步数信息
+    return data
+
 ex_vars = {
     'GGL90viscArU': dict(dims=['k_l', 'j', 'i_g'], attrs=dict(
         standard_name="GGL90_vertical_eddy_visc_U",
