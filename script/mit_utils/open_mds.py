@@ -17,7 +17,7 @@ ex_vars = {
         units='m2 s-1')),
 }
 
-def open_mds(path, **kwargs):
+def open_mds(path, prefix=None, **kwargs):
     config_path = {
         'data':join(path,'data'),
         'cal':join(path,'data.cal'),
@@ -34,7 +34,7 @@ def open_mds(path, **kwargs):
         kwargs['delta_t'] = data['PARM03']['deltaT']
     if 'grid_vars_to_coords' not in kwargs:
         kwargs['grid_vars_to_coords']=False
-    ds = xmitgcm.open_mdsdataset(path,extra_variables=ex_vars, **kwargs)
+    ds = xmitgcm.open_mdsdataset(path, prefix=prefix,extra_variables=ex_vars, **kwargs)
     fixed = {
         k: v.astype(v.dtype.newbyteorder('<'))
         if v.dtype.kind in 'fi' and v.dtype.byteorder == '>'
