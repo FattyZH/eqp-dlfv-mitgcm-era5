@@ -4,6 +4,7 @@ log
 run
 output
 data
+**/*.ipynb
 **/*.png
 **/*.jpg
 **/__pycache__/
