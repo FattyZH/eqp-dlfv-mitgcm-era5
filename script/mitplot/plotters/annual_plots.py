@@ -30,7 +30,7 @@ def hmnc(z, p):
 @register_plot("u_sec_eq_ann")
 def plot_ann_sec(ds: xr.Dataset,
                      ax: plt.Axes | None = None,
-                     lon_lim: slice = slice(None),
+                     lon_lim: slice = slice(130,275),
                      lat: float = 0.0,
                      time: slice | None = None,
                      z_max: float = 4400.0,
@@ -78,7 +78,7 @@ def plot_ann_sec(ds: xr.Dataset,
     ax.set_xlim(xl)
     ax.set_ylim(0,z_max)
     ax.invert_yaxis()
-    ax.set_title(r'Explained Variance of U (%)', fontdict=btxdt)
+    ax.set_title(r'Amplitude of U (m/s)', fontdict=btxdt)
     ax.set_ylabel('Depth (m)',fontsize=16)
     
 
@@ -153,7 +153,7 @@ def plot_ann_hor(ds: xr.Dataset,
     ax.xaxis.set_major_formatter(LongitudeFormatter())
     ax.yaxis.set_major_formatter(LatitudeFormatter())
 
-    ax.set_title('Explained Variance of U (%)', fontdict=btxdt)
+    ax.set_title('Amplitude of U (m/s)', fontdict=btxdt)
     
 
     ax = fig.add_subplot(gs[1])
