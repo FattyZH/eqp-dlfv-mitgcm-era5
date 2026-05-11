@@ -18,15 +18,27 @@
 #  fileFlags(n)     : specific code (8c string) for output file "n"
 #--------------------
  &DIAGNOSTICS_LIST
-  fileName(1) = 'dync',
+  fileName(1) = 'diag_3d',
   frequency(1) = 2629800.,
-#  levels(1:6,1) = 1.
   fields(1:6,1)  = 'UVEL    ','VVEL    ','WVEL    ',
-                   'THETA   ','SALT    ','PHIHYD  '
+                   'THETA   ','SALT    ','PHIHYD  ',
 
-  fileName(2) = 'surf',
+  fileName(3) = 'diag_3d_clim',
+  averagingFreq(3) = 2629800.,
+  averagingPhase(3) = 252460800.,
+  repeatCycle(3) = 12,
+  fields(1:6,3)  = 'UVEL    ','VVEL    ','WVEL    ',
+                   'THETA   ','SALT    ','PHIHYD  ',
+
+  fileName(2) = 'diag_2d',
   frequency(2) = 2629800.,
-  fields(1:6,2)  = 'ETAN','EXFevap','EXFtaux','EXFhs','EXFlwnet','EXFhl'
+  fields(1:5,2)  = 'ETAN','EXFtaux','EXFevap','EXFhs','EXFhl',
+
+  fileName(4) = 'diag_2d_clim',
+  averagingFreq(4) = 2629800.,
+  averagingPhase(4) = 252460800.,
+  repeatCycle(4) = 12,
+  fields(1:5,4)  = 'ETAN','EXFtaux','EXFevap','EXFhs','EXFhl',
 
  &
 

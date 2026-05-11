@@ -4,11 +4,12 @@
 # 水平粘性 (动量)
  viscAh=0.,
  viscA4=1.E11,
- no_slip_sides =.False.,
-# 无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
- sideDragFactor = 0,
-# 垂直粘性 (动量)
+# 背景垂直粘性 (动量)
  viscAr=1.E-5,
+# 侧地形边界与无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
+ no_slip_sides =.False.,
+ sideDragFactor = 0,
+# 底地形边界
  no_slip_bottom=.FALSE.,
 # 水平粘性 (温盐)
  diffKhT=100.,
@@ -30,8 +31,6 @@
 # 自由表面与守恒性
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
- tempStepping=.TRUE.,
- saltStepping=.TRUE.,
 # 输出到单一文件（并行写入，需要文件系统支持）
 # globalFiles=.TRUE.,
 # 单CPU读写（有额外通信开销，无其他限制）
@@ -46,19 +45,15 @@
 
 # Time stepping parameters
  &PARM03
-# 由于受到32位整型限制，用秒作为输出命名只能运行68年
-# rwSuffixType=2,
+# 由于受到32位整型限制，用秒作为输出命名只能运行68年，因此rwSuffixType建议默认
+# 重启文件名
 # pickupSuff='',
-# startTime=0.,
- endTime = 1128184200.,
-# endTime = 315576000.,
+ endTime = 1009843200.,
 # 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
- deltaT=1350.,
-# deltaT=1080.,
-# deltaTtracer=1600.,
- monitorFreq=2629800.,
- monitorSelect=2,
+ deltaT=1080.,
  dumpFreq=2629800.,
+ monitorFreq=2629800.,
+ monitorSelect=1,
  pChkptFreq=315576000.,
  chkptFreq =31557600.,
  &
@@ -78,6 +73,7 @@
  &
 
  &PARM05
+ mdsioLocalDir='mds/'
  bathyFile='bathy.bin',
  hydrogThetaFile='init_T.bin',
  hydrogSaltFile='init_S.bin',

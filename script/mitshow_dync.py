@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from mit_utils import open_mds
 from pathlib import Path
 
-outdir = 'output/'
+outdir = '../output/'
 dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
 path = dirs[-1]

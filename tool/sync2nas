@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# ============================================================
+# 配置参数（按实际情况修改）
+# ============================================================
+LOCAL_BASE=~/eqp-dlfv-mitgcm-era5/output              # 超算本地output根目录
+REMOTE_BASE=nas054:data/Model-Output/EQP-DLFV-MITGCM     # NAS远程output根目录
+LOG_DIR=~/eqp-dlfv-mitgcm-era5/log                    # 日志目录
+
+# ============================================================
+# 参数检查
+# ============================================================
+if [ -z "$1" ]; then
+    echo "用法: $0 <工作目录名>"
+    echo "示例: $0 260503_035302"
+    exit 1
+fi
+
+RUNDIR=$1
+LOCAL_PATH=$LOCAL_BASE/$RUNDIR
+REMOTE_PATH=$REMOTE_BASE/$RUNDIR
+LOG_FILE=$LOG_DIR/sync_${RUNDIR}.log
+
+# ============================================================
+# 检查本地目录是否存在
+# ============================================================
+if [ ! -d "$LOCAL_PATH" ]; then
+    echo "错误: 本地目录不存在: $LOCAL_PATH"
+    exit 1
+fi
+
+# ============================================================
+# 后台运行
+# ============================================================
+mkdir -p $LOG_DIR
+
+nohup bash -c "
+    echo '开始复制: $LOCAL_PATH → $REMOTE_PATH'
+    echo '时间: '\$(date)
+    rclone copy '$LOCAL_PATH' '$REMOTE_PATH' --progress
+    if [ \$? -eq 0 ]; then
+        echo '复制完成: '\$(date)
+    else
+        echo '复制失败，请检查NAS连接'
+    fi
+" > $LOG_FILE 2>&1 &
+
+echo "同步已在后台启动，PID=$!"
+echo "日志文件: $LOG_FILE"
+echo "查看进度: tail -f $LOG_FILE"
