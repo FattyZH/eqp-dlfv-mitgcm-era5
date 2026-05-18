@@ -10,7 +10,7 @@ dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
 path = dirs[-1]
 name = path.name
-a = open_mds(path,prefix=['dync'])
+a = open_mds(path,prefix=['diag3d'])
 print(a)
 # id = a.indexes['T'].get_loc('1940-03-01 00:00:00')
 

@@ -37,7 +37,7 @@ OMP_THREADS=0
 ROOTDIR=""
 BUILD_OPTS_FILE="linux_amd64_gfortran"
 GENMAKE_ARGS=()
-SKIP_BUILD=false  # 新增变量
+SKIP_BUILD=false  # 默认不跳过build
 
 # 参数解析
 while [ "$#" -gt 0 ]; do
@@ -143,9 +143,10 @@ if [ ! -d ../../input ]; then
 fi
 # 遍历 ../../input 目录中的文件
 for file in ../../input/*; do
-    if [[ "$file" == *.bin ]]; then
-        # 对于 .bin 文件，创建符号链接
-        ln -s "$file" .
+    name=$(basename "$file")
+    if [[ -d "$file" || "$file" == *.bin ]]; then
+        # 对于文件夹或者.bin 文件，创建符号链接
+        ln -s "$(realpath "$file")" "$name"
     else
         # 对于其他文件，直接复制
         cp "$file" .

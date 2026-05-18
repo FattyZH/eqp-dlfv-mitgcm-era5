@@ -1,0 +1,130 @@
+# *********************
+# External Forcing Data
+# *********************
+ &EXF_NML_01
+# 启用输入变量范围检查
+ useExfCheckRange  = .TRUE.,
+ useExfYearlyFields = .TRUE.,
+# 风应力可定义在A或C网格，风速仅支持A网格
+# 风应力模式下，需感热/潜热通量，将自动反演风速
+# 是否使用风速计算风应力/或直接使用风应力输入
+ useAtmWind = .TRUE.,
+# readStressOnAgrid = .TRUE.,
+# 使用相对风速（考虑海流反馈，只有useAtmWind时有效）
+ useRelativeWind=.TRUE.,
+# 拖曳系数缩放因子（用于调整风应力强度）
+# exf_scal_BulkCdn=1.0,
+# 短波反照率（赤道区域典型值，低于默认0.1）
+ exf_albedo=0.05,
+# 天顶角修正反照率：0=关闭，1=查表（推荐），2=公式，3=日循环；赤道区域影响小，故关闭
+# select_ZenAlbedo = 0,
+# 风场高度
+ hu = 10.0
+# 温度和比湿高度
+ ht = 10.0
+ &
+
+ &EXF_NML_02
+
+# 动量强迫
+## 风速强迫
+ uwindstartdate1   = 19900101,
+ uwindstartdate2   = 103000,
+ uwindperiod       = 86400.,
+ uwindfile         = 'exf/uwind',
+ vwindstartdate1   = 19900101,
+ vwindstartdate2   = 103000,
+ vwindperiod       = 86400.,
+ vwindfile         = 'exf/vwind',
+# 温盐强迫
+## 2m气温
+ atempstartdate1  = 19900101,
+ atempstartdate2  = 103000,
+ atempperiod      = 86400.,
+ atempfile        = 'exf/atemp',
+## 2m比湿
+ aqhstartdate1    = 19900101,
+ aqhstartdate2    = 103000,
+ aqhperiod        = 86400.,
+ aqhfile          = 'exf/aqh',
+## 下行短波辐射
+ swdownstartdate1 = 19900101,
+ swdownstartdate2 = 120000,
+ swdownperiod     = 86400.,
+ swdownfile       = 'exf/swdown',
+## 下行长波辐射
+ lwdownstartdate1 = 19900101,
+ lwdownstartdate2 = 120000,
+ lwdownperiod     = 86400.,
+ lwdownfile       = 'exf/lwdown',
+## 总降水
+ precipstartdate1 = 19900101,
+ precipstartdate2 = 120000,
+ precipperiod     = 86400.,
+ precipfile       = 'exf/precip',
+ &
+
+# 本 namelist 组用于定义 MITgcm 模型中第3组外部强迫变量的读取方式、缩放因子、常量值或线性校正参数，一般不需要启用
+ &EXF_NML_03
+ &
+
+# 本 namelist 组用于对强迫场进行空间插值,USE_EXF_INTERPOLATION启用时
+ &EXF_NML_04
+ uwind_lon0    = 108.0000,
+ uwind_lon_inc = 0.5625,
+ uwind_lat0    = -29.4851,
+ uwind_lat_inc = 0.5616,
+ uwind_nlon    = 337,
+ uwind_nlat    = 106,
+
+ vwind_lon0    = 108.0000,
+ vwind_lon_inc = 0.5625,
+ vwind_lat0    = -29.4851,
+ vwind_lat_inc = 0.5616,
+ vwind_nlon    = 337,
+ vwind_nlat    = 106,
+
+ atemp_lon0    = 108.0000,
+ atemp_lon_inc = 0.5625,
+ atemp_lat0    = -29.4851,
+ atemp_lat_inc = 0.5616,
+ atemp_nlon    = 337,
+ atemp_nlat    = 106,
+
+ aqh_lon0    = 108.0000,
+ aqh_lon_inc = 0.5625,
+ aqh_lat0    = -29.4851,
+ aqh_lat_inc = 0.5616,
+ aqh_nlon    = 337,
+ aqh_nlat    = 106,
+
+ swdown_lon0    = 108.0000,
+ swdown_lon_inc = 0.5625,
+ swdown_lat0    = -29.4851,
+ swdown_lat_inc = 0.5616,
+ swdown_nlon    = 337,
+ swdown_nlat    = 106,
+
+ lwdown_lon0    = 108.0000,
+ lwdown_lon_inc = 0.5625,
+ lwdown_lat0    = -29.4851,
+ lwdown_lat_inc = 0.5616,
+ lwdown_nlon    = 337,
+ lwdown_nlat    = 106,
+
+ precip_lon0    = 108.0000,
+ precip_lon_inc = 0.5625,
+ precip_lat0    = -29.4851,
+ precip_lat_inc = 0.5616,
+ precip_nlon    = 337,
+ precip_nlat    = 106,
+ &
+ 
+# 当开启OBCS开边界时设定开边界场的时间插值
+ &EXF_NML_OBCS
+# useOBCSYearlyFields = .FALSE.,
+ obcsNstartdate1=19930116,
+ obcsNperiod    =-12.,   
+ obcsSstartdate1=19930116,
+ obcsSperiod    =-12.,  
+ &
