@@ -12,8 +12,8 @@
 # 底地形边界
  no_slip_bottom=.FALSE.,
 # 水平粘性 (温盐)
- diffKhT=100.,
- diffKhS=100.,
+ diffKhT=10.,
+ diffKhS=10.,
  diffK4T=1.E11,
  diffK4S=1.E11,
 # 垂直粘性 (温盐)
@@ -31,6 +31,10 @@
 # 自由表面与守恒性
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
+ tempAdvScheme=30,
+ saltAdvScheme=30,
+ multiDimAdvection=.TRUE.,
+ staggerTimeStep=.TRUE.,
 # 输出到单一文件（并行写入，需要文件系统支持）
 # globalFiles=.TRUE.,
 # 单CPU读写（有额外通信开销，无其他限制）
@@ -56,6 +60,7 @@
  monitorSelect=1,
  pChkptFreq=315576000.,
  chkptFreq =31557600.,
+ abEps=0.1,
  &
 
 # Gridding parameters

@@ -79,7 +79,7 @@ def monitor_simulation(ind=-1,keys=None,out_path=None,fig_name='监控'):
 def main():
     # 可自定义要监控的变量
     key_list = ['momKE_ave', 'ETAN_std']
-    for i in range(-5,0):
+    for i in range(-1,0):
         monitor_simulation(ind=i, keys=key_list)
 
 

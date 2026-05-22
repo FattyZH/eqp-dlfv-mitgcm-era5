@@ -2,8 +2,8 @@
 # External Forcing Data
 # *********************
  &EXF_NML_01
-# 启用输入变量范围检查
- useExfCheckRange  = .TRUE.,
+# 启用输入变量数值范围检查
+ useExfCheckRange  = .FALSE.,
  useExfYearlyFields = .TRUE.,
 # 风应力可定义在A或C网格，风速仅支持A网格
 # 风应力模式下，需感热/潜热通量，将自动反演风速
@@ -70,53 +70,53 @@
 
 # 本 namelist 组用于对强迫场进行空间插值,USE_EXF_INTERPOLATION启用时
  &EXF_NML_04
- uwind_lon0    = 108.0000,
- uwind_lon_inc = 0.5625,
- uwind_lat0    = -29.4851,
- uwind_lat_inc = 0.5616,
- uwind_nlon    = 337,
- uwind_nlat    = 106,
+ uwind_lon0     = 108.0000,
+ uwind_lon_inc  = 0.5625,
+ uwind_nlon     = 337,
+ uwind_lat0     = -29.4851,
+ uwind_lat_inc  = 105*0.5616,
+ uwind_nlat     = 106,
 
- vwind_lon0    = 108.0000,
- vwind_lon_inc = 0.5625,
- vwind_lat0    = -29.4851,
- vwind_lat_inc = 0.5616,
- vwind_nlon    = 337,
- vwind_nlat    = 106,
+ vwind_lon0     = 108.0000,
+ vwind_lon_inc  = 0.5625,
+ vwind_nlon     = 337,
+ vwind_lat0     = -29.4851,
+ vwind_lat_inc  = 105*0.5616,
+ vwind_nlat     = 106,
 
- atemp_lon0    = 108.0000,
- atemp_lon_inc = 0.5625,
- atemp_lat0    = -29.4851,
- atemp_lat_inc = 0.5616,
- atemp_nlon    = 337,
- atemp_nlat    = 106,
+ atemp_lon0     = 108.0000,
+ atemp_lon_inc  = 0.5625,
+ atemp_nlon     = 337,
+ atemp_lat0     = -29.4851,
+ atemp_lat_inc  = 105*0.5616,
+ atemp_nlat     = 106,
 
- aqh_lon0    = 108.0000,
- aqh_lon_inc = 0.5625,
- aqh_lat0    = -29.4851,
- aqh_lat_inc = 0.5616,
- aqh_nlon    = 337,
- aqh_nlat    = 106,
+ aqh_lon0       = 108.0000,
+ aqh_lon_inc    = 0.5625,
+ aqh_nlon       = 337,
+ aqh_lat0       = -29.4851,
+ aqh_lat_inc    = 105*0.5616,
+ aqh_nlat       = 106,
 
  swdown_lon0    = 108.0000,
  swdown_lon_inc = 0.5625,
- swdown_lat0    = -29.4851,
- swdown_lat_inc = 0.5616,
  swdown_nlon    = 337,
+ swdown_lat0    = -29.4851,
+ swdown_lat_inc = 105*0.5616,
  swdown_nlat    = 106,
 
  lwdown_lon0    = 108.0000,
  lwdown_lon_inc = 0.5625,
- lwdown_lat0    = -29.4851,
- lwdown_lat_inc = 0.5616,
  lwdown_nlon    = 337,
+ lwdown_lat0    = -29.4851,
+ lwdown_lat_inc = 105*0.5616,
  lwdown_nlat    = 106,
 
  precip_lon0    = 108.0000,
  precip_lon_inc = 0.5625,
- precip_lat0    = -29.4851,
- precip_lat_inc = 0.5616,
  precip_nlon    = 337,
+ precip_lat0    = -29.4851,
+ precip_lat_inc = 105*0.5616,
  precip_nlat    = 106,
  &
  

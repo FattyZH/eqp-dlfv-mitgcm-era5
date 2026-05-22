@@ -77,7 +77,8 @@ def process_var(var, yr, base_url, print_grid=False):
 
     arr = da.values  # (time, lat, lon)，time = 365*8
     arr = arr.reshape(-1, 8, arr.shape[1], arr.shape[2]).mean(axis=1)
-
+    if var == "precip":
+        arr /= 1000  #kg/m2/s -> m/s
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     out_fname = os.path.join(OUTPUT_DIR, f"{var}_{yr}")
     arr.astype(">f4").tofile(out_fname)

@@ -3,7 +3,7 @@ input/**/*.bin
 log
 run
 output
-data
+data/
 **/*.ipynb
 **/*.png
 **/*.jpg
