@@ -3,7 +3,7 @@
  &PARM01
 # 水平粘性 (动量)
  viscAh=0.,
- viscA4=5.E10,
+ viscA4=2.E10,
 # 背景垂直粘性 (动量)
  viscAr=1.E-5,
 # 侧地形边界与无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
@@ -14,8 +14,8 @@
 # 水平粘性 (温盐)
  diffKhT=100.,
  diffKhS=100.,
- diffK4T=5.E10,
- diffK4S=5.E10,
+ diffK4T=2.E10,
+ diffK4S=2.E10,
 # 垂直粘性 (温盐)
  diffKrT=1.E-5,
  diffKrS=1.E-5,
@@ -35,7 +35,6 @@
  saltAdvScheme=33,
  multiDimAdvection=.TRUE.,
  staggerTimeStep=.TRUE.,
- vectorInvariantMomentum = .TRUE.,
  hFacMin=0.5,
  hFacMinDr=8.,
 
