@@ -3,7 +3,7 @@
  &PARM01
 # 水平粘性 (动量)
  viscAh=0.,
- viscA4=1.E11,
+ viscA4=5.E10,
 # 背景垂直粘性 (动量)
  viscAr=1.E-5,
 # 侧地形边界与无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
@@ -12,10 +12,10 @@
 # 底地形边界
  no_slip_bottom=.FALSE.,
 # 水平粘性 (温盐)
- diffKhT=10.,
- diffKhS=10.,
- diffK4T=1.E11,
- diffK4S=1.E11,
+ diffKhT=100.,
+ diffKhS=100.,
+ diffK4T=5.E10,
+ diffK4S=5.E10,
 # 垂直粘性 (温盐)
  diffKrT=1.E-5,
  diffKrS=1.E-5,
@@ -31,10 +31,14 @@
 # 自由表面与守恒性
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
- tempAdvScheme=30,
- saltAdvScheme=30,
+ tempAdvScheme=33,
+ saltAdvScheme=33,
  multiDimAdvection=.TRUE.,
  staggerTimeStep=.TRUE.,
+ vectorInvariantMomentum = .TRUE.,
+ hFacMin=0.5,
+ hFacMinDr=8.,
+
 # 输出到单一文件（并行写入，需要文件系统支持）
 # globalFiles=.TRUE.,
 # 单CPU读写（有额外通信开销，无其他限制）
@@ -60,7 +64,7 @@
  monitorSelect=1,
  pChkptFreq=315576000.,
  chkptFreq =31557600.,
- abEps=0.1,
+# abEps=0.1,
  &
 
 # Gridding parameters

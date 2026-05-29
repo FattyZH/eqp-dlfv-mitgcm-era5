@@ -8,7 +8,7 @@ from pathlib import Path
 outdir = '../output/'
 dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
-path = dirs[-1]
+path = dirs[-2]
 name = path.name
 a = open_mds(path,prefix=['diag3d'])
 print(a)
