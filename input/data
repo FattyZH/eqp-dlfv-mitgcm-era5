@@ -14,8 +14,8 @@
 # 水平粘性 (温盐)
  diffKhT=100.,
  diffKhS=100.,
- diffK4T=2.E10,
- diffK4S=2.E10,
+# diffK4T=2.E10,
+# diffK4S=2.E10,
 # 垂直粘性 (温盐)
  diffKrT=1.E-5,
  diffKrS=1.E-5,

@@ -1,4 +1,4 @@
 # KPP parameters
  &KPP_PARM01
- KPPwriteState=.TRUE.
+ KPPwriteState=.FALSE.
  &

@@ -2,7 +2,7 @@
 # | Parameters for Gaspar et al. (1990)'s TKE vertical mixing scheme  |
 # =====================================================================
  &GGL90_PARM01
- GGL90writeState=.TRUE.,
+ GGL90writeState=.FALSE.,
  mxlMaxFlag=1,
  GGL90TKEmin=1.E-6,
 #GGL90ck=0.1,
