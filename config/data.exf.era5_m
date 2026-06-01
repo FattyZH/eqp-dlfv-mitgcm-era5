@@ -30,53 +30,53 @@
 # uwindstartdate1   = 19400116,
 # uwindstartdate2   = 120000,
 # uwindperiod       = -1.,
-# uwindfile         = 'exf_uwind.bin',
+# uwindfile         = 'exf/era5_mc/exf_uwind.bin',
 # vwindstartdate1   = 19400116,
 # vwindstartdate2   = 120000,
 # vwindperiod       = -1.,
-# vwindfile         = 'exf_vwind.bin',
+# vwindfile         = 'exf/era5_mc/exf_vwind.bin',
 ## 风应力强迫
  ustressstartdate1 = 19400116,
  ustressstartdate2 = 120000,
  ustressperiod     = -1.,
- ustressfile       = 'exf_ustress.bin',
+ ustressfile       = 'exf/era5_mc/exf_ustress.bin',
  vstressstartdate1 = 19400116,
  vstressstartdate2 = 120000,
  vstressperiod     = -1.,
- vstressfile       = 'exf_vstress.bin',
+ vstressfile       = 'exf/era5_mc/exf_vstress.bin',
 ## 绝对风速（用于计算热盐通量）
 ## 风速文件被优先使用，若未提供则依据useAtmWind决定使用风速计算或是风应力反演
 ## 风应力强迫下，需开启
  wspeedstartdate1  = 19400116,
  wspeedstartdate2  = 120000,
  wspeedperiod      = -1.,
- wspeedfile        = 'exf_wspeed.bin',
+ wspeedfile        = 'exf/era5_mc/exf_wspeed.bin',
 # 温盐强迫
 ## 2m气温
  atempstartdate1  = 19400116,
  atempstartdate2  = 120000,
  atempperiod      = -1.,
- atempfile        = 'exf_atemp.bin',
+ atempfile        = 'exf/era5_mc/exf_atemp.bin',
 ## 2m比湿
  aqhstartdate1    = 19400116,
  aqhstartdate2    = 120000,
  aqhperiod        = -1.,
- aqhfile          = 'exf_aqh.bin',
+ aqhfile          = 'exf/era5_mc/exf_aqh.bin',
 ## 下行短波辐射
  swdownstartdate1 = 19400116,
  swdownstartdate2 = 120000,
  swdownperiod     = -1.,
- swdownfile       = 'exf_swdown.bin',
+ swdownfile       = 'exf/era5_mc/exf_swdown.bin',
 ## 下行长波辐射
  lwdownstartdate1 = 19400116,
  lwdownstartdate2 = 120000,
  lwdownperiod     = -1.,
- lwdownfile       = 'exf_lwdown.bin',
+ lwdownfile       = 'exf/era5_mc/exf_lwdown.bin',
 ## 总降水
  precipstartdate1 = 19400116,
  precipstartdate2 = 120000,
  precipperiod     = -1.,
- precipfile       = 'exf_precip.bin',
+ precipfile       = 'exf/era5_mc/exf_precip.bin',
  &
 
 # 本 namelist 组用于定义 MITgcm 模型中第3组外部强迫变量的读取方式、缩放因子、常量值或线性校正参数，一般不需要启用

@@ -31,8 +31,8 @@
 # 自由表面与守恒性
  implicitFreeSurface=.TRUE.,
  exactConserv=.TRUE.,
- tempAdvScheme=33,
- saltAdvScheme=33,
+ tempAdvScheme=30,
+ saltAdvScheme=30,
  multiDimAdvection=.TRUE.,
  staggerTimeStep=.TRUE.,
  hFacMin=0.5,
