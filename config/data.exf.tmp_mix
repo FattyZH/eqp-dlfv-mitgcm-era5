@@ -31,6 +31,7 @@
  uwindstartdate2   = 120000,
  uwindperiod       = 86400.,
  uwindfile         = 'exf/era5_dy/uwind',
+ 
  vwindstartdate1   = 19900101,
  vwindstartdate2   = 120000,
  vwindperiod       = 86400.,

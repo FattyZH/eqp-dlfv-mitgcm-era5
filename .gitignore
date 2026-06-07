@@ -7,4 +7,5 @@ data/
 **/*.ipynb
 **/*.png
 **/*.jpg
+**/*.nc
 **/__pycache__/

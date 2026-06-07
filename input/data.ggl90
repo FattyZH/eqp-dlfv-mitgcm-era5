@@ -4,7 +4,7 @@
  &GGL90_PARM01
  GGL90writeState=.FALSE.,
  mxlMaxFlag=1,
- GGL90TKEmin=1.E-6,
+# GGL90TKEmin=1.E-8,
 #GGL90ck=0.1,
 #GGL90ceps = 0.7,
 #GGL90m2 = 3.75,

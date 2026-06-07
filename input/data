@@ -35,8 +35,8 @@
  saltAdvScheme=30,
  multiDimAdvection=.TRUE.,
  staggerTimeStep=.TRUE.,
- hFacMin=0.5,
- hFacMinDr=8.,
+ hFacMin=0.1,
+ hFacMinDr=10.,
 
 # 输出到单一文件（并行写入，需要文件系统支持）
 # globalFiles=.TRUE.,

@@ -8,7 +8,7 @@ from pathlib import Path
 outdir = '../output/'
 dirs = [p for p in Path(outdir).iterdir() if p.is_dir()]
 dirs.sort()
-path = dirs[-2]
+path = dirs[-1]
 name = path.name
 a = open_mds(path,prefix=['diag3d'])
 print(a)
@@ -25,7 +25,7 @@ plt.subplot(4,1,3)
 a['THETA'][id,lev].plot(cmap='RdBu_r',vmin=15, vmax=35)
 plt.subplot(4,1,4)
 a['SALT'][id,lev].plot(cmap='RdBu_r',vmin=30, vmax=38)
-plt.savefig(outdir+name+'_state_last.png',dpi=300)
+plt.savefig(outdir+name+'_state_last.png',dpi=300,bbox_inches='tight')
 
 
 id = slice(-12,None)
@@ -39,4 +39,4 @@ plt.subplot(4,1,3)
 a['THETA'][id,lev].mean('time').plot(cmap='RdBu_r',vmin=15, vmax=35)
 plt.subplot(4,1,4)
 a['SALT'][id,lev].mean('time').plot(cmap='RdBu_r',vmin=30, vmax=38)
-plt.savefig(outdir+name+'_state_mean.png',dpi=300)
+plt.savefig(outdir+name+'_state_mean.png',dpi=300,bbox_inches='tight')

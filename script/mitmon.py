@@ -2,7 +2,7 @@ from mit_utils import parse_file ,parse_diag
 import matplotlib.pyplot as plt
 from pathlib import Path
 import numpy as np
-
+import argparse
 
 def monitor_simulation(ind=-1,keys=None,out_path=None,fig_name='监控'):
     """
@@ -20,6 +20,7 @@ def monitor_simulation(ind=-1,keys=None,out_path=None,fig_name='监控'):
     folders = [f for f in out_path.iterdir() if f.is_dir()]
     folders.sort()
     folder = folders[ind] if folders else '.'
+    print(f"监控文件夹: {folder}")
     diag = parse_file(folder / 'data.diagnostics')
 
     stat_name = diag['DIAG_STATIS_PARMS']['stat_fName(1)']
@@ -77,9 +78,24 @@ def monitor_simulation(ind=-1,keys=None,out_path=None,fig_name='监控'):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="监控 MITgCM 运行状态，绘制诊断变量时间序列。"
+    )
+
+    parser.add_argument(
+        "ids",
+        type=int,
+        nargs="*",
+        default=[-1],
+        help="要监控的 output 文件夹排序编号，例如: -1, -1 -2, 0 1 2。默认: -1"
+    )
+
+    args = parser.parse_args()
+
     # 可自定义要监控的变量
     key_list = ['momKE_ave', 'ETAN_std']
-    for i in range(-1,0):
+    print(args.ids)
+    for i in args.ids:
         monitor_simulation(ind=i, keys=key_list)
 
 
