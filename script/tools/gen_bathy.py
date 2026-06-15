@@ -9,7 +9,7 @@ from scipy.ndimage import binary_dilation, binary_erosion, label
 # -------------------- user settings --------------------
 # Input/output
 FBATH = "../../../data/GLO-MFC_001_030_mask_bathy.nc"
-OUT_BATHY = "../../data/bathy.bin"
+OUT_BATHY = "../../input/bathy_avg.bin"
 
 # Model grid
 XRG = 180.0
@@ -24,16 +24,14 @@ SOURCE_BUFFER_CELLS = 1
 
 # Resampling and bathymetry rules
 PRE_KEEP_LARGEST_OCEAN = True
-WET_FRAC_THRESHOLD = 0.60
-MINIMUM_DEPTH = 7.0
-MINIMUM_DEPTH_KEEP_FRACTION = 0.75
+WET_FRAC_THRESHOLD = 0.50
+MINIMUM_DEPTH = 7.2
 DEPTH_STAT = "mean"  # "mean", "median", "p75", or "max"
-DEPTH_FOR_WET_CELLS = "blended"  # "wet_only", "area_mean", or "blended".
-DEPTH_BLEND_POWER = 3.00
+DEPTH_FOR_WET_CELLS = "wet_only"  # "wet_only", "area_mean", or "blended".
 
 # Post-coarsening cleanup on the final model grid.
-REMOVE_TINY_WET = True
-MAKE_PLOT = False
+REMOVE_TINY_WET = False
+MAKE_PLOT = True
 
 
 def largest_connected_region(mask):
@@ -139,28 +137,19 @@ if DEPTH_FOR_WET_CELLS == "wet_only":
     depth = depth_wet_only.copy()
 elif DEPTH_FOR_WET_CELLS == "area_mean":
     depth = depth_area_mean.copy()
-elif DEPTH_FOR_WET_CELLS == "blended":
-    depth = depth_wet_only * wet_frac**DEPTH_BLEND_POWER
 else:
     raise ValueError(f"unknown DEPTH_FOR_WET_CELLS: {DEPTH_FOR_WET_CELLS}")
 
 wet = wet_frac >= WET_FRAC_THRESHOLD
 
-# Use area-mean depth to decide whether a partially wet target cell is deep
-# enough to keep. This still works when the source data are already clipped at
-# MINIMUM_DEPTH, where wet-only statistics cannot produce shallower values.
-minimum_depth_keep = MINIMUM_DEPTH * MINIMUM_DEPTH_KEEP_FRACTION
-too_shallow = wet & (depth < minimum_depth_keep)
-wet[too_shallow] = False
+wet = largest_connected_region(wet)
 
-depth = np.where(wet, depth, 0.0)
+depth = np.where(wet, depth, np.nan)
 
 # Final cleanup is done on the actual model grid.
-main_ocean = largest_connected_region(wet)
-depth[~main_ocean] = 0.0
-wet = main_ocean
 
-shallow_keep = wet & (depth >= minimum_depth_keep) & (depth < MINIMUM_DEPTH)
+
+shallow_keep = wet & (depth < MINIMUM_DEPTH)
 depth[shallow_keep] = MINIMUM_DEPTH
 
 if REMOVE_TINY_WET:
@@ -172,7 +161,7 @@ else:
     tiny_wet = np.zeros_like(wet)
 
 bathy = -depth.astype(float)
-bathy[~wet] = 0.0
+bathy[np.isnan(depth)] = 0.0
 
 Path(OUT_BATHY).parent.mkdir(parents=True, exist_ok=True)
 bathy.astype(dtype=">f4").tofile(OUT_BATHY)
@@ -186,9 +175,6 @@ print("removed source wet cells:", int(source_wet_removed.sum()))
 print("wet fraction range:", float(np.nanmin(wet_frac)), float(np.nanmax(wet_frac)))
 print("wet cells:", int(wet.sum()), "/", wet.size)
 print("depth for wet cells:", DEPTH_FOR_WET_CELLS)
-print("depth blend power:", DEPTH_BLEND_POWER)
-print("minimum depth keep:", minimum_depth_keep)
-print("removed too-shallow cells:", int(too_shallow.sum()))
 print("deepened shallow cells:", int(shallow_keep.sum()))
 print("removed tiny wet cells:", int(tiny_wet.sum()))
 if wet.any():
@@ -196,13 +182,11 @@ if wet.any():
 print("wrote:", OUT_BATHY)
 
 if MAKE_PLOT:
-    fig, axs = plt.subplots(1, 3, figsize=(15, 4), constrained_layout=True)
+    fig, axs = plt.subplots(2, 1, figsize=(10, 8), constrained_layout=True)
     im0 = axs[0].pcolormesh(x_centers, y_centers, wet_frac, shading="auto", vmin=0, vmax=1)
     axs[0].set_title("wet fraction")
     fig.colorbar(im0, ax=axs[0])
     im1 = axs[1].pcolormesh(x_centers, y_centers, depth, shading="auto")
     axs[1].set_title("positive depth")
     fig.colorbar(im1, ax=axs[1])
-    im2 = axs[2].pcolormesh(x_centers, y_centers, bathy, shading="auto")
-    axs[2].set_title("MITgcm bathy")
-    fig.colorbar(im2, ax=axs[2])
+    plt.savefig('bathy_avg.png', dpi=150)

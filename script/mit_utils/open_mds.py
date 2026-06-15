@@ -1,7 +1,7 @@
 import xmitgcm
 from os.path import join,exists
-from .parse_file import parse_file
 import numpy as np
+import f90nml
 
 ex_vars = {
     'GGL90viscArU': dict(dims=['k_l', 'j', 'i_g'], attrs=dict(
@@ -25,21 +25,21 @@ def open_mds(path, prefix=None, **kwargs):
         'diag':join(path,'data.diagnostics'),
     }
     if exists(config_path['cal']) and 'ref_date' not in kwargs:
-        data = parse_file(config_path['cal'])
+        data = f90nml.read(config_path['cal'])
         c = data['CAL_NML']
         d1, d2 = c['startDate_1'], c.get('startDate_2', 0)
         s = f"{d1:08d}{d2:06d}"
         kwargs['ref_date'] = f"{s[:4]}-{s[4:6]}-{s[6:8]} {s[8:10]}:{s[10:12]}:{s[12:14]}"
     if exists(config_path['data']) and 'delta_t' not in kwargs:
-        data = parse_file(config_path['data'])
+        data = f90nml.read(config_path['data'])
         kwargs['delta_t'] = data['PARM03']['deltaT']
     offset_sec = 0
     if exists(config_path['diag']) and prefix:
-        diag_list = parse_file(config_path['diag']).get("DIAGNOSTICS_LIST", {})
-        for key, value in diag_list.items():
-            if key.startswith("fileName") and value == prefix:
-                freq = diag_list.get(f"frequency({key[9:-1]})")
-                offset_sec = int(freq / 2) if freq > 0 else 0
+        diag_list = f90nml.read(config_path['diag']).get("DIAGNOSTICS_LIST", {})
+        diag_list['filename']
+        ind = diag_list['filename'].index(prefix)
+        freq = diag_list['frequency'][ind]
+        offset_sec = int(freq / 2) if freq > 0 else 0
     if 'grid_vars_to_coords' not in kwargs:
         kwargs['grid_vars_to_coords']=False
     ds = xmitgcm.open_mdsdataset(path, prefix=prefix,extra_variables=ex_vars, **kwargs)

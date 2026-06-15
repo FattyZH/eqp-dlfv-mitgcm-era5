@@ -144,8 +144,8 @@ fi
 # 遍历 ../../input 目录中的文件
 for file in ../../input/*; do
     name=$(basename "$file")
-    if [[ -d "$file" || "$file" == *.bin ]]; then
-        # 对于文件夹或者.bin 文件，创建符号链接
+    if [[ -d "$file" ]]; then
+        # 对于文件夹，创建符号链接
         ln -s "$(realpath "$file")" "$name"
     else
         # 对于其他文件，直接复制

@@ -12,7 +12,7 @@
 # 使用相对风速（考虑海流反馈，只有useAtmWind时有效）
  useRelativeWind=.TRUE.,
 # 拖曳系数缩放因子（用于调整风应力强度）
-# exf_scal_BulkCdn=1.0,
+ exf_scal_BulkCdn=1.03,
 # 短波反照率（赤道区域典型值，低于默认0.1）
  exf_albedo=0.1,
 # 天顶角修正反照率：0=关闭，1=查表（推荐），2=公式，3=日循环；赤道区域影响小，故关闭

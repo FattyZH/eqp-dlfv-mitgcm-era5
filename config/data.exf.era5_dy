@@ -1,0 +1,112 @@
+# *********************
+# External Forcing Data
+# *********************
+ &EXF_NML_01
+# 启用输入变量范围检查
+ useExfCheckRange  = .FALSE.,
+ useExfYearlyFields = .TRUE.,
+# 风应力可定义在A或C网格，风速仅支持A网格
+# 风应力模式下，需感热/潜热通量，将自动反演风速
+# 是否使用风速计算风应力/或直接使用风应力输入
+ useAtmWind = .TRUE.,
+# 使用相对风速（考虑海流反馈，只有useAtmWind时有效）
+ useRelativeWind=.TRUE.,
+# 拖曳系数缩放因子（用于调整风应力强度）
+ exf_scal_BulkCdn=1.03,
+# 短波反照率（赤道区域典型值，低于默认0.1）
+ exf_albedo=0.06,
+# 天顶角修正反照率：0=关闭，1=查表（推荐），2=公式，3=日循环；赤道区域影响小，故关闭
+# select_ZenAlbedo = 0,
+# 风场高度
+# hu = 10.0
+# 温度和比湿高度
+# ht = 2.0
+ &
+
+&exf_nml_02
+    aqhfile = 'exf/era5_dy/aqh'
+    aqhperiod = 86400.0
+    aqhstartdate1 = 19900101
+    aqhstartdate2 = 120000
+    atempfile = 'exf/era5_dy/atemp'
+    atempperiod = 86400.0
+    atempstartdate1 = 19900101
+    atempstartdate2 = 120000
+    lwdownfile = 'exf/era5_dy/lwdown'
+    lwdownperiod = 86400.0
+    lwdownstartdate1 = 19900101
+    lwdownstartdate2 = 120000
+    precipfile = 'exf/era5_dy/precip'
+    precipperiod = 86400.0
+    precipstartdate1 = 19900101
+    precipstartdate2 = 120000
+    swdownfile = 'exf/era5_dy/swdown'
+    swdownperiod = 86400.0
+    swdownstartdate1 = 19900101
+    swdownstartdate2 = 120000
+    uwindfile = 'exf/era5_dy/uwind'
+    uwindperiod = 86400.0
+    uwindstartdate1 = 19900101
+    uwindstartdate2 = 120000
+    vwindfile = 'exf/era5_dy/vwind'
+    vwindperiod = 86400.0
+    vwindstartdate1 = 19900101
+    vwindstartdate2 = 120000
+/
+
+&exf_nml_03
+/
+
+&exf_nml_04
+    aqh_lat0 = -30.0
+    aqh_lat_inc = 240*0.25
+    aqh_lon0 = 105.0
+    aqh_lon_inc = 0.25
+    aqh_nlat = 241
+    aqh_nlon = 761
+    atemp_lat0 = -30.0
+    atemp_lat_inc = 240*0.25
+    atemp_lon0 = 105.0
+    atemp_lon_inc = 0.25
+    atemp_nlat = 241
+    atemp_nlon = 761
+    lwdown_lat0 = -30.0
+    lwdown_lat_inc = 240*0.25
+    lwdown_lon0 = 105.0
+    lwdown_lon_inc = 0.25
+    lwdown_nlat = 241
+    lwdown_nlon = 761
+    precip_lat0 = -30.0
+    precip_lat_inc = 240*0.25
+    precip_lon0 = 105.0
+    precip_lon_inc = 0.25
+    precip_nlat = 241
+    precip_nlon = 761
+    swdown_lat0 = -30.0
+    swdown_lat_inc = 240*0.25
+    swdown_lon0 = 105.0
+    swdown_lon_inc = 0.25
+    swdown_nlat = 241
+    swdown_nlon = 761
+    uwind_lat0 = -30.0
+    uwind_lat_inc = 240*0.25
+    uwind_lon0 = 105.0
+    uwind_lon_inc = 0.25
+    uwind_nlat = 241
+    uwind_nlon = 761
+    vwind_lat0 = -30.0
+    vwind_lat_inc = 240*0.25
+    vwind_lon0 = 105.0
+    vwind_lon_inc = 0.25
+    vwind_nlat = 241
+    vwind_nlon = 761
+/
+ 
+# 当开启OBCS开边界时设定开边界场的时间插值
+ &EXF_NML_OBCS
+# useOBCSYearlyFields = .FALSE.,
+ obcsNstartdate1=19400116,   
+ obcsNperiod    =-12.,   
+ obcsSstartdate1=19400116,   
+ obcsSperiod    =-12.,  
+ &

@@ -1,0 +1,26 @@
+ &RBCS_PARM01
+ useRBCtemp = .TRUE.,
+ useRBCsalt = .TRUE.,
+ useRBCuVel = .TRUE.,
+ useRBCvVel = .TRUE.,
+
+ tauRelaxT = 864000.,
+ tauRelaxS = 864000.,
+ tauRelaxU = 864000.,
+ tauRelaxV = 864000.,
+
+ relaxMaskFile(1) = 'rbcs_mask_T.bin',
+ relaxMaskFile(2) = 'rbcs_mask_S.bin',
+ relaxMaskUFile   = 'rbcs_mask_U.bin',
+ relaxMaskVFile   = 'rbcs_mask_V.bin',
+
+ relaxTFile = 'rbcs_T_clim.bin',
+ relaxSFile = 'rbcs_S_clim.bin',
+ relaxUFile = 'rbcs_U_clim.bin',
+ relaxVFile = 'rbcs_V_clim.bin',
+
+ rbcsForcingPeriod = 2629800.,
+ rbcsForcingCycle  = 31557600.,
+# first forcing record is placed at (rbcsForcingOffset + rbcsForcingPeriod)/2
+ rbcsForcingOffset = 0.,
+ &
