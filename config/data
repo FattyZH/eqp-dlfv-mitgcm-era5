@@ -1,0 +1,90 @@
+# Model parameters
+# Continuous equation parameters
+ &PARM01
+# 水平粘性 (动量)
+ viscAh=0.,
+ viscA4=2.E10,
+# 背景垂直粘性 (动量)
+ viscAr=1.E-5,
+# 侧地形边界与无量纲侧摩擦系数，2为完全无滑移，0为自由滑移。
+ no_slip_sides =.FALSE.,
+ sideDragFactor = 0,
+# 底地形边界
+ no_slip_bottom=.FALSE.,
+# 水平粘性 (温盐)
+ diffKhT=100.,
+ diffKhS=100.,
+# diffK4T=2.E10,
+# diffK4S=2.E10,
+# 垂直粘性 (温盐)
+ diffKrT=1.E-5,
+ diffKrS=1.E-5,
+# 垂直对流
+ implicitDiffusion=.TRUE.,
+ implicitViscosity=.TRUE.,
+# 隐式对流扩散率：在出现对流不稳定时触发强扩散以模拟对流过程，与其他对流方案不兼容，使用KPP时应置0（默认）
+# ivdc_kappa=1.,
+# 密度参数
+ rhoConst=1030., 
+ rhoConstFresh=1000.,
+ eosType='JMD95Z',
+# 自由表面与守恒性
+ implicitFreeSurface=.TRUE.,
+ exactConserv=.TRUE.,
+ tempAdvScheme=30,
+ saltAdvScheme=30,
+ multiDimAdvection=.TRUE.,
+ staggerTimeStep=.TRUE.,
+ hFacMin=0.1,
+ hFacMinDr=10.,
+
+# 输出到单一文件（并行写入，需要文件系统支持）
+# globalFiles=.TRUE.,
+# 单CPU读写（有额外通信开销，无其他限制）
+ useSingleCpuIO =.TRUE.,
+ &
+
+# Elliptic solver parameters
+ &PARM02
+ cg2dTargetResidual=1.E-7,
+ cg2dMaxIters=150,
+ &
+
+# Time stepping parameters
+ &PARM03
+# 由于受到32位整型限制，用秒作为输出命名只能运行68年，因此rwSuffixType建议默认
+# 重启文件名
+# pickupSuff='',
+ endTime = 1104537600.,
+# 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
+ deltaT=1080.,
+ dumpFreq=0.,
+ monitorFreq=2629800.,
+ monitorSelect=1,
+ pChkptFreq=315576000.,
+ chkptFreq =31557600.,
+# abEps=0.1,
+ &
+
+# Gridding parameters
+ &PARM04
+# usingCartesianGrid=.TRUE.,
+ usingSphericalPolarGrid=.TRUE.,
+ delX=720*0.25,
+ delY=192*0.25,
+ xgOrigin=111.875,
+ ygOrigin=-23.625,
+ delR=  4.45,  4.29,  5.86,  5.38,  7.24,  4.59,  5.42,  6.43,  7.67,  9.16,
+       10.98, 13.18, 15.85, 19.06, 22.93, 27.58, 33.14, 39.75, 47.59, 56.83,
+       67.62, 80.13, 94.49,110.79,129.07,149.26,171.22,194.71,219.37,244.78,
+      270.44,295.85,320.51,344.00,365.96,386.15,404.42,420.73,435.09,447.60,
+ &
+
+ &PARM05
+ bathyFile='bathy_avg.bin',
+ hydrogThetaFile='init/T.bin',
+ hydrogSaltFile='init/S.bin',
+ uVelInitFile='init/U.bin',
+ vVelInitFile='init/V.bin',
+ pSurfInitFile='init/P.bin',
+ &

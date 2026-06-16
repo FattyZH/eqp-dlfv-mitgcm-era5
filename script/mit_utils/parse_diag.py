@@ -30,7 +30,7 @@ def parse_diag(filename,ref_date=None):
             if line.startswith("#") and ":" in line:
                 key, _, val = line.lstrip("# ").partition(":")
                 key, val = key.strip().lower(), val.strip()
-                if   "frequency" in key: result["frequency"] = float(val)
+                if   "frequency" in key: result["frequency"] = abs(float(val))
                 elif "phase"     in key: result["phase"]     = float(val)
                 elif "regions"   in key: result["n_regions"] = int(val)
                 elif "fields"    in key: result["fields"]    = val.split()

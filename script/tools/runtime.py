@@ -4,7 +4,14 @@
 
 import re, sys
 from pathlib import Path
+import f90nml
 
+def detect_grids(output_dir):
+    nml = f90nml.read(output_dir/'data')
+    nx = len(nml['PARM04']['delX'])
+    ny = len(nml['PARM04']['delY'])
+    nr = len(nml['PARM04']['delR'])
+    return nx*ny*nr
 
 def detect_ncore(output_dir):
     pattern = re.compile(r"^STDOUT\.(\d+)$")
@@ -18,25 +25,37 @@ def detect_ncore(output_dir):
     return len(set(ranks)) if ranks else None
 
 
-def analyze(output_dir, var=None):
+def analyze(output_dir):
     pattern = re.compile(r"^(.+?)\.(\d{10})\.meta$")
-    files = {}
+
+    groups = {}
 
     for f in output_dir.iterdir():
         m = pattern.match(f.name)
         if not m:
             continue
 
-        if var is None:
-            var = m.group(1)
+        vname = m.group(1)
+        it = int(m.group(2))
 
-        if m.group(1) == var:
-            files[int(m.group(2))] = f
+        groups.setdefault(vname, {})[it] = f
+
+    if not groups:
+        return None
+
+    # 自动选择迭代跨度最大的变量
+    def span(vname):
+        its = groups[vname].keys()
+        return max(its) - min(its)
+
+    var = max(groups, key=span)
+    files = groups[var]
 
     if len(files) < 2:
         return None
 
     first, last = min(files), max(files)
+
     t0 = files[first].stat().st_mtime
     t1 = files[last].stat().st_mtime
 
@@ -47,7 +66,6 @@ def analyze(output_dir, var=None):
 
 
 def main():
-    var = sys.argv[1] if len(sys.argv) > 1 else None
     base = Path.home() / "eqp-dlfv-mitgcm-era5/output"
 
     subdirs = sorted(d for d in base.iterdir() if d.is_dir())
@@ -58,11 +76,11 @@ def main():
     rows = []
 
     for d in subdirs:
-        result = analyze(d, var)
+        result = analyze(d)
         ncore = detect_ncore(d)
-
+        ng = detect_grids(d)
         if result is None:
-            rows.append((d.name, "--", "--", "--", "--", "--", "--"))
+            rows.append((d.name, "--", "--", "--", "--", "--", "--", "--"))
             continue
 
         first, last, total_sec, avg_sec, v = result
@@ -72,10 +90,11 @@ def main():
         if ncore is None:
             ncore_str = "--"
             iter_per_h_core_str = "--"
+            iter_per_h_core_grid_str = "--"
         else:
             ncore_str = str(ncore)
             iter_per_h_core_str = f"{iter_per_h / ncore:.2f}"
-
+            iter_per_h_core_grid_str = f"{iter_per_h * ng / ncore/1e6:.2f}"
         rows.append((
             d.name,
             f"{first}→{last}",
@@ -84,6 +103,7 @@ def main():
             f"{iter_per_h:.0f}",
             ncore_str,
             iter_per_h_core_str,
+            iter_per_h_core_grid_str,
         ))
 
     headers = (
@@ -94,6 +114,7 @@ def main():
         "iter/h",
         "nCore",
         "iter/h/core",
+        "iter*grid/h/core(M)",
     )
 
     widths = [max(len(str(r[i])) for r in [headers] + rows) for i in range(len(headers))]

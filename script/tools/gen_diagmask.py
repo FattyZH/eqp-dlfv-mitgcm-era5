@@ -14,5 +14,5 @@ ix = np.where(x >= 142)[0][0]
 iy = (y >= -2) & (y <= 2)
 
 mask[iy, ix] = 1
-
+print(mask.shape)
 mask.astype('>f4').tofile(base/"diag_regmask.bin")
