@@ -2,7 +2,7 @@ from pathlib import Path
 import f90nml
 import numpy as np
 import xarray as xr
-from scipy.ndimage import label, distance_transform_edt
+from scipy.ndimage import label, distance_transform_edt, binary_dilation
 
 
 # =========================
@@ -142,27 +142,42 @@ def read_domain_bathymetry(fbath):
     return xr.concat([hl, hr], dim="longitude")
 
 
-def keep_largest_connected_ocean(depth):
+def keep_largest_connected_ocean(depth, ignore_outer=False):
     """
     保留最大连通湿区。
     返回：
     - depth_arr: 处理后的地形数组，陆地为 0
     - land_mask: True 表示陆地或非最大连通湿区
     """
-    depth_arr = depth.values.copy()
+    if hasattr(depth, "values"):
+        depth_arr = depth.values.copy()
+    else:
+        depth_arr = depth.copy()
+    if depth_arr.shape != (NY, NX):
+        raise ValueError(f"Expected shape {(NY, NX)}, but got {depth_arr.shape}")
+    wet = np.isfinite(depth_arr) & (depth_arr > 0)
+    wet_for_label = wet.copy()
+    if ignore_outer:
+        outer_mask = np.zeros_like(wet, dtype=bool)
+        outer_mask[0, :] = True
+        outer_mask[-1, :] = True
+        outer_mask[:, 0] = True
+        outer_mask[:, -1] = True
+        # 连通检测时，四周最外层临时视为陆地
+        wet_for_label[outer_mask] = False
 
-    labels, _ = label(np.isfinite(depth_arr))
+    labels, _ = label(wet_for_label)
     sizes = np.bincount(labels.ravel())
     sizes[0] = 0
 
     land_mask = labels != sizes.argmax()
+    if ignore_outer:
+        adjacent_to_main = binary_dilation(~land_mask)
+
+        keep = (~land_mask) | (wet & outer_mask & adjacent_to_main)
+        land_mask = ~keep
 
     depth_arr[land_mask] = np.nan
-    depth_arr[depth_arr < MINIMUM_DEPTH] = MINIMUM_DEPTH
-    depth_arr[np.isnan(depth_arr)] = 0
-
-    if depth_arr.shape != (NY, NX):
-        raise ValueError(f"Expected shape {(NY, NX)}, but got {depth_arr.shape}")
 
     return depth_arr, land_mask
 
@@ -170,7 +185,14 @@ def keep_largest_connected_ocean(depth):
 def generate_bathymetry(nml):
     """生成 MITgcm 地形文件，并更新 namelist。"""
     depth = read_domain_bathymetry(FBATH)
-    depth, land_mask = keep_largest_connected_ocean(depth)
+    depth, land_mask0 = keep_largest_connected_ocean(depth)
+    depth, land_mask = keep_largest_connected_ocean(depth, ignore_outer=True)
+    print(
+        f"Removed {np.count_nonzero(land_mask & (~land_mask0))} wet points "
+        "connected only through outer boundary layer"
+    )
+    depth[depth < MINIMUM_DEPTH] = MINIMUM_DEPTH
+    depth[np.isnan(depth)] = 0
     bathy = -depth
     relpath = "bathy12.bin"
     write_be_f4(bathy, OPATH / relpath)

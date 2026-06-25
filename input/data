@@ -36,8 +36,8 @@
     dumpfreq = 0.0
     monitorfreq = 2629800.0
     monitorselect = 1
-    pchkptfreq = 315576000.0
-    chkptfreq = 31557600.0
+    pchkptfreq = 31557600.0
+    chkptfreq = 0.0
 /
 
 &parm04
