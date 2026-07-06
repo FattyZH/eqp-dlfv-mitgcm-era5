@@ -39,7 +39,7 @@ def plot_ann_sec(ds: xr.Dataset,
     if not time: 
         time = slice('2013-01-01','2024-12-31')
     da = _require_var(ds,'UVEL')
-    da = da.loc[time, :, lat, lon_lim]
+    da = da.sel({da.dims[2]:lat},method='nearest').loc[time, :, lon_lim]
     time = da['time'].values.astype('M8[D]')
     lon = da['XG'].values
     lat = da['YC'].values
