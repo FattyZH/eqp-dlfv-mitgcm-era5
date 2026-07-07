@@ -5,25 +5,25 @@
     useobcssponge = .true.
     useobcsbalance = .true.
     useobcsprescribe = .true.
-    obnufile = 'obcs/OBNu_12_42.bin'
-    obnvfile = 'obcs/OBNv_12_42.bin'
-    obntfile = 'obcs/OBNt_12_42.bin'
-    obnsfile = 'obcs/OBNs_12_42.bin'
-    obsufile = 'obcs/OBSu_12_42.bin'
-    obsvfile = 'obcs/OBSv_12_42.bin'
-    obstfile = 'obcs/OBSt_12_42.bin'
-    obssfile = 'obcs/OBSs_12_42.bin'
-    obwufile = 'obcs/OBWu_12_42.bin'
-    obwvfile = 'obcs/OBWv_12_42.bin'
-    obwtfile = 'obcs/OBWt_12_42.bin'
-    obwsfile = 'obcs/OBWs_12_42.bin'
+    obnufile = 'obcs/OBNu_4_38.bin'
+    obnvfile = 'obcs/OBNv_4_38.bin'
+    obntfile = 'obcs/OBNt_4_38.bin'
+    obnsfile = 'obcs/OBNs_4_38.bin'
+    obsufile = 'obcs/OBSu_4_38.bin'
+    obsvfile = 'obcs/OBSv_4_38.bin'
+    obstfile = 'obcs/OBSt_4_38.bin'
+    obssfile = 'obcs/OBSs_4_38.bin'
+    obwufile = 'obcs/OBWu_4_38.bin'
+    obwvfile = 'obcs/OBWv_4_38.bin'
+    obwtfile = 'obcs/OBWt_4_38.bin'
+    obwsfile = 'obcs/OBWs_4_38.bin'
 /
 
 &obcs_parm02
 /
 
 &obcs_parm03
-    spongethickness = 25
+    spongethickness = 21
     urelaxobcsbound = 2592000.0
     urelaxobcsinner = 7776000.0
     vrelaxobcsbound = 2592000.0

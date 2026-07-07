@@ -11,7 +11,7 @@ y = y0 + np.cumsum(dy) - dy/2
 mask = np.zeros((y.size,x.size))
 # select region
 ix = np.where(x >= 142)[0][0]
-iy = (y >= -2) & (y <= 2)
+iy = (y >= -3) & (y <= 2)
 
 mask[iy, ix] = 1
 print(mask.shape)
