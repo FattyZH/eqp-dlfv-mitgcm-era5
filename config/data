@@ -57,7 +57,7 @@
 # pickupSuff='',
  endTime = 1104537600.,
 # 600, 640, 675, 720, 800, 864, *900*, 960, *1080*, 1152, 1200, *1350*, 1440, 1600, 1728, *1800*, 1920, 2160, 2400, 2700, 2880, 3200, 3456, 3600
- deltaT=1080.,
+ deltaT=1200.,
  dumpFreq=0.,
  monitorFreq=2629800.,
  monitorSelect=1,
@@ -81,10 +81,10 @@
  &
 
  &PARM05
- bathyFile='bathy_avg.bin',
- hydrogThetaFile='init/T.bin',
- hydrogSaltFile='init/S.bin',
- uVelInitFile='init/U.bin',
- vVelInitFile='init/V.bin',
- pSurfInitFile='init/P.bin',
+ bathyFile='bathy_gsm.bin',
+ hydrogThetaFile='init/thetao_4_40.bin',
+ hydrogSaltFile='init/so_4_40.bin',
+ uVelInitFile='init/uo_4_40.bin',
+ vVelInitFile='init/vo_4_40.bin',
+ pSurfInitFile='init/zos_4_40.bin',
  &

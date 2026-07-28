@@ -4,6 +4,7 @@ log
 run
 output
 data/
+pickup
 **/*.ipynb
 **/*.png
 **/*.jpg

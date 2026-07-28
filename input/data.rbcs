@@ -9,15 +9,15 @@
  tauRelaxU = 864000.,
  tauRelaxV = 864000.,
 
- relaxMaskFile(1) = 'rbcs_mask_T.bin',
- relaxMaskFile(2) = 'rbcs_mask_S.bin',
- relaxMaskUFile   = 'rbcs_mask_U.bin',
- relaxMaskVFile   = 'rbcs_mask_V.bin',
+ relaxMaskFile(1) = 'rbcs_mask_east_TS.bin',
+ relaxMaskFile(2) = 'rbcs_mask_east_TS.bin',
+ relaxMaskUFile   = 'rbcs_mask_east_U.bin',
+ relaxMaskVFile   = 'rbcs_mask_east_V.bin',
 
- relaxTFile = 'rbcs_T_clim.bin',
- relaxSFile = 'rbcs_S_clim.bin',
- relaxUFile = 'rbcs_U_clim.bin',
- relaxVFile = 'rbcs_V_clim.bin',
+ relaxTFile = 'rbcs/rbcs_T_clim.bin',
+ relaxSFile = 'rbcs/rbcs_S_clim.bin',
+ relaxUFile = 'rbcs/rbcs_U_clim.bin',
+ relaxVFile = 'rbcs/rbcs_V_clim.bin',
 
  rbcsForcingPeriod = 2629800.,
  rbcsForcingCycle  = 31557600.,

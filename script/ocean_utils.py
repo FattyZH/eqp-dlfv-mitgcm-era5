@@ -2,6 +2,29 @@ import os
 import numpy as np
 import heapq
 from scipy.ndimage import label, gaussian_filter, distance_transform_edt
+from scipy.signal import butter, sosfiltfilt, buttord
+import xarray as xr
+
+def iafilt(data, fs=12, rmclim=True,axis=0,dim='time'):
+    is_da = isinstance(data, xr.DataArray)
+    if is_da:
+        da = data
+        axis = da.get_axis_num(dim)
+        data = da.values
+    arr = data.copy()
+    # 去除月气候态，假设是连续数据
+    if rmclim:
+        arr = np.moveaxis(arr, axis, 0)
+        for i in range(fs):
+            arr[i::fs] -= arr[i::fs].mean(axis=0)
+        arr = np.moveaxis(arr, 0, axis)
+    # 低通：保留 2 年以上，压制 1.5 年及以下
+    n, Wn = buttord(1/2, 1/1.5, 1,15, fs=fs)
+    sos = butter(n, Wn, btype='low', fs=fs, output='sos')
+    arr = sosfiltfilt(sos, arr, axis=axis)
+    if is_da:
+        return xr.DataArray(arr, coords=da.coords, dims=da.dims, attrs=da.attrs, name=da.name)
+    return arr
 
 def astar_2d(weight_matrix, start, end):
     """

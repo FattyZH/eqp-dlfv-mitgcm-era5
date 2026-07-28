@@ -31,8 +31,9 @@
 /
 
 &parm03
-    endtime = 1104537600.0
-    deltat = 1080.0
+    pickupSuff='r04z40_03'
+    endtime = 1104516000.0
+    deltat = 1200.0
     dumpfreq = 0.0
     monitorfreq = 2629800.0
     monitorselect = 1
@@ -46,17 +47,17 @@
     dely = 192*0.25
     xgorigin = 111.875
     ygorigin = -23.625
-    delR=   5.7,   6.6,   7.6,   7.2,  10.0,   6.4,   7.7,   9.1,  11.0,  13.1,
-           15.8,  19.0,  22.9,  27.5,  33.1,  39.6,  47.5,  56.7,  67.5,  79.9,
-           94.4, 110.6, 128.9, 149.1, 171.1, 194.6, 219.3, 244.7, 270.5, 295.9,
-          320.6, 344.1, 366.1, 386.3, 404.6, 420.9, 435.3, 447.7,
+    delR=  4.45,  4.29,  5.86,  5.38,  7.24,  4.59,  5.42,  6.43,  7.67,  9.16,
+          10.98, 13.18, 15.85, 19.06, 22.93, 27.58, 33.14, 39.75, 47.59, 56.83,
+          67.62, 80.13, 94.49,110.79,129.07,149.26,171.22,194.71,219.37,244.78,
+         270.44,295.85,320.51,344.00,365.96,386.15,404.42,420.73,435.09,447.60,
 /
 
 &parm05
     bathyFile='bathy_gsm.bin',
-    hydrogThetaFile='init/thetao_4_38.bin',
-    hydrogSaltFile='init/so_4_38.bin',
-    uVelInitFile='init/uo_4_38.bin',
-    vVelInitFile='init/vo_4_38.bin',
-    pSurfInitFile='init/zos_4_38.bin',
+    hydrogThetaFile='init/thetao_4_40.bin',
+    hydrogSaltFile='init/so_4_40.bin',
+    uVelInitFile='init/uo_4_40.bin',
+    vVelInitFile='init/vo_4_40.bin',
+    pSurfInitFile='init/zos_4_40.bin',
 /
