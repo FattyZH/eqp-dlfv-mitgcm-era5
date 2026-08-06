@@ -6,5 +6,5 @@
  useCAL=.TRUE.,
  useOBCS=.TRUE.,
  useGGL90=.TRUE.,
- useRBCS=.TRUE.,
+ useRBCS=.FALSE.,
  &
