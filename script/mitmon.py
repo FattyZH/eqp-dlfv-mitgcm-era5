@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import numpy as np
 import argparse
+import f90nml
 
 def monitor_simulation(ind=-1,keys=None,out_path=None,fig_name='监控'):
     """
@@ -21,10 +22,9 @@ def monitor_simulation(ind=-1,keys=None,out_path=None,fig_name='监控'):
     folders.sort()
     folder = folders[ind] if folders else '.'
     print(f"监控文件夹: {folder}")
-    diag = parse_file(folder / 'data.diagnostics')
-
-    stat_name = diag['DIAG_STATIS_PARMS']['stat_fName(1)']
-    cal = parse_file(folder / 'data.cal')
+    diag = f90nml.read(folder / 'data.diagnostics')
+    stat_name = diag['DIAG_STATIS_PARMS']['stat_fName'][0]
+    cal = f90nml.read(folder / 'data.cal')
     d1, d2 = cal['CAL_NML']['startDate_1'], cal['CAL_NML'].get('startDate_2', 0)
     s = f"{d1:08d}{d2:06d}"
     ref_date = f"{s[:4]}-{s[4:6]}-{s[6:8]} {s[8:10]}:{s[10:12]}:{s[12:14]}"

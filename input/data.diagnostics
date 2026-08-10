@@ -19,12 +19,12 @@
 #--------------------
  &DIAGNOSTICS_LIST
   fileName(1) = 'diag3d',
-  frequency(1) = 31557600.,
+  frequency(1) = 2629800.,
   fields(1:6,1)  = 'UVEL    ','VVEL    ','WVEL    ',
                    'THETA   ','SALT    ','PHIHYD  ',
 
   fileName(2) = 'diag2d',
-  frequency(2) = 31557600.,
+  frequency(2) = 2629800.,
   fields(1:5,2)  = 'ETAN','EXFtaux','EXFevap','EXFhs','EXFhl',
 
  &
@@ -62,6 +62,6 @@
 
   stat_fields(1:2,2) = 'UVEL','THETA',
   stat_fName(2) = 'diagSt_region',
-  stat_freq(2) = 31557600.,
+  stat_freq(2) = 2629800.,
   stat_region(1,2) = 1,
  &

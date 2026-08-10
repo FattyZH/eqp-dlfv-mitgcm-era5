@@ -75,7 +75,7 @@ def parse_diag(filename,ref_date=None):
             ref_date = np.array(ref_date,dtype='M8[s]')
         else:
             ref_date = np.datetime64('0000-01-01T00:00:00')
-        time = (np.arange(len(Iters))+1) * result['frequency'] + result['phase']
+        time = (np.arange(len(Iters))) * result['frequency'] + result['phase']
         result['time'] = ref_date + time.astype('i8')
         result |= {key: np.array(value) for key,value in data.items()}
         result |= {key: np.array(value) for key,value in data_lv.items()}
