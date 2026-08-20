@@ -15,46 +15,33 @@ sys.path.append(str(work_dir/'script'))
 from mit_utils import open_mds
 
 # ========================= 参数 =========================
-exp = "260728_165832_rb1"
-PATH = work_dir/"output"/exp
+# exp = "260810_153853"
+exp = ["260810_142313_ctrl1", "260810_142355_ctrl2","260810_142622_rb_10d","260810_143059_rb_30d","260810_153834_bp","260810_153853_bs"]
 VAR = "UVEL"
 
 TIME_RANGE = None
 # TIME_RANGE = ("1991-01", "2025-12")
 
-FREQ_RANGE = (0.55, 0.85)      # cycle/year，对应1–2年
+FREQ_RANGE = (12/22, 12/14)      # cycle/year，对应1–2年
 FS = 12                      # 月平均数据
 FILTER_ORDER = 4
-NUM_MODES = 6
+FILTER_EDGE_TRIM = 12          # 带通滤波后，CEOF前首尾各裁剪的时间点数
+FILTER_FRONT_EXTRA_TRIM = 36   # 额外裁剪开头时间点数，用于去除spinup等前期不稳定数据
+NUM_MODES = 4
 MODE = 1
 
 DEEP_LON = (114, 280)
 DEEP_LAT = (-0.5, 0.5)
-DEEP_DEPTH = (-200, -4000)
+DEEP_DEPTH = (-0, -3500)
 
 UPPER_LON = (114, 290)
 UPPER_LAT = (-10, 10)
 UPPER_DEPTH = (0, -200)
 
 MAP_COARSEN = 1              # 高分辨率模式可设为4或6，1表示不粗化
-PHASE_MASK = 0.10            # 掩膜振幅低于最大值10%的相位，设为0则关闭
-
-
-# ========================= 数据读取 =========================
-
-ds = open_mds(PATH,prefix='diag3d')
-u = ds[VAR]
-print(u)
-rename = {
-    "XG": "lon", "YC": "lat", "Z": "depth"
-}
-u = u.rename({k: v for k, v in rename.items() if k in u.dims or k in u.coords})
-
-if TIME_RANGE is not None:
-    u = u.sel(time=slice(*TIME_RANGE))
-
-# 若模式深度坐标向下为负，取消下一行注释
-# u = u.assign_coords(depth=np.abs(u.depth)).sortby("depth")
+PHASE_MASK = 0.05            # 掩膜振幅低于最大值10%的相位，设为0则关闭
+DEEP_AMP_MAX = 20          # 深层断面空间模态幅值色标上限，None表示自动
+UPPER_AMP_MAX = 10         # 上层大面空间模态幅值色标上限，None表示自动
 
 
 # ========================= CEOF =========================
@@ -84,6 +71,17 @@ def ceof(da, num_modes=NUM_MODES):
         raise ValueError("没有完整且具有时间变化的有效格点。")
 
     Xa = hilbert(bandpass(X[:, valid]), axis=0)
+    front_trim = FILTER_EDGE_TRIM + FILTER_FRONT_EXTRA_TRIM
+    back_trim = FILTER_EDGE_TRIM
+    if front_trim > 0 or back_trim > 0:
+        if front_trim + back_trim >= nt:
+            raise ValueError("裁剪参数过大，裁剪后没有足够的时间点。")
+        end = -back_trim if back_trim > 0 else None
+        Xa = Xa[front_trim:end]
+        time = da.time.isel(time=slice(front_trim, end))
+        nt = Xa.shape[0]
+    else:
+        time = da.time
 
     eigenvalues, eigenvectors = np.linalg.eigh(Xa @ Xa.conj().T)
     order = eigenvalues.argsort()[::-1]
@@ -109,34 +107,39 @@ def ceof(da, num_modes=NUM_MODES):
 
     return xr.Dataset({
         "spatial_mode": xr.DataArray(sm, dims=("mode", *spatial_dims), coords=spatial_coords),
-        "time_coefficient": xr.DataArray(tc, dims=("time", "mode"), coords={"time": da.time, "mode": modes}),
+        "time_coefficient": xr.DataArray(tc, dims=("time", "mode"), coords={"time": time, "mode": modes}),
         "explained_variance": xr.DataArray(eigenvalues[:nmode] / eigenvalues.sum(), dims="mode", coords={"mode": modes})
     })
 
 
-# ========================= 数据预处理 =========================
-
-deep = u.sel(lon=slice(*DEEP_LON), lat=slice(*DEEP_LAT), depth=slice(*DEEP_DEPTH)).mean("lat", skipna=True)
-deep = deep.transpose("time", "depth", "lon")
-
-upper = u.sel(lon=slice(*UPPER_LON), lat=slice(*UPPER_LAT), depth=slice(*UPPER_DEPTH)).mean("depth", skipna=True)
-
-if MAP_COARSEN > 1:
-    upper = upper.coarsen(lat=MAP_COARSEN, lon=MAP_COARSEN, boundary="trim").mean()
-
-upper = upper.transpose("time", "lat", "lon")
-
-
 # ========================= 执行CEOF =========================
+def cpsd(x, fs=1, ax=None, exp_name=None):
+    x = np.asarray(x)
+    x = x - x.mean()
+    n = len(x)
+    fig = None
 
-deep_result = ceof(deep)
-upper_result = ceof(upper)
+    w = np.hanning(n)
+    X = np.fft.fft(x * w)
+    f = np.fft.fftfreq(n, 1/fs)
+    psd = np.abs(X)**2 / (fs * np.sum(w**2))
 
-print("Deep-section explained variance (%):")
-print(np.round(deep_result.explained_variance.values * 100, 2))
+    f = np.fft.fftshift(f)
+    psd = np.fft.fftshift(psd)
 
-print("\nUpper-layer explained variance (%):")
-print(np.round(upper_result.explained_variance.values * 100, 2))
+    if ax is None:
+        fig, ax = plt.subplots()
+
+    ax.plot(f, psd)
+    ax.axvline(2/3, lw=0.8)
+    ax.set_xlabel("Frequency")
+    ax.set_ylabel("PSD")
+    ax.set_xlim(0,1)
+    plt.savefig(f"{exp_name}_CEOF_upper_psd.png", bbox_inches="tight", dpi=300)
+    plt.show()
+    if fig is not None:
+        plt.close(fig)
+    return f, psd
 
 
 # ========================= 绘图工具 =========================
@@ -177,7 +180,16 @@ def plot_time_coefficient(ax, tc, variance, mode):
 
 
 # ========================= 深层断面绘图 =========================
+def depth_scale(z0=250, ratio=2):
+    def forward(z):
+        z = np.asarray(z)
+        return np.where(z <= z0, z, z0 + (z-z0)/ratio)
 
+    def inverse(z):
+        z = np.asarray(z)
+        return np.where(z <= z0, z, z0 + (z-z0)*ratio)
+
+    return forward, inverse
 def plot_deep(result, mode=MODE):
     sm = result.spatial_mode.sel(mode=mode)
     tc = result.time_coefficient.sel(mode=mode)
@@ -186,7 +198,8 @@ def plot_deep(result, mode=MODE):
 
     amplitude = np.abs(sm) * 100
     phase = get_phase(sm)
-    levels = np.linspace(0, float(amplitude.quantile(0.99)), 11)
+    amp_max = DEEP_AMP_MAX if DEEP_AMP_MAX is not None else float(amplitude.quantile(0.99))
+    levels = np.linspace(0, amp_max, 11)
 
     fig = plt.figure(figsize=(10, 6.5))
     gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], wspace=0.1, hspace=0.15)
@@ -197,6 +210,7 @@ def plot_deep(result, mode=MODE):
     ax1.set_title(f"(a) Magnitude CEOF{mode}")
     ax1.set_ylabel("Depth (m)")
     ax1.xaxis.set_major_formatter(FuncFormatter(lon_formatter))
+    ax1.set_yscale('function', functions=depth_scale())
     fig.colorbar(p1, ax=ax1, orientation="horizontal", pad=0.12, aspect=25, label="cm s$^{-1}$")
 
     ax2 = fig.add_subplot(gs[0, 1])
@@ -207,6 +221,7 @@ def plot_deep(result, mode=MODE):
     ax2.yaxis.tick_right()
     ax2.set_ylabel("Depth (m)")
     ax2.xaxis.set_major_formatter(FuncFormatter(lon_formatter))
+    ax2.set_yscale('function', functions=depth_scale())
 
     cbar = fig.colorbar(p2, ax=ax2, orientation="horizontal", pad=0.12, aspect=25)
     cbar.set_ticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi])
@@ -227,7 +242,8 @@ def plot_upper(result, mode=MODE):
 
     amplitude = np.abs(sm) * 100
     phase = get_phase(sm)
-    levels = np.linspace(0, float(amplitude.quantile(0.99)), 11)
+    amp_max = UPPER_AMP_MAX if UPPER_AMP_MAX is not None else float(amplitude.quantile(0.99))
+    levels = np.linspace(0, amp_max, 11)
 
     fig = plt.figure(figsize=(11, 6.5))
     gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], wspace=0.12, hspace=0.18)
@@ -261,10 +277,52 @@ def plot_upper(result, mode=MODE):
     return fig
 
 
-# ========================= 绘制第一模态 =========================
+# ========================= 主流程 =========================
 
-fig_deep = plot_deep(deep_result, mode=1)
-plt.savefig(f"{exp}_CEOF_deep.png", bbox_inches="tight", dpi=300)
+def run_exp(exp_name):
+    path = work_dir/"output"/exp_name
 
-fig_upper = plot_upper(upper_result, mode=1)
-plt.savefig(f"{exp}_CEOF_upper.png", bbox_inches="tight", dpi=300)
+    ds = open_mds(path, prefix='diag3d')
+    u = ds[VAR]
+    rename = {
+        "XG": "lon", "YC": "lat", "Z": "depth"
+    }
+    u = u.rename({k: v for k, v in rename.items() if k in u.dims or k in u.coords})
+
+    if TIME_RANGE is not None:
+        u = u.sel(time=slice(*TIME_RANGE))
+
+    # 若模式深度坐标向下为负，取消下一行注释
+    # u = u.assign_coords(depth=np.abs(u.depth)).sortby("depth")
+
+    deep = u.sel(lon=slice(*DEEP_LON), lat=slice(*DEEP_LAT), depth=slice(*DEEP_DEPTH)).mean("lat", skipna=True)
+    deep = deep.transpose("time", "depth", "lon")
+
+    upper = u.sel(lon=slice(*UPPER_LON), lat=slice(*UPPER_LAT), depth=slice(*UPPER_DEPTH)).mean("depth", skipna=True)
+
+    if MAP_COARSEN > 1:
+        upper = upper.coarsen(lat=MAP_COARSEN, lon=MAP_COARSEN, boundary="trim").mean()
+
+    upper = upper.transpose("time", "lat", "lon")
+
+    deep_result = ceof(deep)
+    upper_result = ceof(upper)
+    print(f"\n[{exp_name}] Deep-section explained variance (%):")
+    print(np.round(deep_result.explained_variance.values * 100, 2))
+
+    print(f"\n[{exp_name}] Upper-layer explained variance (%):")
+    print(np.round(upper_result.explained_variance.values * 100, 2))
+    cpsd(upper_result.time_coefficient.sel(mode=1), fs=FS, exp_name=exp_name)
+
+    fig_deep = plot_deep(deep_result, mode=1)
+    plt.savefig(f"{exp_name}_CEOF_deep.png", bbox_inches="tight", dpi=300)
+    plt.close(fig_deep)
+
+    fig_upper = plot_upper(upper_result, mode=1)
+    plt.savefig(f"{exp_name}_CEOF_upper.png", bbox_inches="tight", dpi=300)
+    plt.close(fig_upper)
+
+
+exps = [exp] if isinstance(exp, str) else exp
+for exp_name in exps:
+    run_exp(exp_name)
