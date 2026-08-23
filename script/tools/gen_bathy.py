@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 from scipy.ndimage import label
-
+import os
 
 # ============================================================
 # User settings
 # ============================================================
-FBATH = Path("../../../data/GLO-MFC_001_030_mask_bathy.nc")
-OUT_BATHY = Path("../../input/bathy_avg.bin")
+FBATH = Path("~/data/GLO-MFC_001_030_mask_bathy.nc")
+WORK_DIR = Path(os.environ["WORK_DIR"])
+OUT_BATHY = WORK_DIR / "input/bathy_avg.bin"
 OUT_FIGURE = Path("bathy_avg.png")
 
 # MITgcm horizontal grid

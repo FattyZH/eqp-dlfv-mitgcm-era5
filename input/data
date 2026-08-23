@@ -32,7 +32,8 @@
 
 &parm03
     pickupSuff='clim_r4_1'
-    endtime = 1104516000.0
+#    endtime = 1104516000.0
+    endtime = 5259600.0
     deltat = 1200.0
     dumpfreq = 0.0
     monitorfreq = 2629800.0

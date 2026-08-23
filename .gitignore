@@ -5,6 +5,7 @@ run
 output
 data/
 pickup
+.vscode
 **/*.ipynb
 **/*.png
 **/*.jpg
