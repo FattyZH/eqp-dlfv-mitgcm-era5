@@ -1,10 +1,9 @@
 from pathlib import Path
 import calendar
+import os
 
 import numpy as np
 from scipy.signal import butter, sosfiltfilt
-import f90nml
-import os
 
 # ============================================================
 # Settings
@@ -13,8 +12,6 @@ import os
 BASE_DIR = Path(os.environ['WORK_DIR'])
 EXF_DIR = BASE_DIR / 'data/exf'
 PATH_IN = EXF_DIR / "era5_dy"
-PATH_BP = EXF_DIR / "wind_bp18"     # only 18-month band
-PATH_BS = EXF_DIR / "wind_bs18"     # original - 18-month band
 
 YEARS = range(1990, 2027)
 
@@ -22,11 +19,13 @@ NX = 761
 NY = 241
 
 DTYPE = ">f4"                       # MITgcm big-endian float32
-CHUNK_Y = 32
+CHUNK_Y = 241
 
 # 18-month band
-TMIN = 14 * 365.25 / 12                 # days
-TMAX = 22 * 365.25 / 12                 # days
+PATH_OUT = EXF_DIR / "wind_bp24-96"
+FILTER_TYPE = "bandpass"           # "bandpass" or "bandstop"
+TMIN = 24 * 365.25 / 12                 # days
+TMAX = 96 * 365.25 / 12                 # days
 ORDER = 6
 
 VARIABLES = {
@@ -35,15 +34,21 @@ VARIABLES = {
 }
 
 # ============================================================
-# Butterworth band-pass filter
+# Butterworth filter
 # ============================================================
+
+if FILTER_TYPE not in {"bandpass", "bandstop"}:
+    raise ValueError(
+        f"Invalid FILTER_TYPE: {FILTER_TYPE!r}; "
+        "choose 'bandpass' or 'bandstop'"
+    )
 
 fs = 1.0                            # daily data: sample/day
 
 sos = butter(
     ORDER,
     [1 / TMAX, 1 / TMIN],
-    btype="bandpass",
+    btype=FILTER_TYPE,
     fs=fs,
     output="sos",
 )
@@ -86,9 +91,10 @@ if not 1 <= ndays[LAST_YEAR] <= max_days:
 
 nt = sum(ndays.values())
 
-PATH_BP.mkdir(parents=True, exist_ok=True)
-PATH_BS.mkdir(parents=True, exist_ok=True)
+PATH_OUT.mkdir(parents=True, exist_ok=True)
 
+print(f"Filter type: {FILTER_TYPE}")
+print(f"Output directory: {PATH_OUT}")
 print(f"{LAST_YEAR}: {ndays[LAST_YEAR]} days")
 print(f"Total records: {nt}")
 
@@ -148,23 +154,15 @@ def process_variable(name, template):
     # 2. Create output files
     # --------------------------------------------------------
 
-    bp_out = {}
-    bs_out = {}
+    out = {}
 
     for year in YEARS:
 
         shape = (ndays[year], NY, NX)
         filename = template.format(year=year)
 
-        bp_out[year] = np.memmap(
-            PATH_BP / filename,
-            dtype=DTYPE,
-            mode="w+",
-            shape=shape,
-        )
-
-        bs_out[year] = np.memmap(
-            PATH_BS / filename,
+        out[year] = np.memmap(
+            PATH_OUT / filename,
             dtype=DTYPE,
             mode="w+",
             shape=shape,
@@ -203,26 +201,22 @@ def process_variable(name, template):
         data = data.reshape(nt, -1)
 
         # ----------------------------------------------------
-        # Band-pass
+        # Apply the selected filter
         # ----------------------------------------------------
 
-        bp = sosfiltfilt(
+        filtered = sosfiltfilt(
             sos,
             data,
             axis=0,
         )
 
-        bp = bp.astype(np.float32, copy=False)
-
-        # Strict complementary band-stop
-        bs = data - bp
+        filtered = filtered.astype(np.float32, copy=False)
 
         # ----------------------------------------------------
         # Restore horizontal dimensions
         # ----------------------------------------------------
 
-        bp = bp.reshape(shape)
-        bs = bs.reshape(shape)
+        filtered = filtered.reshape(shape)
 
         # ----------------------------------------------------
         # 4. Split by year and write
@@ -233,12 +227,11 @@ def process_variable(name, template):
         for year in YEARS:
             i1 = i0 + ndays[year]
 
-            bp_out[year][:, y0:y1, :] = bp[i0:i1]
-            bs_out[year][:, y0:y1, :] = bs[i0:i1]
+            out[year][:, y0:y1, :] = filtered[i0:i1]
 
             i0 = i1
 
-        del data, bp, bs
+        del data, filtered
 
     # --------------------------------------------------------
     # 5. Close memmaps
@@ -247,11 +240,8 @@ def process_variable(name, template):
     for year in YEARS:
         src[year]._mmap.close()
 
-        bp_out[year].flush()
-        bp_out[year]._mmap.close()
-
-        bs_out[year].flush()
-        bs_out[year]._mmap.close()
+        out[year].flush()
+        out[year]._mmap.close()
 
     print(f"{name} done.")
 
