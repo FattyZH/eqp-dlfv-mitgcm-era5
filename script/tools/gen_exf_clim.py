@@ -2,12 +2,14 @@ from MITgcmutils.utils import writebin
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+from pathlib import Path
+import os
+work_dir = Path(os.environ['WORK_DIR'])
+opath = work_dir / 'input/exf/era5_mclim/'
 
-opath = '../../input/exf/era5_mclim/'
-
-ipath = '../../../data/'
-fsflux = ipath + 'era5_surfflux_mon.nc'
-fsvar = ipath + 'era5_surfvar_mon.nc'
+ipath = Path('~/data/')
+fsflux = ipath / 'era5_surfflux_mon.nc'
+fsvar = ipath / 'era5_surfvar_mon.nc'
 
 do_clim = True # 是否气候态
 
@@ -37,11 +39,11 @@ lwdown = result['avg_sdlwrf']  # 下行长波辐射
 precip = result['avg_tprate']/1e3 # 单位转换,mit以淡水流失为正（era5的以淡水输入为正）
 
 # 保存为MITgcm驱动所需的二进制文件
-writebin(opath+'uwind.bin',result['u10'])
-writebin(opath+'vwind.bin',result['v10'])
-writebin(opath+'wspeed.bin',wspeed)
-writebin(opath+'atemp.bin',result['t2m'])
-writebin(opath+'aqh.bin', aqh)
-writebin(opath+'swdown.bin',swdown)
-writebin(opath+'lwdown.bin',lwdown)
-writebin(opath+'precip.bin',precip)
+writebin(opath/'uwind.bin',result['u10'])
+writebin(opath/'vwind.bin',result['v10'])
+writebin(opath/'wspeed.bin',wspeed)
+writebin(opath/'atemp.bin',result['t2m'])
+writebin(opath/'aqh.bin', aqh)
+writebin(opath/'swdown.bin',swdown)
+writebin(opath/'lwdown.bin',lwdown)
+writebin(opath/'precip.bin',precip)
