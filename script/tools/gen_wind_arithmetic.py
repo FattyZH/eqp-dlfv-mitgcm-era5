@@ -1,4 +1,5 @@
 from pathlib import Path
+from numbers import Real
 import os
 
 import numpy as np
@@ -9,115 +10,135 @@ import numpy as np
 
 BASE_DIR = Path(os.environ["WORK_DIR"])
 EXF_DIR = BASE_DIR / "data/exf"
+INPUT_DIR = EXF_DIR
 
-PATH_IN1 = EXF_DIR / "era5_dy"
-PATH_IN2 = EXF_DIR / "wind_bp14-22"
-PATH_OUT = EXF_DIR / "wind_bs14-22"
+# (directory name, "yearly" or "constant", coefficient)
+INPUT_FIELDS = [
+    ("era5_dy", "yearly", 1),
+    ("wind_bp14-22", "yearly", -1),
+    ("wind_bp30-42", "yearly", -1),
+]
 
-OPERATION = "sub"                  # "add": field1 + field2
-                                   # "sub": field1 - field2
+PATH_OUT = EXF_DIR / "wind_bs-18-36"
 
 YEARS = range(1990, 2027)
 
 NX = 761
 NY = 241
 DTYPE = ">f4"                      # MITgcm big-endian float32
-CHUNK_Y = 32
 
 # Only variables listed here are processed.
 VARIABLES = {
-    "uwind": "uwind_{year}",
-    "vwind": "vwind_{year}",
+    "uwind": ("uwind_{year}", "uwind.bin"),
+    "vwind": ("vwind_{year}", "vwind.bin"),
 }
 
 # ============================================================
 # Checks
 # ============================================================
 
-OPERATIONS = {
-    "add": np.add,
-    "sub": np.subtract,
-}
+if not INPUT_FIELDS:
+    raise ValueError("INPUT_FIELDS must contain at least one field")
 
-if OPERATION not in OPERATIONS:
-    raise ValueError(
-        f"Invalid OPERATION: {OPERATION!r}; choose 'add' or 'sub'"
-    )
+for index, field in enumerate(INPUT_FIELDS, start=1):
+    if len(field) != 3:
+        raise ValueError(
+            f"INPUT_FIELDS[{index}] must be (directory, type, coefficient)"
+        )
 
-if PATH_OUT in {PATH_IN1, PATH_IN2}:
-    raise ValueError("PATH_OUT must differ from both input directories")
+    directory, field_type, coefficient = field
+
+    if field_type not in {"yearly", "constant"}:
+        raise ValueError(
+            f"INPUT_FIELDS[{index}]: type must be 'yearly' or 'constant'"
+        )
+    if not isinstance(coefficient, Real) or not np.isfinite(coefficient):
+        raise ValueError(
+            f"INPUT_FIELDS[{index}]: coefficient must be a finite number"
+        )
+    if PATH_OUT == INPUT_DIR / directory:
+        raise ValueError("PATH_OUT must differ from every input directory")
 
 if not VARIABLES:
     raise ValueError("VARIABLES must contain at least one variable")
 
-itemsize = np.dtype(DTYPE).itemsize
-bytes_per_day = NY * NX * itemsize
-operation = OPERATIONS[OPERATION]
+HAS_YEARLY_FIELDS = any(field_type == "yearly" for _, field_type, _ in INPUT_FIELDS)
+bytes_per_record = NY * NX * np.dtype(DTYPE).itemsize
 
 
-def get_ndays(path):
-    """Return the number of complete daily records in a binary file."""
+def get_nrecords(path):
+    """Return the number of complete 2-D records in a binary file."""
     if not path.is_file():
         raise FileNotFoundError(path)
 
     size = path.stat().st_size
-    if size % bytes_per_day != 0:
+    if size % bytes_per_record != 0:
         raise ValueError(
             f"{path}\n"
-            "File size is not an integer number of daily records.\n"
+            "File size is not an integer number of 2-D records.\n"
             f"Actual: {size} bytes\n"
-            f"Bytes per day: {bytes_per_day}"
+            f"Bytes per record: {bytes_per_record}"
         )
 
-    ndays = size // bytes_per_day
-    if ndays == 0:
+    nrecords = size // bytes_per_record
+    if nrecords == 0:
         raise ValueError(f"Empty input file: {path}")
 
-    return ndays
+    return nrecords
 
 
 # ============================================================
-# Process one variable and year
+# Process one variable file
 # ============================================================
 
-def process_file(name, template, year):
-    filename = template.format(year=year)
-    file1 = PATH_IN1 / filename
-    file2 = PATH_IN2 / filename
-    outfile = PATH_OUT / filename
+def process_file(name, yearly_template, constant_filename, year=None):
+    yearly_filename = (
+        yearly_template.format(year=year) if year is not None else None
+    )
+    output_filename = yearly_filename or constant_filename
 
-    ndays1 = get_ndays(file1)
-    ndays2 = get_ndays(file2)
+    source_files = []
+    yearly_nrecords = set()
 
-    if ndays1 != ndays2:
+    for directory, field_type, coefficient in INPUT_FIELDS:
+        filename = (
+            constant_filename
+            if field_type == "constant"
+            else yearly_filename
+        )
+        path = INPUT_DIR / directory / filename
+        nrecords = get_nrecords(path)
+
+        if field_type == "constant":
+            if nrecords != 1:
+                raise ValueError(
+                    f"Constant input must contain one record: {path}"
+                )
+        else:
+            yearly_nrecords.add(nrecords)
+
+        source_files.append((coefficient, path, nrecords))
+
+    if len(yearly_nrecords) > 1:
+        counts = ", ".join(str(value) for value in sorted(yearly_nrecords))
         raise ValueError(
-            f"Input record counts differ for {name} in {year}:\n"
-            f"{file1}: {ndays1} days\n"
-            f"{file2}: {ndays2} days"
+            f"Yearly record counts differ for {name} in {year}: {counts}"
         )
 
-    shape = (ndays1, NY, NX)
-    src1 = np.memmap(file1, dtype=DTYPE, mode="r", shape=shape)
-    src2 = np.memmap(file2, dtype=DTYPE, mode="r", shape=shape)
-    out = np.memmap(outfile, dtype=DTYPE, mode="w+", shape=shape)
+    nrecords_out = next(iter(yearly_nrecords), 1)
+    output_shape = (nrecords_out, NY, NX)
+    outfile = PATH_OUT / output_filename
+    result = np.zeros(output_shape, dtype=np.float32)
 
-    try:
-        for y0 in range(0, NY, CHUNK_Y):
-            y1 = min(y0 + CHUNK_Y, NY)
-            result = operation(
-                src1[:, y0:y1, :],
-                src2[:, y0:y1, :],
-                dtype=np.float32,
-            )
-            out[:, y0:y1, :] = result
+    for coefficient, path, nrecords in source_files:
+        values = np.fromfile(path, dtype=DTYPE).reshape(nrecords, NY, NX)
+        result += coefficient * values
+        del values
 
-        out.flush()
-    finally:
-        src1._mmap.close()
-        src2._mmap.close()
-        out._mmap.close()
+    result.astype(DTYPE).tofile(outfile)
 
-    print(f"{name} {year}: {ndays1} days")
+    label = year if year is not None else "constant"
+    print(f"{name} {label}: {nrecords_out} records")
 
 
 # ============================================================
@@ -126,15 +147,27 @@ def process_file(name, template, year):
 
 PATH_OUT.mkdir(parents=True, exist_ok=True)
 
-symbol = "+" if OPERATION == "add" else "-"
-print(f"Operation: field1 {symbol} field2")
-print(f"Field 1: {PATH_IN1}")
-print(f"Field 2: {PATH_IN2}")
-print(f"Output:  {PATH_OUT}")
+print("Input fields:")
+for directory, field_type, coefficient in INPUT_FIELDS:
+    print(
+        f"  {coefficient:+g} * "
+        f"{INPUT_DIR / directory} ({field_type})"
+    )
+print(f"Output: {PATH_OUT}")
 print(f"Variables: {', '.join(VARIABLES)}")
 
-for variable_name, filename_template in VARIABLES.items():
-    for current_year in YEARS:
-        process_file(variable_name, filename_template, current_year)
+for variable_name, file_names in VARIABLES.items():
+    filename_template, constant_filename = file_names
+
+    if HAS_YEARLY_FIELDS:
+        for current_year in YEARS:
+            process_file(
+                variable_name,
+                filename_template,
+                constant_filename,
+                current_year,
+            )
+    else:
+        process_file(variable_name, filename_template, constant_filename)
 
 print("All done.")

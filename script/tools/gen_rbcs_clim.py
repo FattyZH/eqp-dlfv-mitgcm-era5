@@ -7,12 +7,12 @@ sys.path.insert(0, str(script_dir))
 from mit_utils import open_mds
 
 keep_vars = ['UVEL', 'VVEL', 'THETA', 'SALT']
-expname = '260716_113013_ctrl1'
+expname = '260821_ctrl'
 
 inpath = Path('/public/home/zhanghang/eqp-dlfv-mitgcm-era5/output')
 outpath = Path('/public/home/zhanghang/eqp-dlfv-mitgcm-era5/input/rbcs')
 exp = inpath/expname
-ds = open_mds(exp,prefix='diag3d').sel(time=slice('2001','2024'))
+ds = open_mds(exp,prefix='diag3d').sel(time=slice('1996','2025'))
 ds = ds[keep_vars]
 
 # 数据第一个时间点对应的月份

@@ -48,7 +48,7 @@ X_FULL = -100.0
 # |lat| <= Y_CORE：mask_y=1
 # Y_CORE < |lat| < Y_EDGE：平滑减小
 # |lat| >= Y_EDGE：mask_y=0
-Y_CORE = 5.5
+Y_CORE = 5
 Y_EDGE = 7.5
 
 # 是否生成预览图
