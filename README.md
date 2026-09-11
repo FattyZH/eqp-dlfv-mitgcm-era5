@@ -27,7 +27,7 @@ bin/                     Executable commands (Python or Bash)
 scripts/preprocess/      grid/, boundaries/, forcing/ input-generation recipes
 scripts/postprocess/     Export and runtime statistics
 analysis/                Editable scientific analyses, quicklooks and notebooks
-src/mitkit/              Shared I/O, array helpers, ocean modes and paths
+mitkit/                  Auxiliary Python toolkit (config, source, tests)
 archive/                 Historical recipes retained for comparison
 code/                    MITgcm source customizations and compile-time options
 config/                  Namelist templates
@@ -50,13 +50,13 @@ scientific dependencies (run from the repository root):
 
 ```bash
 conda activate py312
-python -m pip install --no-deps --no-build-isolation -e .
+python -m pip install --no-deps --no-build-isolation -e ./mitkit
 export PATH="/public/home/zhanghang/eqp-dlfv-mitgcm-era5/bin:$PATH"
 ```
 
 Replace the old `tool` PATH entry with `bin` in your shell configuration if one
 exists. Python commands use `#!/usr/bin/env python`, hence the active environment.
-For a new environment, `python -m pip install -e '.[analysis,forcing]'` installs
+For a new environment, `python -m pip install -e './mitkit[analysis,forcing]'` installs
 the declared dependencies. MITgcm, MPI/Slurm, `rclone`, and `gluemncbig` remain
 external tools where needed.
 
@@ -103,4 +103,9 @@ kept under `archive/preprocess` with their original contents.
 
 The scope and findings of the shared-code review are documented in
 [`archive/mitkit_review/README.md`](archive/mitkit_review/README.md).
-Run the focused I/O regression checks with `python -m unittest discover -s tests`.
+Run the focused I/O regression checks with
+`python -m unittest discover -s mitkit/tests`.
+
+`mitkit/pyproject.toml` manages only the auxiliary library; the repository
+root remains the MITgcm experiment project. Library code is under
+`mitkit/src/mitkit/`. Personal test notebooks remain in the top-level `tests/`.

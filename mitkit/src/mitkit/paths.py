@@ -9,7 +9,7 @@ def project_root() -> Path:
     configured = os.environ.get("WORK_DIR")
     if configured:
         return Path(configured).expanduser().resolve()
-    root = Path(__file__).resolve().parents[2]
-    if not (root / "pyproject.toml").is_file():
-        raise RuntimeError("Set WORK_DIR to the experiment root, or install this project editable.")
-    return root
+    for root in Path(__file__).resolve().parents:
+        if (root / "code").is_dir() and (root / "input").is_dir():
+            return root
+    raise RuntimeError("Set WORK_DIR to the experiment root, or install this project editable.")
