@@ -1,0 +1,1 @@
+"""Shared plot formatting utilities."""

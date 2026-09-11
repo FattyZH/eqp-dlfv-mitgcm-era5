@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mitkit"
+version = "0.1.0"
+description = "Shared utilities for MITgcm experiments"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "numpy", "scipy", "xarray", "matplotlib", "f90nml",
+    "MITgcmutils", "xmitgcm", "netCDF4", "dask[array]",
+]
+
+[project.optional-dependencies]
+analysis = ["cartopy", "seawater", "ipython", "ipykernel"]
+forcing = ["fsspec", "aiohttp"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

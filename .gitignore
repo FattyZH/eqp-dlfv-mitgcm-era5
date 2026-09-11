@@ -7,7 +7,10 @@ data/
 pickup
 .vscode
 **/*.ipynb
+!analysis/notebooks/*.ipynb
 **/*.png
 **/*.jpg
 **/*.nc
 **/__pycache__/
+*.egg-info/
+.pytest_cache/
