@@ -15,18 +15,18 @@ work_dir = project_root()
 from mitkit.io import open_mds
 FIG_DIR = work_dir/"fig"
 # ========================= 参数 =========================
-# exp = "260821_ctrl"
-exp = ["260821_ctrl", "260825_clim","260825_ebra_30d","260825_wind_bp12","260825_wind_bp12&36","260825_wind_bp18","260825_wind_bp24-96",
-       "260825_wind_bp36","260825_wind_bp_m&12&36","260825_wind_bs18","260825_wind_bs18&36"]
+exp = "260825_clim"
+# exp = ["260821_ctrl","260825_ebra_30d","260825_wind_bp24-96","260825_wind_bp36"]
+# exp = ["260915_wind_bs24-96","260915_ctrl1"]
 VAR = "UVEL"
 
 TIME_RANGE = None
 # TIME_RANGE = ("1991-01", "2025-12")
 
-FREQ_RANGE = (12/22, 12/14)      # cycle/year，对应1–2年
+FREQ_RANGE = (1/8, 1/2)      # cycle/year，对应2–8年
 FS = 12                      # 月平均数据
 FILTER_ORDER = 4
-FILTER_EDGE_TRIM = 12          # 带通滤波后，CEOF前首尾各裁剪的时间点数
+FILTER_EDGE_TRIM = 24          # 带通滤波后，CEOF前首尾各裁剪的时间点数
 FILTER_FRONT_EXTRA_TRIM = 36   # 额外裁剪开头时间点数，用于去除spinup等前期不稳定数据
 NUM_MODES = 4
 MODE = 1

@@ -16,11 +16,10 @@ INPUT_DIR = EXF_DIR
 # (directory name, "yearly" or "constant", coefficient)
 INPUT_FIELDS = [
     ("era5_dy", "yearly", 1),
-    ("wind_bp14-22", "yearly", -1),
-    ("wind_bp30-42", "yearly", -1),
+    ("wind_bp24-96", "yearly", -1),
 ]
 
-PATH_OUT = EXF_DIR / "wind_bs-18-36"
+PATH_OUT = EXF_DIR / "wind_bs24-96"
 
 YEARS = range(1990, 2027)
 
