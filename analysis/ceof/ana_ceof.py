@@ -15,7 +15,7 @@ work_dir = project_root()
 from mitkit.io import open_mds
 FIG_DIR = work_dir/"fig"
 # ========================= 参数 =========================
-exp = "260825_clim"
+exp = "260916_ctrl_kpp"
 # exp = ["260821_ctrl","260825_ebra_30d","260825_wind_bp24-96","260825_wind_bp36"]
 # exp = ["260915_wind_bs24-96","260915_ctrl1"]
 VAR = "UVEL"

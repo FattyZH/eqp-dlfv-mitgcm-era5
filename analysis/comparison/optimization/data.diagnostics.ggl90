@@ -1,0 +1,28 @@
+# Proposed monthly diagnostics for GGL90 tests, not installed in any run.
+# Requires numDiags >= 40*Nr in DIAGNOSTICS_SIZE.h and recompilation.
+&DIAGNOSTICS_LIST
+ fileName(1) = 'diag3d',
+ frequency(1) = 2629800.,
+ fields(1:6,1) = 'UVEL','VVEL','WVEL','THETA','SALT','PHIHYD',
+ fileName(2) = 'diag2d',
+ frequency(2) = 2629800.,
+ fields(1:7,2) = 'ETAN','PHIBOT','oceTAUX','oceTAUY',
+                 'MXLDEPTH','TFLUX','oceFWflx',
+ fileName(3) = 'diag_mom',
+ frequency(3) = 2629800.,
+ fields(1:9,3) = 'TOTUTEND','Um_dPhiX','Um_Cori','Um_Advec',
+                 'Um_Diss','Um_ImplD','Um_Ext','Um_Metr','Um_hDis4',
+ fileName(4) = 'diag_prod',
+ frequency(4) = 2629800.,
+ fields(1:4,4) = 'UVELSQ','VVELSQ','UV_VEL_C','WU_VEL',
+ fileName(5) = 'diag_mix',
+ frequency(5) = 2629800.,
+ fields(1:4,5) = 'GGL90ArU','GGL90Kr','GGL90TKE','GGL90Emn',
+/
+&DIAG_STATIS_PARMS
+ # Domain statistics: snapshots every 10 days
+ stat_fields(1:8,1) = 'momKE','ETAN','RHOAnoma',
+                      'UVEL','VVEL','WVEL','THETA','SALT',
+ stat_fName(1) = 'diagSt',
+ stat_freq(1) = -864000.,
+/
