@@ -1,11 +1,11 @@
 # 赤道断面纬向流年际比较
 
+> 2026-10-19整理：最终展示入口为[核心结果索引](../../fig/261016_ctrl_selection/README.md)。旧对比图与大型缓存已清理；下文历史输出路径是重算流程示例，不代表文件当前仍保留，实验原始output也须实际存在。完整重建入口为`fig/261016_ctrl_selection/reproduce.sh`。
+
 在项目的 `py312` 环境中，从仓库根目录运行：
 
 ```bash
-python analysis/comparison/compare_equatorial_u.py --exp 260821_ctrl
-python analysis/comparison/compare_equatorial_u.py --exp 260916_ctrl_kpp
-python analysis/comparison/compare_equatorial_u.py --exp 260915_ctrl1
+python analysis/comparison/compare_equatorial_u.py --exp 261016_ck_0p07_a4_4e10 --skip-deep-modes
 ```
 
 `--exp` 对应 `output/` 下的实验目录，默认 `260821_ctrl`。使用 `open_mds` 读取 `diag3d/UVEL` 及 `hFacW`，依赖现有 mitkit、xarray、numpy、pandas、scipy 和 matplotlib；绘图使用无界面的 Agg 后端。不会修改现有 CEOF 脚本或模拟输出。
@@ -43,19 +43,42 @@ CEOF 使用 140–280°E、1000–3000 m 的共同完整湿格点和层厚权重
 
 相关性表示同一时期变化的一致程度；振幅比和 RMSE 衡量大小差异。两套各自求得的 CEOF 可能发生模态排序交换或混合，应查看完整相似度矩阵，不能只因都叫 CEOF1 就认定为同一物理模态。深度平均的 Hovmoller 图也不足以单独确定传播速度。
 
-带通序列有强自相关，脚本不输出以月数当作独立样本计算的显著性；目前也未做块自举置信区间。36 个月裁剪只是统一处理，并不保证 8 年周期的端点误差完全消失，可分别用 `--trim 24` 和 `--trim 48` 检查结论敏感性，结果会覆盖该实验的指标与图。CMEMS 为再分析，不能视作独立观测真值。对混合参数、边界恢复或风强迫的因果归因需要进一步对比敏感性实验。
+带通序列有强自相关，脚本不输出以月数当作独立样本计算的显著性；单实验脚本不计算块自举置信区间，配对检验由 `test_ck_significance.py` 单独完成。36 个月裁剪只是统一处理，并不保证 8 年周期的端点误差完全消失，可分别用 `--trim 24` 和 `--trim 48` 检查结论敏感性，结果会覆盖该实验的指标与图。CMEMS 为再分析，不能视作独立观测真值。对混合参数、边界恢复或风强迫的因果归因需要进一步对比敏感性实验。
 
-## 混合参数敏感性对比
+## 当前保留的脚本
 
-先为每个实验运行 `compare_equatorial_u.py --exp 实验名`，再运行：
+| 脚本 | 用途 |
+| --- | --- |
+| compare_equatorial_u.py | 通用模拟—CMEMS赤道断面对齐、缓存与原场比较 |
+| compare_a4_full_section.py | 可指定实验列表的全断面、分层与区域原场对比 |
+| compare_low_vertical_modes.py | 使用共同 N.mat 基底进行低垂直模态重建与比较 |
+| assess_low_mode_reconstruction.py | 同一完整水柱掩膜下检查原场与低模态重建 |
+| compare_site_u.py | 142°E、0°站点流速与剖面对比 |
+| test_ck_significance.py | 可指定实验与基线的配对分块自举及混合系数提取 |
+| plot_ck_a4_grid.py | ck×A4 参数二维图；支持原场和低模态 |
+| summarize_joint_ctrl.py | 最终控制实验筛选的汇总，复现流程仍使用 |
+| verify_final_ctrl.py | 从原始输出独立核查最终控制实验指标及权重敏感性 |
+| assess_western_deep.py | 上述脚本共用的路径、带通、权重及指标函数，同时保留历史评估入口 |
+| deep_modes.py | 通用断面脚本可选的深层 CEOF 模块；与物理垂直模态不同 |
+
+旧脚本中的默认实验可能属于历史筛选阶段。新比较应显式指定 `--exp`、`--baseline`、`--out` 等可用参数，先查看各脚本 `--help`。
+
+## 最终结果与复现
+
+正式控制实验为 `261016_ck_0p07_a4_4e10`，主要稳健性配置为 `261008_ck_0p07`。参数、核查及解释边界见[正式记录](../../research/model_control/README.md)，展示结果见[核心结果索引](../../fig/261016_ctrl_selection/README.md)。
+
+从仓库根目录执行：
 
 ```bash
-python analysis/comparison/compare_ck_sensitivity.py --baseline 260915_ctrl1 --experiment 261008_ck_0p07
-python analysis/comparison/compare_site_u.py --exp 260821_ctrl 260915_ctrl1 261008_ck_0p07
+bash fig/261016_ctrl_selection/reproduce.sh
 ```
 
-敏感性脚本对齐双方断面缓存并采用共同湿格点，保存西太平均流和年际振幅变化图、分层时间序列与区域指标到 `fig/<experiment>_vs_<baseline>/`。新的0.10完成后将baseline替换为对应实验名。
+该流程会重新生成中间断面缓存和过程图，增加磁盘占用；它不会覆盖编号核心展示图。需要原始实验输出及 CMEMS 数据齐全。
 
-三组ck实验均完成后，运行 `python analysis/comparison/summarize_ck_suite.py`。默认比较261008_ck_0p07、261008_ck_0p10、261008_ck_0p14，也可通过 `--exp` 指定列表。需先生成各组断面与142°E站点缓存。输出至 `fig/ck_sensitivity_suite/`，包含24/36/48个月裁剪指标和分层Hovmoller。
+`test_ck_significance.py` 可指定实验列表和基线；`--skip-mixing` 仅做自举，`--mixing-only` 仅提取混合系数。置信区间是考虑序列相关的探索性逐项区间，未作多重比较校正。
 
-简单统计检验与实际混合系数检查：`python analysis/comparison/test_ck_significance.py`。固定三组ck实验，在142°E和130–150°E做配对分块自举（3000次、24/36/48个月块长），并检查目标深层月平均混合系数；输出到 `fig/ck_sensitivity_suite/`。95%区间为探索性逐项区间，未作多重比较校正。
+历史图表使用层中心中点构造的权重，名义“1000–3000 m”实际下界约 2868 m；正式核查另以真实 RF 层界重算。两种定义及共同湿点掩膜的区别见正式记录，新机制分析应明确采用实际层界与积分范围。
+
+## 2026-10-19脚本清理
+
+已移出六个不再参与最终复现的一次性 ck/KPP 混合、谱和阻尼分析脚本，以及过时的优化诊断模板。旧代码与清理前说明备份在[历史目录](../../research/comparison_history/2026-10-19_script_cleanup/README.md)，不作为当前运行入口。模拟输出、核心结果和正式控制实验记录未更改。

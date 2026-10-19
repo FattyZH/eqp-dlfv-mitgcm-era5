@@ -1,6 +1,6 @@
 &parm01
     viscah = 0.0
-    visca4 = 2e10
+    visca4 = 4e10
     viscar = 1e-05
     no_slip_sides = .false.
     sidedragfactor = 0
