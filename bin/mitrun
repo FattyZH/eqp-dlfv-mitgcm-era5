@@ -202,7 +202,9 @@ JOB_SCRIPT="$RUN_DIR/run_slurm.sh"
     (( OMP_THREADS > 0 )) && printf 'export OMP_NUM_THREADS=%q\n' "$OMP_THREADS"
     printf 'exec '
     if (( MPI_PROCS > 0 )); then
-        printf '%q ' mpirun -np "$MPI_PROCS" ./mitgcmuv
+        mpi_map=slot
+        (( OMP_THREADS > 1 )) && mpi_map="slot:PE=$OMP_THREADS"
+        printf '%q ' mpirun --map-by "$mpi_map" --bind-to core -np "$MPI_PROCS" ./mitgcmuv
     else
         printf '%q ' ./mitgcmuv
     fi

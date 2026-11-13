@@ -6,7 +6,7 @@ import xarray as xr
 from mitkit.io import open_mds
 
 keep_vars = ['UVEL', 'VVEL', 'THETA', 'SALT']
-expname = '260821_ctrl'
+expname = '261016_ctrl'
 
 inpath = project_root() / 'output'
 outpath = project_root() / 'input/rbcs'

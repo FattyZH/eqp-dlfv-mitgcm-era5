@@ -1,3 +1,4 @@
+# Local data, runs and analysis results
 /build/
 /input/**/*.bin
 /log/
@@ -7,12 +8,16 @@
 /data/
 /pickup/
 /research/
-.vscode
-**/*.ipynb
-!analysis/notebooks/*.ipynb
-**/*.png
-**/*.jpg
-**/*.nc
-**/__pycache__/
+/archive/retained_*/
+
+# Generated scientific files and notebooks
+*.ipynb
+*.png
+*.jpg
+*.nc
+
+# Python and editor caches
+__pycache__/
 *.egg-info/
 .pytest_cache/
+.vscode/

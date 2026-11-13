@@ -109,3 +109,7 @@ Run the focused I/O regression checks with
 `mitkit/pyproject.toml` manages only the auxiliary library; the repository
 root remains the MITgcm experiment project. Library code is under
 `mitkit/src/mitkit/`. Personal test notebooks remain in the top-level `tests/`.
+
+## 当前研究与分析（2026-11-13整理）
+
+从[analysis/README.md](analysis/README.md)进入当前代码，从[research/README.md](research/README.md)进入结果。旧参数筛选、CEOF、早期机制阶段与调试资料统一[留存](archive/retained_2026-11-13/README.md)，保留原文件和恢复清单。
