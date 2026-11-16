@@ -1,9 +1,14 @@
+当前统计口径：按用户指定，平滑相关主结果保留2015-12至2024-06全部103月及首尾反射区域；91月去边界结果仅作敏感性对照。
+
 # 当前分析入口
 
-当前主标准：142E、岛岸至2N、1900m以下、向东为正；主比较期先按2015-12至2024-06，精确首月待原始潜标有效月份核对。现有直接对比对象为GLORYS，再分析不等于潜标观测。
+当前主标准：142E、岛岸至2N、1900m以下、向东为正；主比较期先按2015-12至2024-06，完整共同月份已核对。潜标已接入，主验证使用统一365天平滑；去除边界后的统计期为2016-06至2023-12。
 
 | 目录 | 当前入口 | 用途 |
 |---|---|---|
+| comparison | [audit_historical_ctrl.py](comparison/audit_historical_ctrl.py) | 6月3日前Git配置与实际CTRL归档的只读追溯 |
+| comparison | [compare_ctrl_ensemble.py](comparison/compare_ctrl_ensemble.py) | 五组初值CTRL输运、统一365天验证与集合离散 |
+| comparison | [compare_mooring_transport.py](comparison/compare_mooring_transport.py) | 潜标/CTRL/GLORYS统一365天处理与验证 |
 | comparison | [compare_channel_transport.py](comparison/compare_channel_transport.py) | 固定深度Sv输运、同面积ctrl/GLORYS对比 |
 | comparison | [check_channel_transport.py](comparison/check_channel_transport.py) | 面积/方向闭合、解析与原始源核查 |
 | comparison | [summarize_recent_transport.py](comparison/summarize_recent_transport.py) | 统一观测覆盖期，标注滤波末端 |

@@ -55,7 +55,7 @@
 /
 
 &parm05
-    bathyFile='bathy_avg.bin',
+    bathyFile='bathy_gsm.bin',
     hydrogThetaFile='init/thetao_4_40.bin',
     hydrogSaltFile='init/so_4_40.bin',
     uVelInitFile='init/uo_4_40.bin',
