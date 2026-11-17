@@ -6,6 +6,8 @@
 
 | 目录 | 当前入口 | 用途 |
 |---|---|---|
+| comparison | [audit_bathymetry_failure.py](comparison/audit_bathymetry_failure.py) | AVG/GSM地形连通性、旧pickup及启动失稳审计 |
+| comparison | [check_iafilt_sensitivity.py](comparison/check_iafilt_sensitivity.py) | 全103月的周期定义、窗口和边界处理敏感性 |
 | comparison | [audit_historical_ctrl.py](comparison/audit_historical_ctrl.py) | 6月3日前Git配置与实际CTRL归档的只读追溯 |
 | comparison | [compare_ctrl_ensemble.py](comparison/compare_ctrl_ensemble.py) | 五组初值CTRL输运、统一365天验证与集合离散 |
 | comparison | [compare_mooring_transport.py](comparison/compare_mooring_transport.py) | 潜标/CTRL/GLORYS统一365天处理与验证 |
@@ -13,6 +15,10 @@
 | comparison | [check_channel_transport.py](comparison/check_channel_transport.py) | 面积/方向闭合、解析与原始源核查 |
 | comparison | [summarize_recent_transport.py](comparison/summarize_recent_transport.py) | 统一观测覆盖期，标注滤波末端 |
 | comparison | [compare_site_theta.py](comparison/compare_site_theta.py) | 142E/0N位温及2.2°C深度 |
+| mechanism | [compare_tke_floor.py](mechanism/compare_tke_floor.py) | 完成TKE下限/底部组合的输运、分层振幅及混合诊断 |
+| mechanism | [diagnose_depth_amplitude.py](mechanism/diagnose_depth_amplitude.py) | CTRL/GL12深度—经度年际振幅及模态叠加诊断 |
+| mechanism | [diagnose_channel_amplitude.py](mechanism/diagnose_channel_amplitude.py) | 相同湿面积142E通道局地振幅与输运抵消 |
+| mechanism | [compare_transport_factorial.py](mechanism/compare_transport_factorial.py) | 六组原生断面Q及长期2–8年风×吸收对照 |
 | mechanism | [compare_ten_day_factorial.py](mechanism/compare_ten_day_factorial.py) | 10天吸收×带阻风四组速度诊断 |
 | mechanism | [check_ten_day_factorial.py](mechanism/check_ten_day_factorial.py) | 四组源核验与条件波型质量 |
 | common | [说明](common/README.md) | MDS、权重、滤波与条件波型公用函数，不直接执行 |
