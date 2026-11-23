@@ -8,6 +8,7 @@
 /data/
 /pickup/
 /research/
+/mnt/
 /archive/retained_*/
 
 # Generated scientific files and notebooks

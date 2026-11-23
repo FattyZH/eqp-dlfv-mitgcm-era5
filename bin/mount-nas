@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+# Mount NAS output read-only; credentials remain in the user's rclone config.
+set -Eeuo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+REMOTE="${EQP_NAS_REMOTE:-nas70:data/EQP/output}"
+ENTRY_DIR="$PROJECT_DIR/mnt/output"
+# /public uses storage (0x00797083), unsupported by fusermount's whitelist.
+# Mount on node-local ext4, keeping the requested project path as a symlink.
+LOCAL_ROOT="/tmp/eqp-nas-$(id -u)"
+MOUNT_DIR="$LOCAL_ROOT/output"
+CACHE_DIR="$LOCAL_ROOT/cache"
+LOG_FILE="$CACHE_DIR/mount.log"
+
+die() { printf '错误：%s\n' "$*" >&2; exit 1; }
+usage() {
+    cat <<EOF
+用法：bin/mount-nas [mount|status|unmount]
+  mount    只读挂载（默认）
+  status   查看本节点挂载状态
+  unmount  卸载
+
+远程：$REMOTE
+项目入口：$ENTRY_DIR
+实际挂载：$MOUNT_DIR
+可用 EQP_NAS_REMOTE 覆盖远程地址；不在脚本中填写密码。
+挂载仅在当前节点的挂载命名空间内生效。
+EOF
+}
+
+ACTION="${1:-mount}"
+[[ $# -le 1 ]] || { usage >&2; exit 2; }
+case "$ACTION" in
+    -h|--help|help) usage; exit 0 ;;
+    mount|status|unmount) ;;
+    *) usage >&2; exit 2 ;;
+esac
+command -v mountpoint >/dev/null || die '找不到 mountpoint 命令'
+
+case "$ACTION" in
+    status)
+        if mountpoint -q -- "$MOUNT_DIR"; then
+            printf '已挂载（节点 %s）：%s → %s\n' "$(hostname)" "$ENTRY_DIR" "$MOUNT_DIR"
+        else
+            printf '未挂载（节点 %s）：%s\n' "$(hostname)" "$MOUNT_DIR"
+        fi
+        exit 0
+        ;;
+    unmount)
+        if ! mountpoint -q -- "$MOUNT_DIR"; then
+            printf '当前节点未挂载：%s\n' "$MOUNT_DIR"
+            exit 0
+        fi
+        if command -v fusermount3 >/dev/null; then
+            fusermount3 -u "$MOUNT_DIR"
+        elif command -v fusermount >/dev/null; then
+            fusermount -u "$MOUNT_DIR"
+        else
+            die '找不到 fusermount3 或 fusermount'
+        fi
+        printf '已卸载：%s\n' "$MOUNT_DIR"
+        exit 0
+        ;;
+esac
+
+if mountpoint -q -- "$MOUNT_DIR"; then
+    printf '当前节点已存在挂载：%s\n' "$MOUNT_DIR"
+    exit 0
+fi
+if command -v rclone >/dev/null; then
+    RCLONE="$(command -v rclone)"
+elif [[ -x "$HOME/.local/bin/rclone" ]]; then
+    RCLONE="$HOME/.local/bin/rclone"
+else
+    die '找不到 rclone，请安装至 ~/.local/bin 或加入 PATH'
+fi
+[[ -r /dev/fuse && -w /dev/fuse ]] || die '当前节点无法读写 /dev/fuse'
+if [[ -e "$LOCAL_ROOT" || -L "$LOCAL_ROOT" ]]; then
+    [[ -d "$LOCAL_ROOT" && ! -L "$LOCAL_ROOT" && -O "$LOCAL_ROOT" ]] || die "本地目录不是当前用户所有的普通目录：$LOCAL_ROOT"
+else
+    (umask 077; mkdir -- "$LOCAL_ROOT")
+fi
+chmod 700 -- "$LOCAL_ROOT"
+mkdir -p -- "$MOUNT_DIR" "$CACHE_DIR"
+mkdir -p -- "$PROJECT_DIR/mnt"
+if [[ -L "$ENTRY_DIR" ]]; then
+    [[ "$(readlink -- "$ENTRY_DIR")" == "$MOUNT_DIR" ]] || die "项目入口指向其他位置：$ENTRY_DIR"
+elif [[ -e "$ENTRY_DIR" ]]; then
+    mountpoint -q -- "$ENTRY_DIR" && die "旧入口仍有挂载，请先卸载：$ENTRY_DIR"
+    [[ -d "$ENTRY_DIR" ]] || die "项目入口已被其他文件占用：$ENTRY_DIR"
+    rmdir -- "$ENTRY_DIR" || die "旧挂载目录非空，未作改动：$ENTRY_DIR"
+    ln -s -- "$MOUNT_DIR" "$ENTRY_DIR"
+else
+    ln -s -- "$MOUNT_DIR" "$ENTRY_DIR"
+fi
+[[ -z "$(find "$MOUNT_DIR" -mindepth 1 -maxdepth 1 -print -quit)" ]] || die '挂载目录非空，请先检查其中的本地文件'
+printf '挂载 %s → %s\n' "$REMOTE" "$MOUNT_DIR"
+"$RCLONE" mount "$REMOTE" "$MOUNT_DIR" \
+    --read-only \
+    --poll-interval 0 \
+    --vfs-cache-mode full \
+    --vfs-cache-max-size 10G \
+    --cache-dir "$CACHE_DIR" \
+    --log-file "$LOG_FILE" \
+    --log-level INFO \
+    --daemon || die "挂载失败，请查看日志：$LOG_FILE"
+mountpoint -q -- "$MOUNT_DIR" || die "未检测到挂载，请查看日志：$LOG_FILE"
+printf '挂载完成（节点 %s）：%s\n日志：%s\n' "$(hostname)" "$ENTRY_DIR" "$LOG_FILE"

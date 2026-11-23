@@ -6,6 +6,7 @@
 
 | 目录 | 当前入口 | 用途 |
 |---|---|---|
+| mechanism | [compare_radius_experiments.py](mechanism/compare_radius_experiments.py) | R99/R98/R97参数核验、共同层厚加权CEOF与观测输运对比 |
 | comparison | [audit_bathymetry_failure.py](comparison/audit_bathymetry_failure.py) | AVG/GSM地形连通性、旧pickup及启动失稳审计 |
 | comparison | [check_iafilt_sensitivity.py](comparison/check_iafilt_sensitivity.py) | 全103月的周期定义、窗口和边界处理敏感性 |
 | comparison | [audit_historical_ctrl.py](comparison/audit_historical_ctrl.py) | 6月3日前Git配置与实际CTRL归档的只读追溯 |
@@ -17,6 +18,13 @@
 | comparison | [compare_site_theta.py](comparison/compare_site_theta.py) | 142E/0N位温及2.2°C深度 |
 | mechanism | [compare_tke_floor.py](mechanism/compare_tke_floor.py) | 完成TKE下限/底部组合的输运、分层振幅及混合诊断 |
 | mechanism | [diagnose_depth_amplitude.py](mechanism/diagnose_depth_amplitude.py) | CTRL/GL12深度—经度年际振幅及模态叠加诊断 |
+| mechanism | [plot_equatorial_agreement.py](mechanism/plot_equatorial_agreement.py) | 赤道断面年际相关与振幅联合图、上层放大及独立相关复核 |
+| mechanism | [compare_historical_bandpass.py](mechanism/compare_historical_bandpass.py) | NAS旧260825带通风与当前CTRL/GL12深层振幅及同面积输运比较 |
+| mechanism | [plot_historical_bandpass_sections.py](mechanism/plot_historical_bandpass_sections.py) | 三组赤道断面振幅、幅度比和相关图，含上层及深层放大 |
+| mechanism | [compute_ctrl_ceof.py](mechanism/compute_ctrl_ceof.py) | 当前CTRL赤道断面CEOF：等格点主结果、RF层厚加权敏感性及重构核查 |
+| mechanism | [compare_ctrl_gl12_ceof.py](mechanism/compare_ctrl_gl12_ceof.py) | CTRL/GL12共同湿点、同层厚权重独立CEOF及空间相位对齐比较 |
+| mechanism | [diagnose_interannual_frequency.py](mechanism/diagnose_interannual_frequency.py) | CMEMS先2–8年带通的500/1000m以下CEOF、加权局地谱及1900m以下Q谱 |
+| mechanism | [check_short_record_spectrum.py](mechanism/check_short_record_spectrum.py) | 九年潜标输运约4.5年峰与CMEMS长短记录、滤波支持长度对照 |
 | mechanism | [diagnose_channel_amplitude.py](mechanism/diagnose_channel_amplitude.py) | 相同湿面积142E通道局地振幅与输运抵消 |
 | mechanism | [compare_transport_factorial.py](mechanism/compare_transport_factorial.py) | 六组原生断面Q及长期2–8年风×吸收对照 |
 | mechanism | [compare_ten_day_factorial.py](mechanism/compare_ten_day_factorial.py) | 10天吸收×带阻风四组速度诊断 |
