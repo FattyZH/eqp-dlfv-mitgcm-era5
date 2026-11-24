@@ -1,0 +1,70 @@
+&parm01
+    viscah = 0.0
+    visca4 = 4e10
+    viscar = 1e-05
+    no_slip_sides = .false.
+    sidedragfactor = 0
+    no_slip_bottom = .false.
+    diffkht = 100.0
+    diffkhs = 100.0
+    diffkrt = 1e-05
+    diffkrs = 1e-05
+    implicitdiffusion = .true.
+    implicitviscosity = .true.
+    rhoconst = 1030.0
+    rhoconstfresh = 1000.0
+    eostype = 'JMD95Z'
+    implicitfreesurface = .true.
+    exactconserv = .true.
+    tempadvscheme = 30
+    saltadvscheme = 30
+    multidimadvection = .true.
+    staggertimestep = .true.
+    hfacmin = 0.1
+    hfacmindr = 10.0
+    usesinglecpuio = .true.
+# 矢量不变形式设置
+    vectorInvariantMomentum = .TRUE.,
+    selectVortScheme        = 3,
+    selectKEscheme          = 0,
+    selectCoriScheme        = 0,
+    useAbsVorticity         = .TRUE.,
+/
+
+&parm02
+    cg2dtargetresidual = 1e-07
+    cg2dmaxiters = 150
+/
+
+&parm03
+    pickupSuff='clim_r4_1'
+    endtime = 1104516000.0
+#    endtime = 5259600.0
+    deltat = 1200.0
+    dumpfreq = 0.0
+    monitorfreq = 2629800.0
+    monitorselect = 1
+    pchkptfreq = 31557600.0
+    chkptfreq = 0.0
+/
+
+&parm04
+    usingsphericalpolargrid = .true.
+    delx = 720*0.25
+    dely = 192*0.25
+    xgorigin = 111.875
+    ygorigin = -23.625
+    delR=  4.45,  4.29,  5.86,  5.38,  7.24,  4.59,  5.42,  6.43,  7.67,  9.16,
+          10.98, 13.18, 15.85, 19.06, 22.93, 27.58, 33.14, 39.75, 47.59, 56.83,
+          67.62, 80.13, 94.49,110.79,129.07,149.26,171.22,194.71,219.37,244.78,
+         270.44,295.85,320.51,344.00,365.96,386.15,404.42,420.73,435.09,447.60,
+/
+
+&parm05
+    bathyFile='bathy_avg.bin',
+    hydrogThetaFile='init/thetao_4_40.bin',
+    hydrogSaltFile='init/so_4_40.bin',
+    uVelInitFile='init/uo_4_40.bin',
+    vVelInitFile='init/vo_4_40.bin',
+    pSurfInitFile='init/zos_4_40.bin',
+/

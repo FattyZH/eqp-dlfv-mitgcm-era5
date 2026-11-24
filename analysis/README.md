@@ -6,6 +6,9 @@
 
 | 目录 | 当前入口 | 用途 |
 |---|---|---|
+| mechanism | [plot_vector_invariant_mean_flow.py](mechanism/plot_vector_invariant_mean_flow.py) | CTRL、GL12和向量不变实验的赤道长期平均U与差值断面 |
+| mechanism | [plot_vector_invariant_ceof.py](mechanism/plot_vector_invariant_ceof.py) | 已存向量不变CEOF的全断面0–3000m与上层放大图 |
+| mechanism | [compare_vector_invariant.py](mechanism/compare_vector_invariant.py) | 向量不变V3与绝对涡度组的配置审计、共同CEOF和输运验证 |
 | mechanism | [compare_radius_experiments.py](mechanism/compare_radius_experiments.py) | R99/R98/R97参数核验、共同层厚加权CEOF与观测输运对比 |
 | comparison | [audit_bathymetry_failure.py](comparison/audit_bathymetry_failure.py) | AVG/GSM地形连通性、旧pickup及启动失稳审计 |
 | comparison | [check_iafilt_sensitivity.py](comparison/check_iafilt_sensitivity.py) | 全103月的周期定义、窗口和边界处理敏感性 |

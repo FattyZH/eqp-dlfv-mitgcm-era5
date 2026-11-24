@@ -1,0 +1,23 @@
+{
+  "base": "261123_VI_V3_AV",
+  "suggested_name": "261124_VI_AV_KPP",
+  "changes": {
+    "useKPP": [
+      false,
+      true
+    ],
+    "useGGL90": [
+      true,
+      false
+    ]
+  },
+  "data_identical_to_base": true,
+  "diagnostic_streams": [
+    "diag3d",
+    "diag2d",
+    "diag_mom_u",
+    "diag_kpp_3d",
+    "diag_kpp_2d"
+  ],
+  "notes": "Configuration overrides only; input unchanged; no simulation submitted."
+}

@@ -1,0 +1,50 @@
+# Configuration notes: input/data.diagnostics.notes.md
+ &DIAGNOSTICS_LIST
+# 1. Basic 3-D state
+  fileName(1) = 'diag3d',
+  frequency(1) = 2629800.,
+  fields(1:6,1) = 'UVEL    ','VVEL    ','WVEL    ',
+                  'THETA   ','SALT    ','PHIHYD  ',
+
+# 2. Surface/bottom pressure, ocean forcing and mixed-layer depth
+  fileName(2) = 'diag2d',
+  frequency(2) = 2629800.,
+  fields(1:7,2) = 'ETAN','PHIBOT','oceTAUX','oceTAUY',
+                  'MXLDEPTH','TFLUX','oceFWflx',
+
+# 3. Zonal momentum budget
+  fileName(3) = 'diag_mom_u',
+  frequency(3) = 2629800.,
+  fields(1:9,3) = 'TOTUTEND','Um_dPhiX','Um_Cori','Um_Advec',
+                  'Um_Diss','Um_ImplD','Um_Ext','Um_Metr','Um_hDis4',
+
+# 4. Optional velocity moments/products (disabled; see configuration notes)
+#  fileName(4) = 'diag_vel_moments',
+#  frequency(4) = 2629800.,
+#  fields(1:6,4) = 'UVELSQ','VVELSQ','UE_VEL_C','VN_VEL_C',
+#                  'UV_VEL_C','WU_VEL',
+
+# 5. Primary mixing scheme: GGL90 (useGGL90=T, useKPP=F in data.pkg)
+# Enable only one mixing scheme and its matching diagnostics below.
+#  fileName(5) = 'diag_mix_ggl90',
+#  frequency(5) = 2629800.,
+#  fields(1:2,5) = 'GGL90ArU','GGL90Kr',
+
+# Alternative: KPP comparison run (useKPP=T, useGGL90=F in data.pkg)
+# Comment out the GGL90 block above before enabling both KPP blocks.
+  fileName(5) = 'diag_kpp_3d',
+  frequency(5) = 2629800.,
+  fields(1:3,5) = 'KPPviscA','KPPdiffS','KPPdiffT',
+
+# KPP boundary-layer depth (complements MXLDEPTH in diag2d)
+  fileName(6) = 'diag_kpp_2d',
+  frequency(6) = 2629800.,
+  fields(1:1,6) = 'KPPhbl',
+ &
+
+ &DIAG_STATIS_PARMS
+# Domain statistics: snapshots every 10 days
+  stat_fields(1:3,1) = 'momKE','ETAN','RHOAnoma',
+  stat_fName(1) = 'diagSt',
+  stat_freq(1) = -864000.,
+ &

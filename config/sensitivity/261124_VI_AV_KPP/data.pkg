@@ -1,0 +1,11 @@
+# Packages (lines beginning "#" are comments)
+ &PACKAGES
+ useMNC=.FALSE.,
+ useDiagnostics=.TRUE.,
+ useEXF=.TRUE.,
+ useCAL=.TRUE.,
+ useOBCS=.TRUE.,
+ useKPP=.TRUE.,
+ useGGL90=.FALSE.,
+ useRBCS=.FALSE.,
+ &

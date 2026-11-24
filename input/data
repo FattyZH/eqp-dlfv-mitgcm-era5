@@ -23,6 +23,12 @@
     hfacmin = 0.1
     hfacmindr = 10.0
     usesinglecpuio = .true.
+# 矢量不变形式设置
+    vectorInvariantMomentum = .TRUE.,
+    selectVortScheme        = 3,
+    selectKEscheme          = 0,
+    selectCoriScheme        = 0,
+    useAbsVorticity         = .FALSE.,
 /
 
 &parm02
