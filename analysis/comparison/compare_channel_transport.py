@@ -93,7 +93,8 @@ def bandpass(values,months):
 
 
 def model_geometry(folder,north):
-    nx,ny,nz=720,192,40
+    nx,ny=720,192
+    nz=(folder/'RC.data').stat().st_size//4
     def rd(name,shape):return np.fromfile(folder/(name+'.data'),dtype='>f4').reshape(shape).astype(float)
     x=rd('XG',(ny,nx))[0];hi=int(np.searchsorted(x,142));lo=hi-1
     if hi>=len(x) or lo<0:raise ValueError('142E outside model U grid')
@@ -148,7 +149,7 @@ def extract(args,m,r,times,dest):
     if cache.exists() and tag.exists() and json.loads(tag.read_text())['signature']==sig:
         saved=xr.load_dataset(cache);print('Reusing source section cache',flush=True);return saved.model_u.values,saved.reference_u.values,sig
     def read(item):
-        p,nr,fields,t=item;a=np.memmap(p.with_suffix('.data'),dtype='>f4',mode='r',shape=(nr,40,192,720));v=np.moveaxis(np.array(a[fields.index('UVEL'),:,m['js'][0]:m['js'][-1]+1,:],float)[:,:,m['faces']],-1,0);v[~m['wet']]=np.nan;return v
+        p,nr,fields,t=item;a=np.memmap(p.with_suffix('.data'),dtype='>f4',mode='r',shape=(nr,len(m['depth']),192,720));v=np.moveaxis(np.array(a[fields.index('UVEL'),:,m['js'][0]:m['js'][-1]+1,:],float)[:,:,m['faces']],-1,0);v[~m['wet']]=np.nan;return v
     result=[]
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         for n,v in enumerate(pool.map(read,sources)):
